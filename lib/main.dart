@@ -1,4 +1,7 @@
+import 'package:farmingo/app/home/home_binding.dart';
+import 'package:farmingo/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'app/home/home_page.dart';
 
@@ -12,9 +15,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         searchBarTheme: const SearchBarThemeData(
@@ -40,7 +42,10 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: const HomePage(),
+      initialRoute: AppRoutes.homePath,
+      getPages: AppRoutes.routes,
+      initialBinding: HomeBindings(),
     );
   }
 }

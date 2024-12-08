@@ -3,6 +3,10 @@ import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:get/get.dart';
 
 class CommonController extends GetxController {
+
+  String selectedAllProductCategoryTitle='';
+  late List<ProductModel>  selectedAllProductList;
+
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
 

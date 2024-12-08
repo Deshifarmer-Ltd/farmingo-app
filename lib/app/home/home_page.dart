@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/app/routes/app_routes.dart';
 import 'package:farmingo/widgets/category_card.dart';
 import 'package:farmingo/widgets/custom_appbar.dart';
 
@@ -8,11 +9,11 @@ import 'package:get/get.dart';
 
 import '../../widgets/category_list_section.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  //todo:add price
+class HomePage extends GetView<CommonController> {
+  const HomePage({super.key});
 
-  CommonController controller = Get.put(CommonController());
+  //todo: check network connectivity
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +72,13 @@ class HomePage extends StatelessWidget {
                       return CategoryListSection(
                         title: y.name,
                         items: y.products ?? [],
+                        onTap: ()
+                        {
+                          controller.selectedAllProductCategoryTitle= y.name;
+                          controller.selectedAllProductList=y.products??[];
+
+                          Get.toNamed(AppRoutes.allProductListPath);
+                        },
                       );
                     }),
                   ],

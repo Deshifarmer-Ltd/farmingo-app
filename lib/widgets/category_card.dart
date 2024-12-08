@@ -19,7 +19,7 @@ class CategoryCard extends StatelessWidget {
             InkWell(
               onTap: () {
 
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>AllProductPage()));
+                // Navigator.push(context, MaterialPageRoute(builder: (_)=>AllProductPage()));
 
               },
               child: ClipRRect(

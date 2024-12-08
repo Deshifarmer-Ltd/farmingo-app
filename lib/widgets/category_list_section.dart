@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 class CategoryListSection extends StatelessWidget {
   final String title;
   final List<ProductModel> items;
+  final void Function() onTap;
 
-  const CategoryListSection({super.key, required this.title,required this.items});
+  const CategoryListSection(
+      {super.key,
+      required this.title,
+      required this.items,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +26,7 @@ class CategoryListSection extends StatelessWidget {
               Text(title),
               TextButton.icon(
                 iconAlignment: IconAlignment.end,
-                onPressed: () {
-
-                  //TODO: add onpress method
-                },
+                onPressed: onTap,
                 icon: const Icon(Icons.arrow_circle_right_outlined),
                 label: const Text('SEE MORE'),
                 style: const ButtonStyle(
@@ -40,10 +42,11 @@ class CategoryListSection extends StatelessWidget {
           aspectRatio: 16 / 9,
           child: ListView.builder(
             itemBuilder: (ctx, i) {
-
               var item = items.elementAt(i);
 
-              return  ItemCard(item: item,);
+              return ItemCard(
+                item: item,
+              );
             },
             itemCount: items.length,
             scrollDirection: Axis.horizontal,
