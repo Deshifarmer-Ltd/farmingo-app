@@ -37,7 +37,7 @@ class CategoryListSection extends StatelessWidget {
           ),
         ),
         AspectRatio(
-          aspectRatio: 10 / 6.5,
+          aspectRatio: 16 / 9,
           child: ListView.builder(
             itemBuilder: (ctx, i) {
 
