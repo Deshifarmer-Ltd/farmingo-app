@@ -39,6 +39,7 @@ dependencies:
   get: ^4.6.6
   hexcolor: ^3.0.1
   carousel_slider: ^5.0.0
+#  connectivity_plus: ^6.1.0
 
 
   http: ^1.2.2

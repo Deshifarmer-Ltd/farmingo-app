@@ -9,10 +9,12 @@ import 'package:get/get.dart';
 
 import '../../widgets/category_list_section.dart';
 
-class HomePage extends GetView<CommonController> {
+class HomePage extends GetView<
+
+      CommonController> {
   const HomePage({super.key});
 
-  //todo: check network connectivity
+
 
 
   @override

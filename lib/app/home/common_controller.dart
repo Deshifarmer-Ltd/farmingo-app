@@ -1,3 +1,4 @@
+
 import 'package:farmingo/data/remote/api_service.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class CommonController extends GetxController {
   }
 
   fetchCategories() async {
+    // checkInternet();
     var items = await ApiService.getCategories();
     categories.assignAll(items ?? []);
   }
@@ -27,4 +29,30 @@ class CommonController extends GetxController {
     var items = await ApiService.getCategoryProducts();
     categoryProducts.assignAll(items ?? []);
   }
+
+
+  // Future<bool> checkInternet() async {
+  //   final connectivityResult = await Connectivity().checkConnectivity();
+  //
+  //
+  //
+  //   if (connectivityResult == ConnectivityResult.wifi ||
+  //       connectivityResult == ConnectivityResult.mobile) {
+  //     return true;
+  //   }
+  //
+  //   else {
+  //     Get.rawSnackbar(
+  //         backgroundColor: Colors.redAccent,
+  //         message: "Internet connection is not available",
+  //         icon: const Icon(
+  //           Icons.wifi_off,
+  //           color: Colors.white,
+  //         ),
+  //         snackPosition: SnackPosition.TOP);
+  //     return false;
+  //   }
+  // }
+
+
 }

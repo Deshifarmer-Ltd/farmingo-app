@@ -2,11 +2,18 @@ import 'package:farmingo/app/home/home_binding.dart';
 import 'package:farmingo/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'app/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
+
+  //todo: network connectivity
+  //todo: search
+  //todo: cart page / counter /delete
+  //todo: category icon click
+  //todo: initial page while page is fetching stage
+
+
 }
 
 class MyApp extends StatelessWidget {
