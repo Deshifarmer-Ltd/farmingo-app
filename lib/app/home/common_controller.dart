@@ -1,5 +1,6 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:farmingo/app/home/cart_item_model.dart';
 import 'package:farmingo/data/remote/api_service.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class CommonController extends GetxController {
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
+  RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
 
   @override
   void onInit() {
@@ -22,7 +24,7 @@ class CommonController extends GetxController {
   }
 
   fetchCategories() async {
-    checkInternet();
+    // checkInternet();
     var items = await ApiService.getCategories();
     categories.assignAll(items ?? []);
   }

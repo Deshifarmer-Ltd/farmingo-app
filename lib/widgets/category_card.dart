@@ -1,4 +1,3 @@
-import 'package:farmingo/app/all_product/all_product_page.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
 

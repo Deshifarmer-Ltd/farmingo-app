@@ -40,7 +40,7 @@ class CategoryModel {
   }
 }
 
-class ProductModel {
+class ProductModel           {
   final int id;
   final String name;
   final String slug;

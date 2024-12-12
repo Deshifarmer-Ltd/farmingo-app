@@ -14,9 +14,6 @@ class HomePage extends GetView<
       CommonController> {
   const HomePage({super.key});
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +71,7 @@ class HomePage extends GetView<
                       return CategoryListSection(
                         title: y.name,
                         items: y.products ?? [],
+                        // see more btn tap event
                         onTap: ()
                         {
                           controller.selectedAllProductCategoryTitle= y.name;
