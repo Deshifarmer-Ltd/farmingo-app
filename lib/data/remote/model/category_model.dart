@@ -1,18 +1,17 @@
-
 import 'package:farmingo/data/remote/api_service.dart';
 
 class CategoryModel {
   final int id;
   final String name;
   final String slug;
-  final String image;
+  final String? image;
   final String status;
 
   CategoryModel({
     required this.id,
     required this.name,
     required this.slug,
-    required this.image,
+    this.image,
     required this.status,
   });
 
@@ -22,8 +21,9 @@ class CategoryModel {
       id: json['id'],
       name: json['name'],
       slug: json['slug'],
-      image:
-          json['image'] != null ? ApiService.imageBaseUrl + json['image'] : '',
+      image: json['image'] != null
+          ? ApiService.imageBaseUrl + json['image']
+          : null,
       status: json['status'],
     );
   }
@@ -40,7 +40,7 @@ class CategoryModel {
   }
 }
 
-class ProductModel           {
+class ProductModel {
   final int id;
   final String name;
   final String slug;
@@ -72,7 +72,7 @@ class ProductModel           {
       slug: json['slug'],
       description: json['description'],
       image:
-      json['image'] != null ? ApiService.imageBaseUrl + json['image'] : '',
+          json['image'] != null ? ApiService.imageBaseUrl + json['image'] : '',
       weight: json['weight'],
       measurement: json['mesurement'],
       // Note: fixed spelling to 'measurement'
@@ -98,7 +98,6 @@ class ProductModel           {
   }
 }
 
-
 class ItemModel extends CategoryModel {
   final List<ProductModel>? products;
 
@@ -111,22 +110,19 @@ class ItemModel extends CategoryModel {
     required super.status,
   });
 
-
   factory ItemModel.fromJson(Map<String, dynamic> json) {
     return ItemModel(
       id: json['id'],
       name: json['name'],
       slug: json['slug'],
       image:
-      json['image'] != null ? ApiService.imageBaseUrl + json['image'] : '',
+          json['image'] != null ? ApiService.imageBaseUrl + json['image'] : '',
       status: json['status'],
-
-      products:  json['products'] != null
+      products: json['products'] != null
           ? List.from(json['products'])
-          .map((e) => ProductModel.fromJson(e))
-          .toList()
+              .map((e) => ProductModel.fromJson(e))
+              .toList()
           : null,
-
     );
   }
 }

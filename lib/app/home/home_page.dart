@@ -9,9 +9,7 @@ import 'package:get/get.dart';
 
 import '../../widgets/category_list_section.dart';
 
-class HomePage extends GetView<
-
-      CommonController> {
+class HomePage extends GetView<CommonController> {
   const HomePage({super.key});
 
   @override
@@ -64,27 +62,27 @@ class HomePage extends GetView<
                 return (controller.categoryProducts.isEmpty)
                     ? const Text('ff')
                     : Column(
-                  children: [
-                    ...List.generate(controller.categoryProducts.length, (i) {
-                      var y = controller.categoryProducts.elementAt(i);
+                        children: [
+                          ...List.generate(controller.categoryProducts.length,
+                              (i) {
+                            var y = controller.categoryProducts.elementAt(i);
 
-                      return CategoryListSection(
-                        title: y.name,
-                        items: y.products ?? [],
-                        // see more btn tap event
-                        onTap: ()
-                        {
-                          controller.selectedAllProductCategoryTitle= y.name;
-                          controller.selectedAllProductList=y.products??[];
-
-                          Get.toNamed(AppRoutes.allProductListPath);
-                        },
+                            return CategoryListSection(
+                              title: y.name,
+                              items: y.products ?? [],
+                              // see more btn tap event
+                              onTap: () {
+                                controller.selectedAllProductCategoryTitle =
+                                    y.name;
+                                controller
+                                    .fetchSingleCategoryProductsById(y.id);
+                                Get.toNamed(AppRoutes.allProductListPath);
+                              },
+                            );
+                          }),
+                        ],
                       );
-                    }),
-                  ],
-                );
               }),
-
             ],
           ),
         ),

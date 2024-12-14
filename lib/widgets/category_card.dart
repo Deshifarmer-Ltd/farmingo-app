@@ -1,9 +1,17 @@
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../app/home/common_controller.dart';
+import '../app/routes/app_routes.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryModel category;
-  const CategoryCard({super.key,required this.category});
+
+  CategoryCard({super.key, required this.category});
+
+  CommonController ctr = Get.find<CommonController>();
+
   //TODO: add effects on button press
 
   @override
@@ -17,24 +25,33 @@ class CategoryCard extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-
-                // Navigator.push(context, MaterialPageRoute(builder: (_)=>AllProductPage()));
-
+                ctr.selectedAllProductCategoryTitle = category.name;
+                ctr.fetchSingleCategoryProductsById(category.id);
+                Get.toNamed(AppRoutes.allProductListPath);
               },
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                // Optional: For rounded corners
-                child: Image.network(
-                  category.image,
-                  // Replace with your image path
-                  height: 90,
-                  width: 90,
-                  fit: BoxFit.cover, // Makes the image fill the container
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(8.0),
+                  // Optional: For rounded corners
+                  child: category.image != null
+                      ? Image.network(
+                          category.image!,
+
+                          height: 90,
+                          width: 90,
+                          fit: BoxFit.cover,
+                          // errorBuilder: (ctx, obj, st) {
+                          //   return Image.asset('name');
+                          // }, // Makes the image fill the container
+                        )
+                      : Image.asset(
+                          'assets/images/no_image.png',
+                          height: 90,
+                          width: 90,
+                          fit: BoxFit.cover,
+                        )),
             ),
-             Text(
-               category.name,
+            Text(
+              category.name,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 8,

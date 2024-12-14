@@ -11,6 +11,10 @@ class ApiService {
 
   static String categoryUrl = '/categories';
   static String categoryProductsUrl = '/category_products';
+  static String singleCategoryProductsUrl = '/category_products';
+
+
+
 
 
   static Future<List<CategoryModel>?>  getCategories() async {
@@ -50,7 +54,7 @@ class ApiService {
 
 
   }
-  static Future<List<ItemModel>?>  getCategoryProducts() async {
+  static Future<List<ItemModel>?>  getAllCategoryProducts() async {
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
@@ -66,6 +70,47 @@ class ApiService {
 
         List<ItemModel> items =
         jsonList.map<ItemModel>((jsonItem) => ItemModel.fromJson(jsonItem)).toList();
+
+        return items;
+
+      }
+
+        else {
+          // Fluttertoast.showToast(msg: '${model.status_code} ${model.msg}');
+          return null;
+
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      return null;
+      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+
+    }
+
+
+
+  }
+
+
+  static Future<List<ProductModel>?>  getSingleCategoryProducts(int id) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+
+    // https://backend.farmingo.xyz/api/v1/category_products/1
+
+    try {
+      final url = Uri.parse('$baseUrl$categoryProductsUrl/${id.toString()}');
+      var response = await http.get(url, headers: headers);
+
+
+      if (response.statusCode == 200) {
+        var jsonList = json.decode(response.body);
+
+        List<ProductModel> items =
+        jsonList.map<ProductModel>((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
 
         return items;
 

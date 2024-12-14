@@ -27,21 +27,25 @@ class AllProductPage extends GetView<CommonController> {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              itemCount: controller.selectedAllProductList.length,
-              shrinkWrap: true,
-              gridDelegate:
-                  //mainAxisExtent means height of the title
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, mainAxisExtent: 230),
-              itemBuilder: (ctx, i) {
-                var item = controller.selectedAllProductList.elementAt(i);
+            child:  Obx((){
 
-                return ItemCard(
-                  item: item,
-                );
-              },
-            ),
+              return  GridView.builder(
+                itemCount: controller.selectedAllProductList.length,
+                shrinkWrap: true,
+                gridDelegate:
+                //mainAxisExtent means height of the title
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisExtent: 230),
+                itemBuilder: (ctx, i) {
+                  var item = controller.selectedAllProductList.elementAt(i);
+
+                  return ItemCard(
+                    item: item,
+                  );
+                },
+              );
+
+            })
           ),
         ],
       )),

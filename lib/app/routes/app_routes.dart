@@ -22,7 +22,7 @@ class AppRoutes {
   static final routes = [
  GetPage(
       name: homePath,
-      page: () => HomePage(),
+      page: () => const HomePage(),
 
     ),
     // GetPage(
