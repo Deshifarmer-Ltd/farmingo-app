@@ -9,5 +9,11 @@ class CartItemModel{
 
   CartItemModel({required this.product,required this.count});
 
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'name: ${product.name} count: ${count.value}';
+  }
+
 
 }

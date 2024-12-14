@@ -8,7 +8,6 @@ class ItemCard extends StatelessWidget {
   final ProductModel item;
   RxInt count = 0.obs;
   late CartItemModel cartItem;
-
   CommonController ctr = Get.find<CommonController>();
 
   ItemCard({super.key, required this.item});
@@ -44,15 +43,14 @@ class ItemCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-
                   Text.rich(
                     TextSpan(
                       children: [
                         TextSpan(
                           text: '৳ ${item.price.toString()}',
-                          // The first part with special styling
+
                           style: const TextStyle(
-                            fontSize: 18, // Example: larger font size
+                            fontSize: 18,
                             fontWeight: FontWeight.bold, // Bold text
                             color: Colors.green, // Custom color
                           ),
@@ -68,7 +66,6 @@ class ItemCard extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   Obx(() {
                     return (count > 0)
                         ? Container(
@@ -83,32 +80,16 @@ class ItemCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                    onPressed: () {
-
-
-
-                                          count.value--;
-
-                                          if(count.value==0){
-                                            //todo: need to remove from list
-                                            // ctr.categoryProducts.remove(element)
-
-
-                                          }
-
-
-
-                                    },
+                                    onPressed: onMinusBtnPressed,
                                     icon: const Icon(
                                       Icons.remove,
                                       color: Colors.white,
                                     )),
                                 Text(count.value.toString(),
-                                    style: const TextStyle(color: Colors.white)),
+                                    style:
+                                        const TextStyle(color: Colors.white)),
                                 IconButton(
-                                    onPressed: () {
-                                      count.value++;
-                                    },
+                                    onPressed: onPlusBtnPressed,
                                     icon: const Icon(
                                       Icons.add,
                                       color: Colors.white,
@@ -120,14 +101,7 @@ class ItemCard extends StatelessWidget {
                             height: constrain.maxHeight * 0.2,
                             child: TextButton(
                               // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
-                              onPressed: () {
-                                count.value=1;
-
-                                ctr.cartItemList.add(CartItemModel(product: item, count: count));
-
-
-
-                              },
+                              onPressed: onAddBtnPressed,
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Text(
@@ -136,7 +110,6 @@ class ItemCard extends StatelessWidget {
                               ),
                             ));
                   }),
-
                 ],
               ),
             ),
@@ -144,5 +117,32 @@ class ItemCard extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void onPlusBtnPressed() {
+                    count.value++;
+                    cartItem.count = count;
+                  }
+
+  void onAddBtnPressed() {
+              count.value = 1;
+
+              cartItem =
+                  CartItemModel(product: item, count: count);
+
+              ctr.cartItemList.add(cartItem);
+            }
+
+  void onMinusBtnPressed() {
+    count.value--;
+    cartItem.count = count;
+
+    // removing while count is 0
+
+    cartItem.count.listen((value) {
+      if (value == 0) {
+        ctr.cartItemList.remove(cartItem);
+      }
+    });
   }
 }

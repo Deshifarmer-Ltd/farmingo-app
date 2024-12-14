@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../app/routes/app_routes.dart';
 
 class CustomAppbar extends StatelessWidget {
   const CustomAppbar({super.key});
@@ -29,13 +32,17 @@ class CustomAppbar extends StatelessWidget {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
+       Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Badge(
-            label: Text('4'),
-            child: Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.green,
+            label: const Text('4'),
+            child: IconButton(
+              onPressed: (){
+
+                Get.toNamed(AppRoutes.cartPath);
+              },
+
+              icon: const Icon(Icons.shopping_cart_outlined,color: Colors.green,),
             ),
           ),
         ),
