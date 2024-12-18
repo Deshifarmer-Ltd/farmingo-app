@@ -69,7 +69,7 @@ class ItemCard extends StatelessWidget {
                   Obx(() {
                     return (count > 0)
                         ? Container(
-                            height: 50,
+                      height: constrain.maxHeight * 0.18,
                             width: 120,
                             decoration: const BoxDecoration(
                                 color: Color(0xFF16A34A),
@@ -79,26 +79,35 @@ class ItemCard extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                IconButton(
-                                    onPressed: onMinusBtnPressed,
-                                    icon: const Icon(
-                                      Icons.remove,
-                                      color: Colors.white,
-                                    )),
+                                GestureDetector(
+
+                                  onTap: onMinusBtnPressed,
+                                  child: const Icon(
+                                    Icons.remove,
+                                    color: Colors.white,
+                                  ),
+                                ),
+
                                 Text(count.value.toString(),
                                     style:
                                         const TextStyle(color: Colors.white)),
-                                IconButton(
-                                    onPressed: onPlusBtnPressed,
-                                    icon: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    )),
+
+
+                                GestureDetector(
+                                  onTap: onPlusBtnPressed,
+                                  child: const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                )
+
+
+
                               ],
                             ),
                           )
                         : SizedBox(
-                            height: constrain.maxHeight * 0.2,
+                            height: constrain.maxHeight * 0.18,
                             child: TextButton(
                               // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
                               onPressed: onAddBtnPressed,

@@ -1,11 +1,12 @@
 
+import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../app/routes/app_routes.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends GetView<CommonController> {
   const CustomAppbar({super.key});
+  //todo: make hint / font size dynamic for all screen
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,10 @@ class CustomAppbar extends StatelessWidget {
             icon: const Icon(
               Icons.person_2_outlined,
             )),
-        const Expanded(
+         Expanded(
           child: SizedBox(
-            height: 50,
-            child: Padding(
+            height: MediaQuery.of(context).size.height* (1/15),
+            child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 2.0),
               child: SearchBar(
                 hintText: 'Search your fresh vegetables',
@@ -35,7 +36,10 @@ class CustomAppbar extends StatelessWidget {
        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Badge(
-            label: const Text('4'),
+            label:  Obx((){
+              return   Text(controller.cartItemList.length.toString());
+
+    }) ,
             child: IconButton(
               onPressed: (){
 

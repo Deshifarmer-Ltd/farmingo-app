@@ -23,40 +23,44 @@ class CategoryCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            InkWell(
-              onTap: () {
-                ctr.selectedAllProductCategoryTitle = category.name;
-                ctr.fetchSingleCategoryProductsById(category.id);
-                Get.toNamed(AppRoutes.allProductListPath);
-              },
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  // Optional: For rounded corners
-                  child: category.image != null
-                      ? Image.network(
-                          category.image!,
+            Expanded(
+              flex: 8,
+              child: InkWell(
+                onTap: () {
+                  ctr.selectedAllProductCategoryTitle = category.name;
+                  ctr.fetchSingleCategoryProductsById(category.id);
+                  Get.toNamed(AppRoutes.allProductListPath);
+                },
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    // Optional: For rounded corners
+                    child: category.image != null
+                        ? Image.network(
+                            category.image!,
 
-                          height: 90,
-                          width: 90,
-                          fit: BoxFit.cover,
-                          // errorBuilder: (ctx, obj, st) {
-                          //   return Image.asset('name');
-                          // }, // Makes the image fill the container
-                        )
-                      : Image.asset(
-                          'assets/images/no_image.png',
-                          height: 90,
-                          width: 90,
-                          fit: BoxFit.cover,
-                        )),
+                            width: 70,
+                            fit: BoxFit.cover,
+                            // errorBuilder: (ctx, obj, st) {
+                            //   return Image.asset('name');
+                            // }, // Makes the image fill the container
+                          )
+                        : Image.asset(
+                            'assets/images/no_image.png',
+                            width: 90,
+                            fit: BoxFit.cover,
+                          )),
+              ),
             ),
-            Text(
-              category.name,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 8,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              flex: 2,
+              child: Text(
+                category.name,
                 overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ],
