@@ -10,6 +10,8 @@ void main() {
   //todo: network connectivity
   //todo: search
   //todo: cart page / counter /delete
+  //todo: order page
+  //todo: login page
   //todo: category icon click
   //todo: initial page while page is fetching stage
 
