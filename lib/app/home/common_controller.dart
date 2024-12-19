@@ -19,6 +19,7 @@ class CommonController extends GetxController {
     super.onInit();
     fetchCategories();
     fetchCategoryProducts();
+
   }
 
   fetchCategories() async {
@@ -57,4 +58,6 @@ class CommonController extends GetxController {
       return false;
     }
   }
+
+
 }

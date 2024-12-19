@@ -21,7 +21,7 @@ class AppRoutes {
 
     GetPage(
       name: cartPath,
-      page: () => const CartPage(),
+      page: () =>  CartPage(),
       // binding: AllProductBinding()
     ),
 
