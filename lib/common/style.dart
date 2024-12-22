@@ -54,7 +54,7 @@ class MStyle {
   //     color: Color(0xff121826));
 
   static TextStyle hintStyle = const TextStyle(
-      fontWeight: FontWeight.w500, fontSize: 14, color: Color(0xff6C727F));
+      fontWeight: FontWeight.w300, fontSize: 12, color: Colors.grey);
 
   static OutlineInputBorder formEnableBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(6.82),

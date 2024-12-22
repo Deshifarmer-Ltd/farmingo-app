@@ -1,14 +1,18 @@
 import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+
+import '../../common/style.dart';
 
 class CartPage extends GetView<CommonController> {
   CartPage({super.key});
 
   RxInt totalPriceWithDeliveryCharge = 0.obs;
+  final formKey = GlobalKey<FormState>();
 
-  //todo:toast msg is not working in benco
+  // todo: saved address or new address
 
   @override
   Widget build(BuildContext context) {
@@ -224,9 +228,8 @@ class CartPage extends GetView<CommonController> {
                         Text(
                             'Total: ৳${totalPriceWithDeliveryCharge.value} (Delivery charge included)'),
                         TextButton(
-                          // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
                           onPressed: () {
-                            Fluttertoast.showToast(msg: 'Processing');
+                            openConfirmOrderPopUP(context);
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -249,11 +252,154 @@ class CartPage extends GetView<CommonController> {
     int totalPrice = 0;
     int deliveryCharge = 50;
 
-    // Use forEach instead of map
     for (var model in controller.cartItemList) {
       totalPrice += model.count.value * model.product.price;
     }
 
     totalPriceWithDeliveryCharge.value = totalPrice + deliveryCharge;
+  }
+
+  void openConfirmOrderPopUP(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (_) => SingleChildScrollView(
+              child: AlertDialog(
+                backgroundColor: Colors.white,
+                contentPadding: const EdgeInsets.all(0),
+                insetPadding: const EdgeInsets.all(10),
+                content: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Form(
+                    key: formKey,
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                      Container(
+                        color: Colors.green.shade200,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Text(
+                            'Delivery Information',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      const Gap(20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TextFormField(
+                          maxLines: 1,
+                          controller: null,
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            fillColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            errorBorder: MStyle.formErrorBorder,
+                            label: const Text("Name"),
+                            hintText: 'Your name here',
+                            hintStyle: MStyle.hintStyle,
+                            focusedBorder: MStyle.formFocusBorder,
+                            enabledBorder: MStyle.formEnableBorder,
+                            focusedErrorBorder: MStyle.formErrorBorder,
+                          ),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Name is required";
+                            } else if (value == "") {
+                              return "Name is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      const Gap(20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TextFormField(
+                          maxLines: 1,
+                          maxLength: 11,
+                          controller: null,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            fillColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            errorBorder: MStyle.formErrorBorder,
+                            label: const Text("Phone Number"),
+                            hintText: 'Your contact number here',
+                            hintStyle: MStyle.hintStyle,
+                            focusedBorder: MStyle.formFocusBorder,
+                            enabledBorder: MStyle.formEnableBorder,
+                            focusedErrorBorder: MStyle.formErrorBorder,
+                          ),
+                          validator: (value) {
+                            RegExp regExp = RegExp(r'^01[3-9]\d{8}$');
+                            if (value == null) {
+                              return "Phone number is required";
+                            } else if (regExp.hasMatch(value)) {
+                              return null;
+                            } else {
+                              return 'Invalid phone number format';
+                            }
+                          },
+                        ),
+                      ),
+                      const Gap(20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: TextFormField(
+                          maxLines: 3,
+                          controller: null,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 12),
+                            fillColor: Colors.white,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            errorBorder: MStyle.formErrorBorder,
+                            label: const Text("Delivery Address"),
+                            hintText:
+                                'House/flat number, neighborhood name, area of contact',
+                            hintStyle: MStyle.hintStyle,
+                            focusedBorder: MStyle.formFocusBorder,
+                            enabledBorder: MStyle.formEnableBorder,
+                            focusedErrorBorder: MStyle.formErrorBorder,
+                          ),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Address is required";
+                            } else if (value == "") {
+                              return "Address is required";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      const Gap(16),
+                      Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: TextButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                Fluttertoast.showToast(msg: "All validate");
+                              }
+                            },
+                            child: const Text(
+                              'Confirm Order',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )),
+                    ]),
+                  ),
+                ),
+              ),
+            ));
   }
 }
