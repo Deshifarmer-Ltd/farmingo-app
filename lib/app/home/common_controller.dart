@@ -13,6 +13,8 @@ class CommonController extends GetxController {
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
   RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
 
+  RxList<bool> addressOption = [true, false].obs;
+
   @override
   void onInit() {
     // TODO: implement onInit
