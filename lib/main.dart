@@ -6,14 +6,17 @@ import 'app/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
+  //todo: login page-> Api integrate/UI/
+
+  //todo: controller need to dynamic for confirm order popup
+
 
   //todo: network connectivity
   //todo: search
-  //todo: cart page / counter /delete
   //todo: order page
-  //todo: login page
-  //todo: category icon click
+
   //todo: initial page while page is fetching stage
+  //todo:  while item counter to 0 not removing from cart
 
 
 }
@@ -41,14 +44,20 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.transparent,
             iconTheme: IconThemeData(color: Colors.white)),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        textButtonTheme: const TextButtonThemeData(
-          style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
-            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5)))),
-            foregroundColor: WidgetStatePropertyAll(Colors.white),
-          ),
-        ),
+        // textButtonTheme: const TextButtonThemeData(
+        //   style: ButtonStyle(
+        //     backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
+        //     shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.all(Radius.circular(5)))),
+        //     foregroundColor: WidgetStatePropertyAll(Colors.white),
+        //   ),
+        // ),
+        elevatedButtonTheme: const ElevatedButtonThemeData( style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5)))),
+          foregroundColor: WidgetStatePropertyAll(Colors.white),
+        ),),
         useMaterial3: true,
       ),
       home: const HomePage(),

@@ -108,7 +108,7 @@ class ItemCard extends StatelessWidget {
                           )
                         : SizedBox(
                             height: constrain.maxHeight * 0.18,
-                            child: TextButton(
+                            child: ElevatedButton(
                               // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
                               onPressed: onAddBtnPressed,
                               child: const Padding(
@@ -118,6 +118,19 @@ class ItemCard extends StatelessWidget {
                                 ),
                               ),
                             ));
+
+                    // SizedBox(
+                    //         height: constrain.maxHeight * 0.18,
+                    //         child: TextButton(
+                    //           // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
+                    //           onPressed: onAddBtnPressed,
+                    //           child: const Padding(
+                    //             padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //             child: Text(
+                    //               "ADD",
+                    //             ),
+                    //           ),
+                    //         ));
                   }),
                 ],
               ),

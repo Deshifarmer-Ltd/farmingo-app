@@ -227,7 +227,7 @@ class CartPage extends GetView<CommonController> {
                       children: [
                         Text(
                             'Total: ৳${totalPriceWithDeliveryCharge.value} (Delivery charge included)'),
-                        TextButton(
+                        ElevatedButton(
                           onPressed: () {
                             openConfirmOrderPopUP(context);
                           },
@@ -409,6 +409,7 @@ class CartPage extends GetView<CommonController> {
                             padding: const EdgeInsets.symmetric(horizontal: 12.0),
                             child: TextFormField(
                               maxLines: 3,
+                              //todo: controller need to dynamic
                               controller: null,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
@@ -449,7 +450,7 @@ class CartPage extends GetView<CommonController> {
 
                       Padding(
                           padding: const EdgeInsets.only(right: 12.0),
-                          child: TextButton(
+                          child: ElevatedButton(
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 Fluttertoast.showToast(msg: "All validate");

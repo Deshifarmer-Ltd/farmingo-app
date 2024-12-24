@@ -17,7 +17,6 @@ class CommonController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     fetchCategories();
     fetchCategoryProducts();
@@ -60,6 +59,7 @@ class CommonController extends GetxController {
       return false;
     }
   }
+
 
 
 }

@@ -17,6 +17,8 @@ class CustomAppbar extends GetView<CommonController> {
 
               // Navigator.push(context, MaterialPageRoute(builder: (_)=>TestPage()));
 
+              Get.toNamed(AppRoutes.loginPath);
+
             },
             icon: const Icon(
               Icons.person_2_outlined,
