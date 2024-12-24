@@ -285,168 +285,180 @@ class CartPage extends GetView<CommonController> {
                         ),
                       ),
 
-
+//todo: Instead of using ToggleButton must try Segmented Button
 
                       Obx(() => ToggleButtons(
-
-                          disabledColor: Colors.red,
-                          borderWidth: 1.5,
-                          fillColor: Colors.green.shade200,
-                          selectedColor: Colors.white,
-
-                          selectedBorderColor: Colors.green,
-                          borderRadius: BorderRadius.circular(1.5),
-                          onPressed: (index) {
-                            controller.addressOption[0] = !controller.addressOption[0];
-                            controller.addressOption[1] = !controller.addressOption[1];
-                          },
-                          isSelected: controller.addressOption,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Text('Saved Address'),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Text('Different Address'),
-                            ),
-                          ])),
-                      Obx((){
-                        return    controller.addressOption[0]?Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Row(
+                              disabledColor: Colors.red,
+                              borderWidth: 1.5,
+                              fillColor: Colors.green.shade200,
+                              selectedColor: Colors.white,
+                              selectedBorderColor: Colors.green,
+                              borderRadius: BorderRadius.circular(1.5),
+                              onPressed: (index) {
+                                controller.addressOption[0] =
+                                    !controller.addressOption[0];
+                                controller.addressOption[1] =
+                                    !controller.addressOption[1];
+                              },
+                              isSelected: controller.addressOption,
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text('Saved Address'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text('Different Address'),
+                                ),
+                              ])),
+                      Obx(() {
+                        return controller.addressOption[0]
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(flex: 1, child: Text('Name:')),
+                                        Expanded(
+                                            flex: 3,
+                                            child: Text('Ahmed Nafiu noman')),
+                                      ],
+                                    ),
+                                    Row(children: [
+                                      Expanded(flex: 1, child: Text('Phone:')),
+                                      Expanded(
+                                          flex: 3, child: Text('01516510222')),
+                                    ]),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1, child: Text('Address:')),
+                                        Expanded(
+                                            flex: 3,
+                                            child: Text(
+                                                'Joar Shahara Bazar, vatara')),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Column(
                                 children: [
-                                  Expanded(flex: 1,child: Text('Name:')),
-                                  Expanded(flex: 3,child: Text('Ahmed Nafiu noman')),
+                                  const Gap(20),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
+                                    child: TextFormField(
+                                      maxLines: 1,
+                                      controller: null,
+                                      keyboardType: TextInputType.name,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 12),
+                                        fillColor: Colors.white,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        errorBorder: MStyle.formErrorBorder,
+                                        label: const Text("Name"),
+                                        hintText: 'Your name here',
+                                        hintStyle: MStyle.hintStyle,
+                                        focusedBorder: MStyle.formFocusBorder,
+                                        enabledBorder: MStyle.formEnableBorder,
+                                        focusedErrorBorder:
+                                            MStyle.formErrorBorder,
+                                      ),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return "Name is required";
+                                        } else if (value == "") {
+                                          return "Name is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const Gap(20),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
+                                    child: TextFormField(
+                                      maxLines: 1,
+                                      maxLength: 11,
+                                      controller: null,
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 12),
+                                        fillColor: Colors.white,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        errorBorder: MStyle.formErrorBorder,
+                                        label: const Text("Phone Number"),
+                                        hintText: 'Your contact number here',
+                                        hintStyle: MStyle.hintStyle,
+                                        focusedBorder: MStyle.formFocusBorder,
+                                        enabledBorder: MStyle.formEnableBorder,
+                                        focusedErrorBorder:
+                                            MStyle.formErrorBorder,
+                                      ),
+                                      validator: (value) {
+                                        RegExp regExp =
+                                            RegExp(r'^01[3-9]\d{8}$');
+                                        if (value == null) {
+                                          return "Phone number is required";
+                                        } else if (regExp.hasMatch(value)) {
+                                          return null;
+                                        } else {
+                                          return 'Invalid phone number format';
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const Gap(20),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12.0),
+                                    child: TextFormField(
+                                      maxLines: 3,
+                                      //todo: controller need to dynamic
+                                      controller: null,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 12),
+                                        fillColor: Colors.white,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.always,
+                                        errorBorder: MStyle.formErrorBorder,
+                                        label: const Text("Delivery Address"),
+                                        hintText:
+                                            'House/flat number, neighborhood name, area of contact',
+                                        hintStyle: MStyle.hintStyle,
+                                        focusedBorder: MStyle.formFocusBorder,
+                                        enabledBorder: MStyle.formEnableBorder,
+                                        focusedErrorBorder:
+                                            MStyle.formErrorBorder,
+                                      ),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return "Address is required";
+                                        } else if (value == "") {
+                                          return "Address is required";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const Gap(16),
                                 ],
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(flex: 1,child: Text('Phone:')),
-                                  Expanded(flex: 3,child: Text('01516510222')),]
-
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(flex: 1,child: Text('Address:')),
-                                  Expanded(flex: 3,child: Text('Joar Shahara Bazar, vatara')),
-
-                                ],
-                              ),
-
-                            ],
-                          ),
-                        ):Column(children: [
-
-                          const Gap(20),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: TextFormField(
-                              maxLines: 1,
-                              controller: null,
-                              keyboardType: TextInputType.name,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                fillColor: Colors.white,
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                errorBorder: MStyle.formErrorBorder,
-                                label: const Text("Name"),
-                                hintText: 'Your name here',
-                                hintStyle: MStyle.hintStyle,
-                                focusedBorder: MStyle.formFocusBorder,
-                                enabledBorder: MStyle.formEnableBorder,
-                                focusedErrorBorder: MStyle.formErrorBorder,
-                              ),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Name is required";
-                                } else if (value == "") {
-                                  return "Name is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                          ),
-                          const Gap(20),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: TextFormField(
-                              maxLines: 1,
-                              maxLength: 11,
-                              controller: null,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                fillColor: Colors.white,
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                errorBorder: MStyle.formErrorBorder,
-                                label: const Text("Phone Number"),
-                                hintText: 'Your contact number here',
-                                hintStyle: MStyle.hintStyle,
-                                focusedBorder: MStyle.formFocusBorder,
-                                enabledBorder: MStyle.formEnableBorder,
-                                focusedErrorBorder: MStyle.formErrorBorder,
-                              ),
-                              validator: (value) {
-                                RegExp regExp = RegExp(r'^01[3-9]\d{8}$');
-                                if (value == null) {
-                                  return "Phone number is required";
-                                } else if (regExp.hasMatch(value)) {
-                                  return null;
-                                } else {
-                                  return 'Invalid phone number format';
-                                }
-                              },
-                            ),
-                          ),
-                          const Gap(20),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                            child: TextFormField(
-                              maxLines: 3,
-                              //todo: controller need to dynamic
-                              controller: null,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 12),
-                                fillColor: Colors.white,
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                errorBorder: MStyle.formErrorBorder,
-                                label: const Text("Delivery Address"),
-                                hintText:
-                                'House/flat number, neighborhood name, area of contact',
-                                hintStyle: MStyle.hintStyle,
-                                focusedBorder: MStyle.formFocusBorder,
-                                enabledBorder: MStyle.formEnableBorder,
-                                focusedErrorBorder: MStyle.formErrorBorder,
-                              ),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Address is required";
-                                } else if (value == "") {
-                                  return "Address is required";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                          ),
-                          const Gap(16),
-
-
-                        ],);
+                              );
                       }),
-
-
-
-
-
 
                       Padding(
                           padding: const EdgeInsets.only(right: 12.0),
@@ -463,9 +475,6 @@ class CartPage extends GetView<CommonController> {
                               ),
                             ),
                           )),
-
-
-
                     ]),
                   ),
                 ),

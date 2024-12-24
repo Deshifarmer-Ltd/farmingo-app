@@ -13,7 +13,7 @@ class TestPage extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
           leading: Icon(Icons.menu),
           title: Text('Farmingo'),
-          flexibleSpace: FlexibleSpaceBar(background:  const CustomAppbar()),
+          flexibleSpace: FlexibleSpaceBar(background:   CustomAppbar()),
           expandedHeight: 150,
             floating: false,
             pinned: true,

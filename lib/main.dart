@@ -6,9 +6,11 @@ import 'app/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
-  //todo: login page-> Api integrate/UI/
+
 
   //todo: controller need to dynamic for confirm order popup
+
+  //todo: order page table add
 
 
   //todo: network connectivity
@@ -44,14 +46,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.transparent,
             iconTheme: IconThemeData(color: Colors.white)),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // textButtonTheme: const TextButtonThemeData(
-        //   style: ButtonStyle(
-        //     backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
-        //     shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.all(Radius.circular(5)))),
-        //     foregroundColor: WidgetStatePropertyAll(Colors.white),
-        //   ),
-        // ),
+
         elevatedButtonTheme: const ElevatedButtonThemeData( style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(

@@ -1,9 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../../../common/style.dart';
-
 
 class LoginPage extends GetView<AuthController> {
   LoginPage({super.key});
@@ -98,8 +98,7 @@ class LoginPage extends GetView<AuthController> {
                         validator: (value) {
                           if (value == null) {
                             return "password is required";
-                          }
-                          else {
+                          } else {
                             return null;
                           }
                         },
@@ -115,10 +114,37 @@ class LoginPage extends GetView<AuthController> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            await controller.doLogin();
+                            var userFound = await controller.doLogin();
+
+                            if (userFound) {
+                              AwesomeDialog(
+                                context: context,
+                                animType: AnimType.scale,
+                                dialogType: DialogType.success,
+                                title: 'Successfully Logged In',
+                                titleTextStyle: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                                btnOkOnPress: () {
+                                  Get.back();
+                                },
+                              ).show();
+                            } else {
+                              AwesomeDialog(
+                                context: context,
+                                animType: AnimType.scale,
+                                dialogType: DialogType.error,
+                                title: 'Login Failed',
+                                titleTextStyle: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                                btnOkOnPress: () {
+                                  Get.back();
+                                },
+                              ).show();
+                            }
                           }
                         },
-
                         child: const Text(
                           "LOGIN",
                           style: TextStyle(color: Colors.white, fontSize: 18),

@@ -15,7 +15,7 @@ class AllProductPage extends GetView<CommonController> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppbar(),
+           CustomAppbar(),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(

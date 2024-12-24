@@ -19,7 +19,7 @@ class HomePage extends GetView<CommonController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const CustomAppbar(),
+               CustomAppbar(),
               CarouselSlider(
                 items: [
                   Image.asset(
