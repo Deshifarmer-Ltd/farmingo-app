@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class ApiService {
   static String categoryProductsUrl = '/category_products';
   static String singleCategoryProductsUrl = '/category_products';
   static String loginUrl = '/login';
+  static String registerUrl = '/signup';
 
   static Future<List<CategoryModel>?> getCategories() async {
     final headers = {
@@ -35,7 +37,8 @@ class ApiService {
 
         return categories;
       } else {
-        Fluttertoast.showToast(msg: ' Error: ${response.statusCode} ${response.body}');
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
         return null;
       }
     } catch (e, st) {
@@ -65,7 +68,8 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(msg: ' Error: ${response.statusCode} ${response.body}');
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
         return null;
       }
     } catch (e, st) {
@@ -97,7 +101,8 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(msg: ' Error: ${response.statusCode} ${response.body}');
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
         return null;
       }
     } catch (e, st) {
@@ -128,7 +133,58 @@ class ApiService {
         UserModel model = UserModel.fromJson(data);
         return model;
       } else {
-        Fluttertoast.showToast(msg: ' Error: ${response.statusCode} ${response.body}');
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      // EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+
+      // debugPrint(e());
+    }
+
+    return null;
+  }
+
+  static Future<UserModel?> postRegistration({
+    required String name,
+    required String email,
+    required String phone,
+    required String password,
+    required int zoneId,
+    required String address,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+
+    // EasyLoading.show(status: 'loading...');
+
+    try {
+      final url = Uri.parse(baseUrl + registerUrl);
+      var response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": password,
+            "zone_id": zoneId,
+            "address": address,
+            "emailOrPhone": ""
+          }));
+
+      if (response.statusCode >= HttpStatus.created) {
+        var data = json.decode(response.body);
+        UserModel model = UserModel.fromJson(data);
+        return model;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
         return null;
       }
     } catch (e, st) {

@@ -1,3 +1,4 @@
+import 'package:farmingo/app/auth/registration_page.dart';
 import 'package:farmingo/app/home/home_binding.dart';
 import 'package:farmingo/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ void main() {
   //todo: controller need to dynamic for confirm order popup
 
   //todo: order page table add
+  //todo: need to add zone
 
 
   //todo: network connectivity
@@ -46,17 +48,37 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.transparent,
             iconTheme: IconThemeData(color: Colors.white)),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-
         elevatedButtonTheme: const ElevatedButtonThemeData( style: ButtonStyle(
           backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
           shape: WidgetStatePropertyAll(RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)))),
           foregroundColor: WidgetStatePropertyAll(Colors.white),
         ),),
+
+
+
+
+        inputDecorationTheme: InputDecorationTheme(
+
+          contentPadding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10), // Adjust vertical padding
+          prefixIconColor: Colors.grey,
+          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintStyle: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.green, width: 2.0),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red, width: 1.0),
+          ),
+        ),
         useMaterial3: true,
       ),
       home: const HomePage(),
-      initialRoute: AppRoutes.homePath,
+      initialRoute: AppRoutes.registrationPath,
       getPages: AppRoutes.routes,
       initialBinding: HomeBindings(),
     );

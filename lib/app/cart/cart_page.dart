@@ -313,8 +313,8 @@ class CartPage extends GetView<CommonController> {
                               ])),
                       Obx(() {
                         return controller.addressOption[0]
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
+                            ? const Padding(
+                                padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   children: [
                                     Row(

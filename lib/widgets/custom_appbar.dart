@@ -2,7 +2,6 @@ import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:popover/popover.dart';
 import '../app/routes/app_routes.dart';
 
 class CustomAppbar extends GetView<CommonController> {
@@ -27,10 +26,11 @@ class CustomAppbar extends GetView<CommonController> {
                     Icons.person_2_outlined,
                   ))
               :   PopupMenuButton(icon: CircleAvatar(
-            child: Text(ctr.userName.value),
-          ),itemBuilder: (ctx) {
+                          backgroundColor: Colors.green,
+                          child: Text(ctr.userName.value,style: const TextStyle(color: Colors.white),),
+                        ),itemBuilder: (ctx) {
 
-
+//todo: need this menu dynamic
             return [
               const PopupMenuItem(child: Text('Profile')),
               const PopupMenuItem(child: Text('Order')),
@@ -62,22 +62,6 @@ class CustomAppbar extends GetView<CommonController> {
                 onPressed: () {
                   Get.toNamed(AppRoutes.cartPath);
 
-                  // showPopover(
-                  //   height: 70,
-                  //     width: 50,
-                  //
-                  //     context: context,
-                  //     bodyBuilder: (ctx) => Column(
-                  //       children: [
-                  //         Container(width: 50,height: 20,child: Text('Profile',style: TextStyle(color: Colors.white),),color: Colors.green[300],),
-                  //         Container(width: 50,height: 20,child: Text('Order',style: TextStyle(color: Colors.white)),color: Colors.green[200],),
-                  //         Container(width: 50,height: 20,child: Text('Logout',style: TextStyle(color: Colors.white)),color: Colors.green[100],),
-                  //
-                  //
-                  //
-                  //
-                  //       ],
-                  //     ));
                 },
                 icon: const Icon(
                   Icons.shopping_cart_outlined,
