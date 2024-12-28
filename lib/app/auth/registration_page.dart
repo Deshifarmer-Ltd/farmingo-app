@@ -103,7 +103,7 @@ class RegistrationPage extends GetView<AuthController> {
                         },
                       ),
                     ),
-                    const Gap(20),
+                    const Gap(10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextFormField(

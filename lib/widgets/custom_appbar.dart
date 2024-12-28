@@ -2,7 +2,7 @@ import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../app/routes/app_routes.dart';
+import '../app_routes.dart';
 
 class CustomAppbar extends GetView<CommonController> {
   CustomAppbar({super.key});
@@ -32,7 +32,7 @@ class CustomAppbar extends GetView<CommonController> {
 
 //todo: need this menu dynamic
             return [
-              const PopupMenuItem(child: Text('Profile')),
+              // const PopupMenuItem(child: Text('Profile')),
               const PopupMenuItem(child: Text('Order')),
               const PopupMenuItem(child: Text('Logout')),
 

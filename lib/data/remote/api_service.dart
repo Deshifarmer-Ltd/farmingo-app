@@ -17,6 +17,8 @@ class ApiService {
   static String singleCategoryProductsUrl = '/category_products';
   static String loginUrl = '/login';
   static String registerUrl = '/signup';
+  static String orderUrl = '/consumer/order';
+  static String resetPassUrl = '/password/reset-request';
 
   static Future<List<CategoryModel>?> getCategories() async {
     final headers = {
@@ -28,7 +30,7 @@ class ApiService {
       final url = Uri.parse('$baseUrl$categoryUrl');
       var response = await http.get(url, headers: headers);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok) {
         var jsonList = json.decode(response.body);
 
         List<CategoryModel> categories = jsonList
@@ -59,7 +61,7 @@ class ApiService {
       final url = Uri.parse('$baseUrl$categoryProductsUrl');
       var response = await http.get(url, headers: headers);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok) {
         var jsonList = json.decode(response.body);
 
         List<ItemModel> items = jsonList
@@ -92,7 +94,7 @@ class ApiService {
       final url = Uri.parse('$baseUrl$categoryProductsUrl/${id.toString()}');
       var response = await http.get(url, headers: headers);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok) {
         var jsonList = json.decode(response.body);
 
         List<ProductModel> items = jsonList
@@ -128,7 +130,7 @@ class ApiService {
           headers: headers,
           body: json.encode({'password': password, 'email': emailOrPhone}));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatus.ok) {
         var data = json.decode(response.body);
         UserModel model = UserModel.fromJson(data);
         return model;
@@ -182,6 +184,48 @@ class ApiService {
         var data = json.decode(response.body);
         UserModel model = UserModel.fromJson(data);
         return model;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      // EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+
+      // debugPrint(e());
+    }
+
+    return null;
+  }
+
+  static Future<String?> postResetPassword({
+    required String phone,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+
+    // EasyLoading.show(status: 'loading...');
+
+    try {
+      final url = Uri.parse(baseUrl + resetPassUrl);
+      var response = await http.post(url,
+          headers: headers,
+          body: json.encode({
+            "email": phone,
+
+          }));
+
+      if (response.statusCode == HttpStatus.ok) {
+        var data = json.decode(response.body);
+
+        String message = data['message'] as String;
+
+        return message;
       } else {
         Fluttertoast.showToast(
             msg: ' Error: ${response.statusCode} ${response.body}');

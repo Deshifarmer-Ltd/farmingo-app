@@ -5,24 +5,24 @@ import 'package:get/get.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
+  //login fields
   TextEditingController loginPassword = TextEditingController();
   TextEditingController loginNameOrEmail = TextEditingController();
 
+  //register fields
   TextEditingController regName = TextEditingController();
   TextEditingController regEmail = TextEditingController();
   TextEditingController regPhone = TextEditingController();
   TextEditingController regAddress = TextEditingController();
   TextEditingController regPass = TextEditingController();
 
+  //reset password fields
+  TextEditingController resetPhoneNumber = TextEditingController();
+
   RxBool isPassObscure = true.obs;
   Rxn<UserModel> user = Rxn<UserModel>();
   RxString userName = ''.obs;
   RxBool isLoginPage = true.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<bool> doLogin() async {
     user.value = await ApiService.postLogin(
@@ -42,7 +42,8 @@ class AuthController extends GetxController {
       email: regEmail.text,
       phone: regPhone.text,
       password: regPass.text,
-      zoneId: 1,//todo:zone id need to set dynamic
+      zoneId: 1,
+      //todo:zone id need to set dynamic
       address: regAddress.text,
     );
 
@@ -52,6 +53,14 @@ class AuthController extends GetxController {
     } else {
       return false;
     }
+  }
+
+  Future<String?> resetPassword() async {
+    var message = await ApiService.postResetPassword(
+      phone: resetPhoneNumber.text,
+    );
+
+    return message;
   }
 
   void setFirstLetterOfName(String name) {

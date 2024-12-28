@@ -13,6 +13,7 @@ class CartPage extends GetView<CommonController> {
   final formKey = GlobalKey<FormState>();
 
   // todo: saved address or new address
+  //todo: after order placed remove cart item.
 
   @override
   Widget build(BuildContext context) {

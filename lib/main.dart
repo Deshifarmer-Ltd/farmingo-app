@@ -1,6 +1,5 @@
-import 'package:farmingo/app/auth/registration_page.dart';
 import 'package:farmingo/app/home/home_binding.dart';
-import 'package:farmingo/app/routes/app_routes.dart';
+import 'package:farmingo/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app/home/home_page.dart';
@@ -10,17 +9,19 @@ void main() {
 
 
   //todo: controller need to dynamic for confirm order popup
-
   //todo: order page table add
+  //todo: order page dynamic
+
   //todo: need to add zone
+
+  //todo:---> shred pref for user
+  //todo:---> forget password
 
 
   //todo: network connectivity
   //todo: search
-  //todo: order page
 
   //todo: initial page while page is fetching stage
-  //todo:  while item counter to 0 not removing from cart
 
 
 }
@@ -55,9 +56,6 @@ class MyApp extends StatelessWidget {
           foregroundColor: WidgetStatePropertyAll(Colors.white),
         ),),
 
-
-
-
         inputDecorationTheme: InputDecorationTheme(
 
           contentPadding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10), // Adjust vertical padding
@@ -78,7 +76,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
-      initialRoute: AppRoutes.registrationPath,
+      initialRoute: AppRoutes.forgetPassPath,
       getPages: AppRoutes.routes,
       initialBinding: HomeBindings(),
     );
