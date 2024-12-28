@@ -1,21 +1,28 @@
 import 'package:farmingo/app/home/home_binding.dart';
 import 'package:farmingo/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'app/home/home_page.dart';
+import 'common/shred_pref.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefs().init();
   runApp(const MyApp());
+  configLoading();
 
 
   //todo: controller need to dynamic for confirm order popup
   //todo: order page table add
   //todo: order page dynamic
+  //todo: font add
+  //todo: order page API
 
   //todo: need to add zone
 
-  //todo:---> shred pref for user
-  //todo:---> forget password
+  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
 
   //todo: network connectivity
@@ -24,6 +31,20 @@ void main() {
   //todo: initial page while page is fetching stage
 
 
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..indicatorWidget = const SpinKitWave(
+      color: Colors.green, // Primary color for the wave
+      size: 50.0,
+      itemCount: 6,
+    )
+    ..backgroundColor = Colors.white // Background for the loading box
+    ..textColor = Colors.green // Text color matching the primary color
+    ..maskColor = Colors.black.withOpacity(0.5) // Semi-transparent black mask
+    ..userInteractions = false // Disable interaction while loading
+    ..maskType = EasyLoadingMaskType.custom; // Use the custom mask color
 }
 
 class MyApp extends StatelessWidget {
@@ -58,7 +79,7 @@ class MyApp extends StatelessWidget {
 
         inputDecorationTheme: InputDecorationTheme(
 
-          contentPadding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10), // Adjust vertical padding
+          contentPadding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
           prefixIconColor: Colors.grey,
           labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -76,7 +97,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
-      initialRoute: AppRoutes.forgetPassPath,
+      builder: EasyLoading.init(),
+      initialRoute: AppRoutes.homePath,
       getPages: AppRoutes.routes,
       initialBinding: HomeBindings(),
     );

@@ -3,6 +3,9 @@ import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+
+import '../../app_routes.dart';
+
 class LoginPage extends GetView<AuthController> {
   LoginPage({super.key});
 
@@ -17,12 +20,13 @@ class LoginPage extends GetView<AuthController> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
-              child:     Form(
+              child: Form(
                 key: _loginFormKey,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.2),
                       child: Image.asset('assets/images/app_title.png'),
                     ),
                     const Gap(50),
@@ -33,22 +37,16 @@ class LoginPage extends GetView<AuthController> {
                         style: const TextStyle(fontSize: 22),
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person,
-                            ),
-                            labelText: "Email or Phone",
-                            hintText: 'Enter your email /phone',
-
+                          prefixIcon: Icon(
+                            Icons.person,
+                          ),
+                          labelText: "Email or Phone",
+                          hintText: 'Enter your email /phone',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email or mobile';
                           }
-                          // Regular expression for validating a mobile number starting with '01' and length of 11 digits
-                          // final mobileRegex = RegExp(r'^01[0-9]{9}$');
-                          // if (!mobileRegex.hasMatch(value)) {
-                          //   return 'Please enter a valid mobile number';
-                          // }
                           return null;
                         },
                       ),
@@ -63,29 +61,26 @@ class LoginPage extends GetView<AuthController> {
                           style: const TextStyle(fontSize: 22),
                           keyboardType: TextInputType.text,
                           maxLines: 1,
-                          decoration:  InputDecoration(
-                              // errorText: regLogInController.errorText.value.toString() == ""
-                              //     ? null
-                              //     : regLogInController.errorText.value.toString(),
-                              prefixIcon: const Icon(
-                                Icons.key_outlined,
-                              ),
+                          decoration: InputDecoration(
+
+                            prefixIcon: const Icon(
+                              Icons.key_outlined,
+                            ),
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   controller.isPassObscure.value =
-                                  !controller.isPassObscure.value;
+                                      !controller.isPassObscure.value;
                                 },
                                 icon: controller.isPassObscure.value
                                     ? const Icon(
-                                  Icons.visibility_off,
-                                )
+                                        Icons.visibility_off,
+                                      )
                                     : const Icon(Icons.visibility,
-                                    color: Colors.blue)),
+                                        color: Colors.blue)),
 
-
-                              labelText: "Password",
-                              hintText: 'Enter your password',
-                         ),
+                            labelText: "Password",
+                            hintText: 'Enter your password',
+                          ),
                           validator: (value) {
                             if (value == null) {
                               return "password is required";
@@ -144,17 +139,25 @@ class LoginPage extends GetView<AuthController> {
                       ),
                     ),
                     const Gap(80),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Don't have an account? Sign Up",style: TextStyle(fontSize: 12),),
 
                           TextButton(
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.registrationPath);
+
+                            },
+                            child: const Text(
+                              "Don't have an account? Sign Up",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          TextButton(
                               onPressed: () {
-                                // Get.toNamed(AppRoutes.userAccountPath);
+                                Get.toNamed(AppRoutes.forgetPassPath);
                               },
                               child: const Text(
                                 'Forget Password',

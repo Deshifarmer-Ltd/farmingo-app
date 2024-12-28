@@ -1,7 +1,8 @@
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
+import '../../common/conts_data.dart';
+import '../../common/shred_pref.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
@@ -24,12 +25,15 @@ class AuthController extends GetxController {
   RxString userName = ''.obs;
   RxBool isLoginPage = true.obs;
 
+
   Future<bool> doLogin() async {
     user.value = await ApiService.postLogin(
         emailOrPhone: loginNameOrEmail.text, password: loginPassword.text);
 
     if (user.value != null) {
       setFirstLetterOfName(user.value!.name);
+      saveUserCredToPref();
+
       return true;
     } else {
       return false;
@@ -67,5 +71,16 @@ class AuthController extends GetxController {
     userName.value = name
         .trim()[0]
         .toUpperCase(); // Take the first character and convert it to uppercase
+  }
+
+  void saveUserCredToPref() {
+
+    SharedPrefs().saveInt(loginUserId, user.value!.id);
+    SharedPrefs().saveString(loginUserName, user.value!.name);
+    SharedPrefs().saveString(loginUserEmail, user.value!.email);
+    SharedPrefs().saveString(token, user.value!.token);
+    SharedPrefs().saveBool(isLoggedIn, true);
+
+
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
@@ -121,9 +123,9 @@ class ApiService {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
     };
+    //todo: need to fix this easy loading and dialogue issue
 
-    // EasyLoading.show(status: 'loading...');
-
+    EasyLoading.show(status: 'loading...',);
     try {
       final url = Uri.parse(baseUrl + loginUrl);
       var response = await http.post(url,
@@ -133,17 +135,19 @@ class ApiService {
       if (response.statusCode == HttpStatus.ok) {
         var data = json.decode(response.body);
         UserModel model = UserModel.fromJson(data);
+        EasyLoading.dismiss();
         return model;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.dismiss();
+        EasyLoading.showError(response.body);
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      // EasyLoading.dismiss();
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      EasyLoading.dismiss();
+      EasyLoading.showError( 'error: ${e.toString()}');
 
       // debugPrint(e());
     }
@@ -209,7 +213,7 @@ class ApiService {
       'charset': 'utf-8',
     };
 
-    // EasyLoading.show(status: 'loading...');
+    EasyLoading.show(status: 'loading...',);
 
     try {
       final url = Uri.parse(baseUrl + resetPassUrl);
@@ -227,18 +231,21 @@ class ApiService {
 
         return message;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body);
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
       // EasyLoading.dismiss();
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      EasyLoading.showToast( 'error: ${e.toString()}');
 
       // debugPrint(e());
     }
+
+
+
 
     return null;
   }

@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 class ForgetPassPage extends GetView<AuthController> {
@@ -29,9 +30,10 @@ class ForgetPassPage extends GetView<AuthController> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: TextFormField(
+                        maxLength: 11,
                         controller: controller.resetPhoneNumber,
                         style: const TextStyle(fontSize: 22),
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(
                             Icons.person,
@@ -96,22 +98,7 @@ class ForgetPassPage extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const Gap(80),
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: TextButton(
-                          onPressed: () {
-                            // Get.toNamed(AppRoutes.userAccountPath);
-                          },
-                          child: const Text(
-                            'Back to Sign In',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
-                          )),
-                    )
                   ],
                 ),
               ),

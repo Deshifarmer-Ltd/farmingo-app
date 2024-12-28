@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../app_routes.dart';
+
 class RegistrationPage extends GetView<AuthController> {
   RegistrationPage({super.key});
 
@@ -19,12 +21,13 @@ class RegistrationPage extends GetView<AuthController> {
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
-              child:     Form(
+              child: Form(
                 key: _regFormKey,
                 child: Column(
                   children: [
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.2),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.2),
                       child: Image.asset('assets/images/app_title.png'),
                     ),
                     const Gap(20),
@@ -35,13 +38,11 @@ class RegistrationPage extends GetView<AuthController> {
                         style: textStyle,
                         keyboardType: TextInputType.name,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.person,
-                            ),
-                            labelText: "Name",
-                            hintText: 'Enter your name',
-
-
+                          prefixIcon: Icon(
+                            Icons.person,
+                          ),
+                          labelText: "Name",
+                          hintText: 'Enter your name',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -60,12 +61,12 @@ class RegistrationPage extends GetView<AuthController> {
                         style: textStyle,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
-                            ),
-                            labelText: "Email",
-                            hintText: 'Enter your email',
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
                           ),
+                          labelText: "Email",
+                          hintText: 'Enter your email',
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Email is required';
@@ -83,12 +84,12 @@ class RegistrationPage extends GetView<AuthController> {
                         maxLength: 11,
                         keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.phone,
-                            ),
-                            labelText: "Phone",
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            hintText: 'Enter your  phone number',
+                          prefixIcon: Icon(
+                            Icons.phone,
+                          ),
+                          labelText: "Phone",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: 'Enter your  phone number',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -111,13 +112,13 @@ class RegistrationPage extends GetView<AuthController> {
                         style: textStyle,
                         keyboardType: TextInputType.streetAddress,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.home_work_outlined,
-                            ),
-                            labelText: "Address",
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            hintText: 'Enter your  address here',
-                      ),
+                          prefixIcon: Icon(
+                            Icons.home_work_outlined,
+                          ),
+                          labelText: "Address",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: 'Enter your  address here',
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Address is required';
@@ -128,35 +129,33 @@ class RegistrationPage extends GetView<AuthController> {
                       ),
                     ),
                     const Gap(20),
-                  Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextFormField(
-                          controller: controller.regPass,
-                          style: textStyle,
-                          keyboardType: TextInputType.text,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.key_outlined,
-                              ),
-                              labelText: "Password",
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
-                              hintText: 'Enter your password',
-                         ),
-                          validator: (value) {
-                            if (value == null) {
-                              return "password is required";
-                            } if (value.length <6) {
-                              return "minimum 6 character long";
-                            }
-
-                            else {
-                              return null;
-                            }
-                          },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextFormField(
+                        controller: controller.regPass,
+                        style: textStyle,
+                        keyboardType: TextInputType.text,
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.key_outlined,
+                          ),
+                          labelText: "Password",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: 'Enter your password',
                         ),
+                        validator: (value) {
+                          if (value == null) {
+                            return "password is required";
+                          }
+                          if (value.length < 6) {
+                            return "minimum 6 character long";
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-
+                    ),
                     const Gap(20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -173,7 +172,8 @@ class RegistrationPage extends GetView<AuthController> {
                                   context: context,
                                   animType: AnimType.scale,
                                   dialogType: DialogType.success,
-                                  title: ' ${controller.user.value!.id.toString()}......Sign Up successful',
+                                  title:
+                                      ' ${controller.user.value!.id.toString()}......Sign Up successful',
                                   titleTextStyle: const TextStyle(
                                     fontSize: 16,
                                   ),
@@ -210,16 +210,23 @@ class RegistrationPage extends GetView<AuthController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Already have an account? Sign In",style: TextStyle(fontSize: 12),),
-
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text(
+                              "Already have an account? Sign In",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
                           TextButton(
                               onPressed: () {
-                                // Get.toNamed(AppRoutes.userAccountPath);
+                                Get.toNamed(AppRoutes.forgetPassPath);
                               },
                               child: const Text(
                                 'Forget Password',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                    fontSize: 12,
                                     color: Colors.green,
                                     fontWeight: FontWeight.bold),
                               )),
