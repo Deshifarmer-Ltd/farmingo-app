@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   gap: ^3.0.1
   get: ^4.6.6
+  google_fonts: ^6.2.1
   hexcolor: ^3.0.1
   carousel_slider: ^5.0.0
   connectivity_plus: ^6.1.0
@@ -69,6 +70,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/font/Poppins-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

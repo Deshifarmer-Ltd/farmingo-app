@@ -17,7 +17,6 @@ void main()async {
   //todo: controller need to dynamic for confirm order popup
   //todo: order page table add
   //todo: order page dynamic
-  //todo: font add
   //todo: order page API
 
   //todo: need to add zone
@@ -56,6 +55,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Poppins',
         searchBarTheme: const SearchBarThemeData(
             hintStyle:
          WidgetStatePropertyAll(TextStyle(fontSize: 14)),
