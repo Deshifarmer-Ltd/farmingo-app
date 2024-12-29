@@ -3,6 +3,7 @@ import 'package:farmingo/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/item_card.dart';
+import '../../widgets/simmer_loading.dart';
 
 class AllProductPage extends GetView<CommonController> {
 
@@ -29,7 +30,9 @@ class AllProductPage extends GetView<CommonController> {
           Expanded(
             child:  Obx((){
 
-              return  GridView.builder(
+           return  controller.selectedAllProductList.isNotEmpty?
+
+            GridView.builder(
                 itemCount: controller.selectedAllProductList.length,
                 shrinkWrap: true,
                 gridDelegate:
@@ -43,7 +46,7 @@ class AllProductPage extends GetView<CommonController> {
                     item: item,
                   );
                 },
-              );
+              ):const Expanded(child: SimmerLoading());
 
             })
           ),

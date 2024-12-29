@@ -28,7 +28,6 @@ void main()async {
   //todo: network connectivity
   //todo: search
 
-  //todo: initial page while page is fetching stage
 
 
 }

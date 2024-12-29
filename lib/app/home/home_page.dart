@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/category_list_section.dart';
+import '../../widgets/simmer_loading.dart';
 
 class HomePage extends GetView<CommonController> {
   const HomePage({super.key});
@@ -60,7 +61,7 @@ class HomePage extends GetView<CommonController> {
                   })),
               Obx(() {
                 return (controller.categoryProducts.isEmpty)
-                    ? const Text('ff')
+                    ? const Expanded(child: SimmerLoading())
                     : Column(
                         children: [
                           ...List.generate(controller.categoryProducts.length,
