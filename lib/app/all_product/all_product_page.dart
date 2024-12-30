@@ -46,7 +46,7 @@ class AllProductPage extends GetView<CommonController> {
                     item: item,
                   );
                 },
-              ):SimmerLoading();
+              ):const SimmerLoading();
 
             })
           ),

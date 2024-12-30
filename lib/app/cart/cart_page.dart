@@ -66,11 +66,7 @@ class CartPage extends GetView<CommonController> {
                                                     item.product.image != null
                                                         ? Image.network(
                                                             item.product.image!,
-
                                                             fit: BoxFit.cover,
-                                                            // errorBuilder: (ctx, obj, st) {
-                                                            //   return Image.asset('name');
-                                                            // }, // Makes the image fill the container
                                                           )
                                                         : Image.asset(
                                                             'assets/images/no_image.png',
@@ -291,7 +287,7 @@ class CartPage extends GetView<CommonController> {
 
 //todo: Instead of using ToggleButton must try Segmented Button
 
-                      Obx(() => ToggleButtons(
+                      Obx(() {  return authController.addressList.length>0? ToggleButtons(
                               disabledColor: Colors.red,
                               borderWidth: 1.5,
                               fillColor: Colors.green.shade200,
@@ -314,125 +310,13 @@ class CartPage extends GetView<CommonController> {
                                   padding: EdgeInsets.all(4.0),
                                   child: Text('Different Address'),
                                 ),
-                              ])),
+                              ]):const SizedBox();}),
                       Obx(() {
-                        return controller.addressOption[0]
-                            ? savedAddressSection()
-                            : Column(
-                                children: [
-                                  const Gap(20),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0),
-                                    child: TextFormField(
-                                      maxLines: 1,
-                                      controller: null,
-                                      keyboardType: TextInputType.name,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 12),
-                                        fillColor: Colors.white,
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        errorBorder: MStyle.formErrorBorder,
-                                        label: const Text("Name"),
-                                        hintText: 'Your name here',
-                                        hintStyle: MStyle.hintStyle,
-                                        focusedBorder: MStyle.formFocusBorder,
-                                        enabledBorder: MStyle.formEnableBorder,
-                                        focusedErrorBorder:
-                                            MStyle.formErrorBorder,
-                                      ),
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return "Name is required";
-                                        } else if (value == "") {
-                                          return "Name is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const Gap(20),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0),
-                                    child: TextFormField(
-                                      maxLines: 1,
-                                      maxLength: 11,
-                                      controller: null,
-                                      keyboardType: TextInputType.phone,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 12),
-                                        fillColor: Colors.white,
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        errorBorder: MStyle.formErrorBorder,
-                                        label: const Text("Phone Number"),
-                                        hintText: 'Your contact number here',
-                                        hintStyle: MStyle.hintStyle,
-                                        focusedBorder: MStyle.formFocusBorder,
-                                        enabledBorder: MStyle.formEnableBorder,
-                                        focusedErrorBorder:
-                                            MStyle.formErrorBorder,
-                                      ),
-                                      validator: (value) {
-                                        RegExp regExp =
-                                            RegExp(r'^01[3-9]\d{8}$');
-                                        if (value == null) {
-                                          return "Phone number is required";
-                                        } else if (regExp.hasMatch(value)) {
-                                          return null;
-                                        } else {
-                                          return 'Invalid phone number format';
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const Gap(20),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0),
-                                    child: TextFormField(
-                                      maxLines: 3,
-                                      //todo: controller need to dynamic
-                                      controller: null,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 12),
-                                        fillColor: Colors.white,
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.always,
-                                        errorBorder: MStyle.formErrorBorder,
-                                        label: const Text("Delivery Address"),
-                                        hintText:
-                                            'House/flat number, neighborhood name, area of contact',
-                                        hintStyle: MStyle.hintStyle,
-                                        focusedBorder: MStyle.formFocusBorder,
-                                        enabledBorder: MStyle.formEnableBorder,
-                                        focusedErrorBorder:
-                                            MStyle.formErrorBorder,
-                                      ),
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return "Address is required";
-                                        } else if (value == "") {
-                                          return "Address is required";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const Gap(16),
-                                ],
-                              );
+                        return authController.addressList.isNotEmpty
+                            ? newAddressSection()
+                            : controller.addressOption[0]
+                                ? savedAddressSection()
+                                : newAddressSection();
                       }),
 
                       Padding(
@@ -457,40 +341,143 @@ class CartPage extends GetView<CommonController> {
             ));
   }
 
+  Column newAddressSection() {
+    return Column(
+      children: [
+        const Gap(20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: TextFormField(
+            maxLines: 1,
+            controller: null,
+            keyboardType: TextInputType.name,
+            decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              fillColor: Colors.white,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              errorBorder: MStyle.formErrorBorder,
+              label: const Text("Name"),
+              hintText: 'Your name here',
+              hintStyle: MStyle.hintStyle,
+              focusedBorder: MStyle.formFocusBorder,
+              enabledBorder: MStyle.formEnableBorder,
+              focusedErrorBorder: MStyle.formErrorBorder,
+            ),
+            validator: (value) {
+              if (value == null) {
+                return "Name is required";
+              } else if (value == "") {
+                return "Name is required";
+              } else {
+                return null;
+              }
+            },
+          ),
+        ),
+        const Gap(20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: TextFormField(
+            maxLines: 1,
+            maxLength: 11,
+            controller: null,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              fillColor: Colors.white,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              errorBorder: MStyle.formErrorBorder,
+              label: const Text("Phone Number"),
+              hintText: 'Your contact number here',
+              hintStyle: MStyle.hintStyle,
+              focusedBorder: MStyle.formFocusBorder,
+              enabledBorder: MStyle.formEnableBorder,
+              focusedErrorBorder: MStyle.formErrorBorder,
+            ),
+            validator: (value) {
+              RegExp regExp = RegExp(r'^01[3-9]\d{8}$');
+              if (value == null) {
+                return "Phone number is required";
+              } else if (regExp.hasMatch(value)) {
+                return null;
+              } else {
+                return 'Invalid phone number format';
+              }
+            },
+          ),
+        ),
+        const Gap(20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: TextFormField(
+            maxLines: 3,
+            //todo: controller need to dynamic
+            controller: null,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              fillColor: Colors.white,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              errorBorder: MStyle.formErrorBorder,
+              label: const Text("Delivery Address"),
+              hintText: 'House/flat number, neighborhood name, area of contact',
+              hintStyle: MStyle.hintStyle,
+              focusedBorder: MStyle.formFocusBorder,
+              enabledBorder: MStyle.formEnableBorder,
+              focusedErrorBorder: MStyle.formErrorBorder,
+            ),
+            validator: (value) {
+              if (value == null) {
+                return "Address is required";
+              } else if (value == "") {
+                return "Address is required";
+              } else {
+                return null;
+              }
+            },
+          ),
+        ),
+        const Gap(16),
+      ],
+    );
+  }
+
   Widget savedAddressSection() {
     authController.fetchUserAddress();
-    return Obx((){return Expanded(
-      child: ListView.builder(
-        itemBuilder: (ctx, i) {
-          AddressModel model = authController.addressList.elementAt(i);
 
-          return Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
+    return SizedBox(
+        height: 200,
+        child: Obx(() {
+          return ListView.builder(
+            itemBuilder: (ctx, i) {
+              AddressModel model = authController.addressList.elementAt(i);
+              print("again" + model.receiverPhone);
+
+              return RadioListTile(
+                title: Text(model.receiverName),
+                isThreeLine: true,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 1, child: Text('Name:')),
-                    Expanded(flex: 3, child: Text(model.receiverName)),
+                    Text(model.address),
+                    Text(model.receiverPhone),
                   ],
                 ),
-                Row(children: [
-                  Expanded(flex: 1, child: Text('Phone:')),
-                  Expanded(flex: 3, child: Text(model.receiverPhone)),
-                ]),
-                Row(
-                  children: [
-                    Expanded(flex: 1, child: Text('Address:')),
-                    Expanded(flex: 3, child: Text(model.address)),
-                  ],
-                ),
-              ],
-            ),
+                value: model,
+                onChanged: (newAddress) {
+                  if (newAddress != null) {
+                    authController.selectedAddress.value = newAddress;
+                  }
+                },
+                groupValue: authController.selectedAddress.value,
+              );
+            },
+            shrinkWrap: true,
+            itemCount: authController.addressList.length,
           );
-        },
-        shrinkWrap: true,
-        itemCount: authController.addressList.length,
-      ),
-    );  })  ;
+        }));
   }
 }
