@@ -287,35 +287,39 @@ class CartPage extends GetView<CommonController> {
 
 //todo: Instead of using ToggleButton must try Segmented Button
 
-                      Obx(() {  return authController.addressList.length>0? ToggleButtons(
-                              disabledColor: Colors.red,
-                              borderWidth: 1.5,
-                              fillColor: Colors.green.shade200,
-                              selectedColor: Colors.white,
-                              selectedBorderColor: Colors.green,
-                              borderRadius: BorderRadius.circular(1.5),
-                              onPressed: (index) {
-                                controller.addressOption[0] =
-                                    !controller.addressOption[0];
-                                controller.addressOption[1] =
-                                    !controller.addressOption[1];
-                              },
-                              isSelected: controller.addressOption,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Text('Saved Address'),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Text('Different Address'),
-                                ),
-                              ]):const SizedBox();}),
                       Obx(() {
                         return authController.addressList.isNotEmpty
+                            ? ToggleButtons(
+                                disabledColor: Colors.red,
+                                borderWidth: 1.5,
+                                fillColor: Colors.green.shade200,
+                                selectedColor: Colors.white,
+                                selectedBorderColor: Colors.green,
+                                borderRadius: BorderRadius.circular(1.5),
+                                onPressed: (index) {
+                                  controller.addressOption[0] =
+                                      !controller.addressOption[0];
+                                  controller.addressOption[1] =
+                                      !controller.addressOption[1];
+                                },
+                                isSelected: controller.addressOption,
+                                children: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Text('Saved Address'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Text('Different Address'),
+                                    ),
+                                  ])
+                            : const SizedBox();
+                      }),
+                      Obx(() {
+                        return authController.addressList.isEmpty
                             ? newAddressSection()
                             : controller.addressOption[0]
-                                ? savedAddressSection()
+                                ? savedAddressSection() // saved address book
                                 : newAddressSection();
                       }),
 
@@ -446,17 +450,16 @@ class CartPage extends GetView<CommonController> {
   }
 
   Widget savedAddressSection() {
-    authController.fetchUserAddress();
 
     return SizedBox(
         height: 200,
-        child: Obx(() {
-          return ListView.builder(
+        child:
+        ListView.builder(
             itemBuilder: (ctx, i) {
               AddressModel model = authController.addressList.elementAt(i);
               print("again" + model.receiverPhone);
 
-              return RadioListTile(
+              return Obx((){ return RadioListTile(
                 title: Text(model.receiverName),
                 isThreeLine: true,
                 subtitle: Column(
@@ -470,14 +473,15 @@ class CartPage extends GetView<CommonController> {
                 onChanged: (newAddress) {
                   if (newAddress != null) {
                     authController.selectedAddress.value = newAddress;
+                    // print('this adre..${newAddress.receiverPhone}');
                   }
                 },
                 groupValue: authController.selectedAddress.value,
-              );
+              );}) ;
             },
             shrinkWrap: true,
             itemCount: authController.addressList.length,
-          );
-        }));
+          )
+       );
   }
 }

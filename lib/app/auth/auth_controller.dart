@@ -24,24 +24,13 @@ class AuthController extends GetxController {
   RxBool isPassObscure = true.obs;
   RxList<AddressModel> addressList = <AddressModel>[].obs;
   Rxn<AddressModel> selectedAddress=Rxn<AddressModel>();
+  // RxInt selectedAddress=0.obs;
 
   Rxn<UserModel> user = Rxn<UserModel>();
   RxString userName = ''.obs;
   RxBool isLoginPage = true.obs;
   RxBool isUserLoggedIn = false.obs;
 
-
-  // @override
-  // void onInit() {
-  //   isUserLoggedIn.listen((value){
-  //     if(value==true)
-  //       {
-  //         fetchUserAddress();
-  //       }
-  //
-  //
-  //   });
-  // }
 
   Future<bool> doLogin() async {
     user.value = await ApiService.postLogin(

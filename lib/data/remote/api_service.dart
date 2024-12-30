@@ -113,8 +113,8 @@ class ApiService {
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
+      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
       return null;
-      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
   }
 
