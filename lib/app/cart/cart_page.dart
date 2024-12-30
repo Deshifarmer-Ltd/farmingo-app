@@ -1,3 +1,5 @@
+import 'package:farmingo/app/auth/auth_controller.dart';
+import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,6 +13,7 @@ class CartPage extends GetView<CommonController> {
 
   RxInt totalPriceWithDeliveryCharge = 0.obs;
   final formKey = GlobalKey<FormState>();
+  AuthController authController = Get.find<AuthController>();
 
   // todo: saved address or new address
   //todo: after order placed remove cart item.
@@ -314,36 +317,7 @@ class CartPage extends GetView<CommonController> {
                               ])),
                       Obx(() {
                         return controller.addressOption[0]
-                            ? const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(flex: 1, child: Text('Name:')),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text('Ahmed Nafiu noman')),
-                                      ],
-                                    ),
-                                    Row(children: [
-                                      Expanded(flex: 1, child: Text('Phone:')),
-                                      Expanded(
-                                          flex: 3, child: Text('01516510222')),
-                                    ]),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 1, child: Text('Address:')),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                                'Joar Shahara Bazar, vatara')),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
+                            ? savedAddressSection()
                             : Column(
                                 children: [
                                   const Gap(20),
@@ -481,5 +455,42 @@ class CartPage extends GetView<CommonController> {
                 ),
               ),
             ));
+  }
+
+  Widget savedAddressSection() {
+    authController.fetchUserAddress();
+    return Obx((){return Expanded(
+      child: ListView.builder(
+        itemBuilder: (ctx, i) {
+          AddressModel model = authController.addressList.elementAt(i);
+
+          return Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(flex: 1, child: Text('Name:')),
+                    Expanded(flex: 3, child: Text(model.receiverName)),
+                  ],
+                ),
+                Row(children: [
+                  Expanded(flex: 1, child: Text('Phone:')),
+                  Expanded(flex: 3, child: Text(model.receiverPhone)),
+                ]),
+                Row(
+                  children: [
+                    Expanded(flex: 1, child: Text('Address:')),
+                    Expanded(flex: 3, child: Text(model.address)),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+        shrinkWrap: true,
+        itemCount: authController.addressList.length,
+      ),
+    );  })  ;
   }
 }

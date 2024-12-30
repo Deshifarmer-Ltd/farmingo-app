@@ -15,7 +15,6 @@ void main()async {
 
 
   //todo: controller need to dynamic for confirm order popup
-  //todo: order page table add
   //todo: order page dynamic
   //todo: order page API
 
@@ -26,6 +25,8 @@ void main()async {
 
   //todo: network connectivity
   //todo: search
+  //todo: order page table add
+
 
 
 

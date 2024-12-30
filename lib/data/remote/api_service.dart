@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
+import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -18,6 +19,7 @@ class ApiService {
   static String categoryProductsUrl = '/category_products';
   static String singleCategoryProductsUrl = '/category_products';
   static String loginUrl = '/login';
+  static String userAddressUrl = '/consumer/my_address_book';
   static String registerUrl = '/signup';
   static String orderUrl = '/consumer/order';
   static String resetPassUrl = '/password/reset-request';
@@ -68,6 +70,39 @@ class ApiService {
 
         List<ItemModel> items = jsonList
             .map<ItemModel>((jsonItem) => ItemModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      return null;
+      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+    }
+  }
+
+
+  static Future<List<AddressModel>?> getUserAddresses(String token) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'Authorization':token,
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$userAddressUrl');
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<AddressModel> items = jsonList
+            .map<AddressModel>((jsonItem) => AddressModel.fromJson(jsonItem))
             .toList();
 
         return items;

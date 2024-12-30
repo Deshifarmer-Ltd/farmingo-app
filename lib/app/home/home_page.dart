@@ -61,7 +61,7 @@ class HomePage extends GetView<CommonController> {
                   })),
               Obx(() {
                 return (controller.categoryProducts.isEmpty)
-                    ? const Expanded(child: SimmerLoading())
+                    ? SimmerLoading()
                     : Column(
                         children: [
                           ...List.generate(controller.categoryProducts.length,

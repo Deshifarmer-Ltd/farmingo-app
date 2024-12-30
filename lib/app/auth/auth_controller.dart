@@ -1,4 +1,5 @@
 import 'package:farmingo/app/auth/user_model.dart';
+import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../../common/conts_data.dart';
@@ -21,6 +22,8 @@ class AuthController extends GetxController {
   TextEditingController resetPhoneNumber = TextEditingController();
 
   RxBool isPassObscure = true.obs;
+  RxList<AddressModel> addressList = <AddressModel>[].obs;
+
   Rxn<UserModel> user = Rxn<UserModel>();
   RxString userName = ''.obs;
   RxBool isLoginPage = true.obs;
@@ -53,6 +56,10 @@ class AuthController extends GetxController {
 
     if (user.value != null) {
       setFirstLetterOfName(user.value!.name);
+      //address taken while user register account
+      //todo: user can give multiple address / All address need to save & show during order placement
+      SharedPrefs().saveString(loginUserAddress, regAddress.text);
+
       return true;
     } else {
       return false;
@@ -67,6 +74,11 @@ class AuthController extends GetxController {
     return message;
   }
 
+  fetchUserAddress() async {
+    var items = await ApiService.getUserAddresses(SharedPrefs().getString(token)??'');
+    addressList.assignAll(items ?? []);
+  }
+
   void setFirstLetterOfName(String name) {
     userName.value = name
         .trim()[0]
@@ -78,7 +90,7 @@ class AuthController extends GetxController {
     SharedPrefs().saveInt(loginUserId, user.value!.id);
     SharedPrefs().saveString(loginUserName, user.value!.name);
     SharedPrefs().saveString(loginUserEmail, user.value!.email);
-    SharedPrefs().saveString(token, user.value!.token);
+    SharedPrefs().saveString(token, 'Bearer ${user.value!.token}');
     SharedPrefs().saveBool(isLoggedIn, true);
 
 
