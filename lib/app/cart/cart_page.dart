@@ -1,18 +1,16 @@
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/app_routes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-
-import '../../common/style.dart';
 
 class CartPage extends GetView<CommonController> {
   CartPage({super.key});
 
   RxInt totalPriceWithDeliveryCharge = 0.obs;
-  final _diffAddressFormKey = GlobalKey<FormState>();
   AuthController authController = Get.find<AuthController>();
 
   //todo: after order placed remove cart item.
@@ -281,73 +279,55 @@ class CartPage extends GetView<CommonController> {
                         )),
                       ),
                     ),
-
-                  //todo: Instead of using ToggleButton must try Segmented Button
-
                     Obx(() {
                       return authController.addressList.isNotEmpty
-                          ? ToggleButtons(
-                              disabledColor: Colors.red,
-                              borderWidth: 1.5,
-                              fillColor: Colors.green.shade200,
-                              selectedColor: Colors.white,
-                              selectedBorderColor: Colors.green,
-                              borderRadius: BorderRadius.circular(1.5),
-                              onPressed: (index) {
-                                controller.addressOption[0] =
-                                    !controller.addressOption[0];
-                                controller.addressOption[1] =
-                                    !controller.addressOption[1];
-                              },
-                              isSelected: controller.addressOption,
-                              children: const [
-                                  Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text('Saved Address'),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: Text('Different Address'),
-                                  ),
-                                ])
-                          : const SizedBox();
+                          ? Column(
+                              children: [
+                                CupertinoSlidingSegmentedControl(
+                                  children: const {
+                                    0: Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Text('Saved Address'),
+                                    ),
+                                    1: Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Text('Different Address'),
+                                    ),
+                                  },
+                                  onValueChanged: (newButtonNumber) {
+                                    if (newButtonNumber != null) {
+                                      authController.sliderButtonNumber.value =
+                                          newButtonNumber;
+                                    }
+                                  },
+                                  groupValue:
+                                      authController.sliderButtonNumber.value,
+                                ),
+                                authController.sliderButtonNumber.value == 0
+                                    ? savedAddressSection() // saved address book
+                                    : differentAddressSection()
+                              ],
+                            )
+                          : differentAddressSection();
                     }),
-                    Obx(() {
-                      return authController.addressList.isEmpty
-                          ? newAddressSection()
-                          : controller.addressOption[0]
-                              ? savedAddressSection() // saved address book
-                              : newAddressSection();
-                    }),
-
                     Padding(
-                        padding:  const EdgeInsets.only(right: 12.0),
+                        padding: const EdgeInsets.only(right: 12.0),
                         child: ElevatedButton(
                           onPressed: () async {
-                            //login is must so no need to check if login or not
+                            // if not logged in... show the login page
+                            //  -> after login get to confirm order then validate then place order
 
-                            if(authController.userSelectedAddressType.value==  AuthController.defaultAddressBook)
-                              {
-                                if (authController.selectedAddress.value==null) {
-                                  Fluttertoast.showToast(msg: "All validate");
-                                }
+                            // if logged in then slider buttons available
+                            //  -> then  check whether address book or different address selected
+                            //  -> then validate accordingly
 
-                              }
-                            if(authController.userSelectedAddressType.value==  AuthController.newAddressEntry)
-                              {
-                                if(_diffAddressFormKey.currentState!.validate())
-                                {
-                                  Fluttertoast.showToast(msg: "new address all validate");
-
-                                }
-                              }
-
-
-
-
-
-
-
+                            if (authController.isUserLoggedIn.value == false) {
+                              Get.toNamed(AppRoutes.loginPath);
+                            } else {
+                              (authController.sliderButtonNumber.value == 0)
+                                  ? authController.validateAddressBook()
+                                  : authController.validateDifferentAddress();
+                            }
                           },
                           child: const Text(
                             'Confirm Order',
@@ -362,10 +342,9 @@ class CartPage extends GetView<CommonController> {
             ));
   }
 
-  Widget newAddressSection() {
-    authController.userSelectedAddressType.value=AuthController.newAddressEntry;
+  Widget differentAddressSection() {
     return Form(
-      key: _diffAddressFormKey,
+      key: authController.diffAddressFormKey,
       child: Column(
         children: [
           const Gap(20),
@@ -444,8 +423,6 @@ class CartPage extends GetView<CommonController> {
   }
 
   Widget savedAddressSection() {
-    authController.userSelectedAddressType.value=AuthController.defaultAddressBook;
-
     return SizedBox(
         height: 200,
         child: ListView.builder(

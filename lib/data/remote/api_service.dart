@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
+import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
@@ -85,12 +86,11 @@ class ApiService {
     }
   }
 
-
   static Future<List<AddressModel>?> getUserAddresses(String token) async {
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
-      'Authorization':token,
+      'Authorization': token,
     };
 
     try {
@@ -159,7 +159,9 @@ class ApiService {
     };
     //todo: need to fix this easy loading and dialogue issue
 
-    EasyLoading.show(status: 'loading...',);
+    EasyLoading.show(
+      status: 'loading...',
+    );
     try {
       final url = Uri.parse(baseUrl + loginUrl);
       var response = await http.post(url,
@@ -181,7 +183,7 @@ class ApiService {
       debugPrint(e.toString());
       debugPrint(st.toString());
       EasyLoading.dismiss();
-      EasyLoading.showError( 'error: ${e.toString()}');
+      EasyLoading.showError('error: ${e.toString()}');
 
       // debugPrint(e());
     }
@@ -247,7 +249,9 @@ class ApiService {
       'charset': 'utf-8',
     };
 
-    EasyLoading.show(status: 'loading...',);
+    EasyLoading.show(
+      status: 'loading...',
+    );
 
     try {
       final url = Uri.parse(baseUrl + resetPassUrl);
@@ -255,7 +259,6 @@ class ApiService {
           headers: headers,
           body: json.encode({
             "email": phone,
-
           }));
 
       if (response.statusCode == HttpStatus.ok) {
@@ -273,13 +276,54 @@ class ApiService {
       debugPrint(e.toString());
       debugPrint(st.toString());
       // EasyLoading.dismiss();
-      EasyLoading.showToast( 'error: ${e.toString()}');
+      EasyLoading.showToast('error: ${e.toString()}');
 
       // debugPrint(e());
     }
 
+    return null;
+  }
 
+  static Future<String?> postOrder({
+    required String token,
+    required OrderModel order,
+  }) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'Authorization': token,
+    };
 
+    EasyLoading.show(
+      status: 'loading...',
+    );
+
+    try {
+      final url = Uri.parse(baseUrl + orderUrl);
+      var response = await http.post(url,
+          headers: headers, body: json.encode(order.toJson()));
+
+      if (response.statusCode == HttpStatus.created) {
+        var data = json.decode(response.body);
+
+        String message = data['message'] as String;
+        EasyLoading.dismiss();
+        Fluttertoast.showToast(msg: message);
+
+        return message;
+      } else {
+        EasyLoading.showError(response.body);
+
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      // EasyLoading.dismiss();
+      EasyLoading.showToast('error: ${e.toString()}');
+
+      // debugPrint(e());
+    }
 
     return null;
   }

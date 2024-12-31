@@ -1,41 +1,42 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../widgets/custom_appbar.dart';
+import 'package:get/get.dart';
+
+import 'auth/auth_controller.dart';
+
 class TestPage extends StatelessWidget {
-  const TestPage({super.key});
+  TestPage({super.key});
+
+  RxInt sliderButtonNumber = 0.obs;
+  AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.deepPurple.shade100,body: SafeArea(child:
+    return Scaffold(
+      backgroundColor: Colors.deepPurple.shade100,
+      body: SafeArea(
+          child: Obx((){return
 
-        CustomScrollView(slivers: [
+            CupertinoSlidingSegmentedControl(
+            children: const {
+              0: Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Text('Saved Address'),
+              ),
+              1: Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Text('Different Address'),
+              ),
+            },
+            onValueChanged: (newButtonNumber) {
+              if (newButtonNumber != null) {
+                sliderButtonNumber.value = newButtonNumber;
+              }
+            },
+            groupValue: sliderButtonNumber.value,
+          ); })
 
-          SliverAppBar(
-          backgroundColor: Colors.deepPurple,
-          leading: Icon(Icons.menu),
-          title: Text('Farmingo'),
-          flexibleSpace: FlexibleSpaceBar(background:   CustomAppbar()),
-          expandedHeight: 150,
-            floating: false,
-            pinned: true,
-
-
-
-        ),
-
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),),
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),),
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),),
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),),
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),),
-          // SliverToBoxAdapter(child: const CategoryListSection(title: 'Vegetables (সবজি)',),)
-
-          // const CategoryListSection(title:'Leafy Green(শাক)' ,),
-          // const CategoryListSection(title:'Dry vegetables (শুকনো সবজি)' ,),
-          // const CategoryListSection(title:'Dry vegetables (শুকনো সবজি)' ,),
-
-        ],)
-
-
-    ),);
+    ),
+    );
   }
 }

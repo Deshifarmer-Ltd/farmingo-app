@@ -1,5 +1,7 @@
 import 'package:farmingo/app/auth/user_model.dart';
+import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
+import 'package:farmingo/app/home/common_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../../common/conts_data.dart';
@@ -7,9 +9,8 @@ import '../../common/shred_pref.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
+  RxInt sliderButtonNumber = 0.obs; // saved address=0 & new Address =1
 
-  static const String defaultAddressBook = "addressBook";
-  static const String newAddressEntry = "newAddress";
   //login fields
   TextEditingController loginPassword = TextEditingController();
   TextEditingController loginNameOrEmail = TextEditingController();
@@ -31,13 +32,13 @@ class AuthController extends GetxController {
 
   RxBool isPassObscure = true.obs;
   RxList<AddressModel> addressList = <AddressModel>[].obs;
-  RxString userSelectedAddressType = ''.obs;
-  Rxn<AddressModel> selectedAddress=Rxn<AddressModel>();
+  Rxn<AddressModel> selectedAddress = Rxn<AddressModel>();
 
   Rxn<UserModel> user = Rxn<UserModel>();
   RxString userName = ''.obs;
   RxBool isUserLoggedIn = false.obs;
 
+  final diffAddressFormKey = GlobalKey<FormState>();
 
   Future<bool> doLogin() async {
     user.value = await ApiService.postLogin(
@@ -45,7 +46,7 @@ class AuthController extends GetxController {
 
     if (user.value != null) {
       setFirstLetterOfName(user.value!.name);
-      isUserLoggedIn.value=true;
+      isUserLoggedIn.value = true;
       fetchUserAddress();
       saveUserCredToPref();
 
@@ -96,6 +97,48 @@ class AuthController extends GetxController {
         .trim()[0]
         .toUpperCase(); // Take the first character and convert it to uppercase
   }
+
+  //region Order related method
+
+  void validateDifferentAddress() {
+    if (diffAddressFormKey.currentState!.validate()) {
+      postUserOrder(
+          deliveryInfo: DeliveryInfo(
+              name: diffName.text,
+              address: diffAddress.text,
+              phone: diffPhone.text));
+    }
+  }
+
+  void validateAddressBook() {
+    if (selectedAddress.value!=null) {
+      postUserOrder(addressId: selectedAddress.value!.id);
+    }
+  }
+
+  void postUserOrder({ DeliveryInfo? deliveryInfo, int? addressId}) async {
+    CommonController commonController = Get.find<CommonController>();
+
+    List<Product> orderProducts = [];
+
+    for (var model in commonController.cartItemList) {
+      Product p =
+          Product(productId: model.product.id, quantity: model.count.value);
+      orderProducts.add(p);
+    }
+
+    OrderModel orderModel = OrderModel(
+        //todo: zone id need to dynamic
+        zoneId: 1,
+        products: orderProducts,
+        deliveryAddressId: addressId,
+        deliveryCharge: 50,
+        deliveryInfo: deliveryInfo);
+
+    String? message = await ApiService.postOrder(
+        token: SharedPrefs().getString(token) ?? '', order: orderModel);
+  }
+  //endregion
 
   void saveUserCredToPref() {
     SharedPrefs().saveInt(loginUserId, user.value!.id);
