@@ -116,7 +116,6 @@ class RegistrationPage extends GetView<AuthController> {
                             Icons.home_work_outlined,
                           ),
                           labelText: "Address",
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
                           hintText: 'Enter your  address here',
                         ),
                         validator: (value) {

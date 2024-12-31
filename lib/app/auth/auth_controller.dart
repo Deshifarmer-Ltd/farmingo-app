@@ -7,6 +7,9 @@ import '../../common/shred_pref.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
+
+  static const String defaultAddressBook = "addressBook";
+  static const String newAddressEntry = "newAddress";
   //login fields
   TextEditingController loginPassword = TextEditingController();
   TextEditingController loginNameOrEmail = TextEditingController();
@@ -21,14 +24,18 @@ class AuthController extends GetxController {
   //reset password fields
   TextEditingController resetPhoneNumber = TextEditingController();
 
+  //different address/name/phone number fields
+  TextEditingController diffName = TextEditingController();
+  TextEditingController diffPhone = TextEditingController();
+  TextEditingController diffAddress = TextEditingController();
+
   RxBool isPassObscure = true.obs;
   RxList<AddressModel> addressList = <AddressModel>[].obs;
+  RxString userSelectedAddressType = ''.obs;
   Rxn<AddressModel> selectedAddress=Rxn<AddressModel>();
-  // RxInt selectedAddress=0.obs;
 
   Rxn<UserModel> user = Rxn<UserModel>();
   RxString userName = ''.obs;
-  RxBool isLoginPage = true.obs;
   RxBool isUserLoggedIn = false.obs;
 
 

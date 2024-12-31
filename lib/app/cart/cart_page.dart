@@ -12,10 +12,9 @@ class CartPage extends GetView<CommonController> {
   CartPage({super.key});
 
   RxInt totalPriceWithDeliveryCharge = 0.obs;
-  final formKey = GlobalKey<FormState>();
+  final _diffAddressFormKey = GlobalKey<FormState>();
   AuthController authController = Get.find<AuthController>();
 
-  // todo: saved address or new address
   //todo: after order placed remove cart item.
 
   @override
@@ -270,196 +269,191 @@ class CartPage extends GetView<CommonController> {
                 insetPadding: const EdgeInsets.all(10),
                 content: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  child: Form(
-                    key: formKey,
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Container(
-                        color: Colors.green.shade200,
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(
-                              child: Text(
-                            'Delivery Information',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                        ),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      color: Colors.green.shade200,
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                            child: Text(
+                          'Delivery Information',
+                          style: TextStyle(color: Colors.white),
+                        )),
                       ),
+                    ),
 
-//todo: Instead of using ToggleButton must try Segmented Button
+                  //todo: Instead of using ToggleButton must try Segmented Button
 
-                      Obx(() {
-                        return authController.addressList.isNotEmpty
-                            ? ToggleButtons(
-                                disabledColor: Colors.red,
-                                borderWidth: 1.5,
-                                fillColor: Colors.green.shade200,
-                                selectedColor: Colors.white,
-                                selectedBorderColor: Colors.green,
-                                borderRadius: BorderRadius.circular(1.5),
-                                onPressed: (index) {
-                                  controller.addressOption[0] =
-                                      !controller.addressOption[0];
-                                  controller.addressOption[1] =
-                                      !controller.addressOption[1];
-                                },
-                                isSelected: controller.addressOption,
-                                children: const [
-                                    Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Text('Saved Address'),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(4.0),
-                                      child: Text('Different Address'),
-                                    ),
-                                  ])
-                            : const SizedBox();
-                      }),
-                      Obx(() {
-                        return authController.addressList.isEmpty
-                            ? newAddressSection()
-                            : controller.addressOption[0]
-                                ? savedAddressSection() // saved address book
-                                : newAddressSection();
-                      }),
+                    Obx(() {
+                      return authController.addressList.isNotEmpty
+                          ? ToggleButtons(
+                              disabledColor: Colors.red,
+                              borderWidth: 1.5,
+                              fillColor: Colors.green.shade200,
+                              selectedColor: Colors.white,
+                              selectedBorderColor: Colors.green,
+                              borderRadius: BorderRadius.circular(1.5),
+                              onPressed: (index) {
+                                controller.addressOption[0] =
+                                    !controller.addressOption[0];
+                                controller.addressOption[1] =
+                                    !controller.addressOption[1];
+                              },
+                              isSelected: controller.addressOption,
+                              children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: Text('Saved Address'),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: Text('Different Address'),
+                                  ),
+                                ])
+                          : const SizedBox();
+                    }),
+                    Obx(() {
+                      return authController.addressList.isEmpty
+                          ? newAddressSection()
+                          : controller.addressOption[0]
+                              ? savedAddressSection() // saved address book
+                              : newAddressSection();
+                    }),
 
-                      Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                Fluttertoast.showToast(msg: "All validate");
+                    Padding(
+                        padding:  const EdgeInsets.only(right: 12.0),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            //login is must so no need to check if login or not
+
+                            if(authController.userSelectedAddressType.value==  AuthController.defaultAddressBook)
+                              {
+                                if (authController.selectedAddress.value==null) {
+                                  Fluttertoast.showToast(msg: "All validate");
+                                }
+
                               }
-                            },
-                            child: const Text(
-                              'Confirm Order',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                            if(authController.userSelectedAddressType.value==  AuthController.newAddressEntry)
+                              {
+                                if(_diffAddressFormKey.currentState!.validate())
+                                {
+                                  Fluttertoast.showToast(msg: "new address all validate");
+
+                                }
+                              }
+
+
+
+
+
+
+
+                          },
+                          child: const Text(
+                            'Confirm Order',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
-                          )),
-                    ]),
-                  ),
+                          ),
+                        )),
+                  ]),
                 ),
               ),
             ));
   }
 
-  Column newAddressSection() {
-    return Column(
-      children: [
-        const Gap(20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: TextFormField(
-            maxLines: 1,
-            controller: null,
-            keyboardType: TextInputType.name,
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              fillColor: Colors.white,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              errorBorder: MStyle.formErrorBorder,
-              label: const Text("Name"),
-              hintText: 'Your name here',
-              hintStyle: MStyle.hintStyle,
-              focusedBorder: MStyle.formFocusBorder,
-              enabledBorder: MStyle.formEnableBorder,
-              focusedErrorBorder: MStyle.formErrorBorder,
+  Widget newAddressSection() {
+    authController.userSelectedAddressType.value=AuthController.newAddressEntry;
+    return Form(
+      key: _diffAddressFormKey,
+      child: Column(
+        children: [
+          const Gap(20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: TextFormField(
+              maxLines: 1,
+              controller: authController.diffName,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                label: Text("Name"),
+                hintText: 'Your name here',
+              ),
+              validator: (value) {
+                if (value == null) {
+                  return "Name is required";
+                } else if (value == "") {
+                  return "Name is required";
+                } else {
+                  return null;
+                }
+              },
             ),
-            validator: (value) {
-              if (value == null) {
-                return "Name is required";
-              } else if (value == "") {
-                return "Name is required";
-              } else {
-                return null;
-              }
-            },
           ),
-        ),
-        const Gap(20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: TextFormField(
-            maxLines: 1,
-            maxLength: 11,
-            controller: null,
-            keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              fillColor: Colors.white,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              errorBorder: MStyle.formErrorBorder,
-              label: const Text("Phone Number"),
-              hintText: 'Your contact number here',
-              hintStyle: MStyle.hintStyle,
-              focusedBorder: MStyle.formFocusBorder,
-              enabledBorder: MStyle.formEnableBorder,
-              focusedErrorBorder: MStyle.formErrorBorder,
+          const Gap(20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: TextFormField(
+              maxLines: 1,
+              maxLength: 11,
+              controller: authController.diffPhone,
+              keyboardType: TextInputType.phone,
+              decoration: const InputDecoration(
+                label: Text("Phone Number"),
+                hintText: 'Your contact number here',
+              ),
+              validator: (value) {
+                RegExp regExp = RegExp(r'^01[3-9]\d{8}$');
+                if (value == null) {
+                  return "Phone number is required";
+                } else if (regExp.hasMatch(value)) {
+                  return null;
+                } else {
+                  return 'Invalid phone number format';
+                }
+              },
             ),
-            validator: (value) {
-              RegExp regExp = RegExp(r'^01[3-9]\d{8}$');
-              if (value == null) {
-                return "Phone number is required";
-              } else if (regExp.hasMatch(value)) {
-                return null;
-              } else {
-                return 'Invalid phone number format';
-              }
-            },
           ),
-        ),
-        const Gap(20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: TextFormField(
-            maxLines: 3,
-            //todo: controller need to dynamic
-            controller: null,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              fillColor: Colors.white,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              errorBorder: MStyle.formErrorBorder,
-              label: const Text("Delivery Address"),
-              hintText: 'House/flat number, neighborhood name, area of contact',
-              hintStyle: MStyle.hintStyle,
-              focusedBorder: MStyle.formFocusBorder,
-              enabledBorder: MStyle.formEnableBorder,
-              focusedErrorBorder: MStyle.formErrorBorder,
+          const Gap(20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: TextFormField(
+              maxLines: 3,
+              controller: authController.diffAddress,
+              keyboardType: TextInputType.streetAddress,
+              decoration: const InputDecoration(
+                label: Text("Delivery Address"),
+                hintText:
+                    'House/flat number, neighborhood name, area of contact',
+              ),
+              validator: (value) {
+                if (value == null) {
+                  return "Address is required";
+                } else if (value == "") {
+                  return "Address is required";
+                } else {
+                  return null;
+                }
+              },
             ),
-            validator: (value) {
-              if (value == null) {
-                return "Address is required";
-              } else if (value == "") {
-                return "Address is required";
-              } else {
-                return null;
-              }
-            },
           ),
-        ),
-        const Gap(16),
-      ],
+          const Gap(16),
+        ],
+      ),
     );
   }
 
   Widget savedAddressSection() {
+    authController.userSelectedAddressType.value=AuthController.defaultAddressBook;
 
     return SizedBox(
         height: 200,
-        child:
-        ListView.builder(
-            itemBuilder: (ctx, i) {
-              AddressModel model = authController.addressList.elementAt(i);
-              print("again" + model.receiverPhone);
+        child: ListView.builder(
+          itemBuilder: (ctx, i) {
+            AddressModel model = authController.addressList.elementAt(i);
 
-              return Obx((){ return RadioListTile(
+            return Obx(() {
+              return RadioListTile(
                 title: Text(model.receiverName),
                 isThreeLine: true,
                 subtitle: Column(
@@ -473,15 +467,14 @@ class CartPage extends GetView<CommonController> {
                 onChanged: (newAddress) {
                   if (newAddress != null) {
                     authController.selectedAddress.value = newAddress;
-                    // print('this adre..${newAddress.receiverPhone}');
                   }
                 },
                 groupValue: authController.selectedAddress.value,
-              );}) ;
-            },
-            shrinkWrap: true,
-            itemCount: authController.addressList.length,
-          )
-       );
+              );
+            });
+          },
+          shrinkWrap: true,
+          itemCount: authController.addressList.length,
+        ));
   }
 }
