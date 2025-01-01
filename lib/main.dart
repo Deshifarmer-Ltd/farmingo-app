@@ -14,18 +14,20 @@ void main()async {
   configLoading();
 
 
-  //todo: controller need to dynamic for confirm order popup
-  //todo: order page dynamic
-  //todo: order page API
+  //todo:-------------------------------------> order page table add
+  //todo:-------------------------------------> logout
 
-  //todo: need to add zone
-
-  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
 
   //todo: network connectivity
   //todo: search
-  //todo: order page table add
+
+
+  //todo:---> need to add zone
+
+  //todo:---> LogOut
+
+  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
 
 

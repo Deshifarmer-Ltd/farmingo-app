@@ -11,7 +11,6 @@ class CartItemModel{
 
   @override
   String toString() {
-    // TODO: implement toString
     return 'name: ${product.name} count: ${count.value}';
   }
 

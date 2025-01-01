@@ -19,7 +19,7 @@ class CustomAppbar extends GetView<CommonController> {
               ? IconButton(
                   onPressed: () {
                     // Navigator.push(context, MaterialPageRoute(builder: (_)=>TestPage()));
-
+controller.fetchUserOrderHistory();
                     Get.toNamed(AppRoutes.loginPath);
                   },
                   icon: const Icon(
@@ -33,7 +33,13 @@ class CustomAppbar extends GetView<CommonController> {
 //todo: need this menu dynamic
             return [
               // const PopupMenuItem(child: Text('Profile')),
-              const PopupMenuItem(child: Text('Order')),
+               PopupMenuItem(child: Text('Order'),onTap: (){
+
+                 Get.toNamed(AppRoutes.orderHistoryPath);
+
+
+
+               },),
               const PopupMenuItem(child: Text('Logout')),
 
 

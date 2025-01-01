@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/app/home/cart_item_model.dart';
 import 'package:farmingo/data/remote/api_service.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
@@ -15,6 +16,7 @@ class CommonController extends GetxController {
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
   RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
+  RxList<OrderHistoryModel> orderHistoryList = <OrderHistoryModel>[].obs;
 
   @override
   void onInit() {
@@ -43,6 +45,9 @@ class CommonController extends GetxController {
     selectedAllProductList.assignAll(items ?? []);
     // categoryProducts.assignAll(items ?? []);
   }
+
+
+
 
   Future<bool> checkInternet() async {
     final connectivityResult = await Connectivity().checkConnectivity();
@@ -74,6 +79,14 @@ class CommonController extends GetxController {
 
 
   }
+
+
+  fetchUserOrderHistory() async {
+    var items = await ApiService.getUserOrderHistory(SharedPrefs().getString(token) ?? '');
+    orderHistoryList.assignAll(items ?? []);
+  }
+
+
 
 
 

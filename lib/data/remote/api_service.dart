@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
+import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -23,6 +24,7 @@ class ApiService {
   static String registerUrl = '/signup';
   static String orderUrl = '/consumer/order';
   static String resetPassUrl = '/password/reset-request';
+  static String userOrderHistoryUrl = '/consumer/my_orders';
 
   static Future<List<CategoryModel>?> getCategories() async {
     final headers = {
@@ -327,4 +329,42 @@ class ApiService {
 
     return null;
   }
+
+
+
+  static Future<List<OrderHistoryModel>?> getUserOrderHistory(String token) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'Authorization': token,
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$userOrderHistoryUrl');
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<OrderHistoryModel> items = jsonList
+            .map<OrderHistoryModel>((jsonItem) => OrderHistoryModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      return null;
+    }
+  }
+
+
+
+
 }

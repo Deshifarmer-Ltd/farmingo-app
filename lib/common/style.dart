@@ -39,6 +39,8 @@ class MStyle {
       fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white);
   static TextStyle headerStyle = const TextStyle(
       fontSize: 10.0, fontWeight: FontWeight.w400, color: Color(0xff6C727F));
+  static TextStyle value0Style = const TextStyle(
+      fontSize: 10.0, fontWeight: FontWeight.w400, color: Colors.black);
   static TextStyle value1Style = const TextStyle(
       fontSize: 11.0, fontWeight: FontWeight.w400, color: Colors.black);
 
