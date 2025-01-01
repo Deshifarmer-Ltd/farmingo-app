@@ -1,6 +1,6 @@
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
-import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/common_controller.dart';
 import 'package:farmingo/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

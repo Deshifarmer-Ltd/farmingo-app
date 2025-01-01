@@ -1,7 +1,7 @@
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
-import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/common_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../../common/conts_data.dart';
@@ -47,8 +47,8 @@ class AuthController extends GetxController {
     if (user.value != null) {
       setFirstLetterOfName(user.value!.name);
       isUserLoggedIn.value = true;
-      fetchUserAddress();
       saveUserCredToPref();
+      fetchUserAddress();
 
       return true;
     } else {
@@ -111,12 +111,12 @@ class AuthController extends GetxController {
   }
 
   void validateAddressBook() {
-    if (selectedAddress.value!=null) {
+    if (selectedAddress.value != null) {
       postUserOrder(addressId: selectedAddress.value!.id);
     }
   }
 
-  void postUserOrder({ DeliveryInfo? deliveryInfo, int? addressId}) async {
+  void postUserOrder({DeliveryInfo? deliveryInfo, int? addressId}) async {
     CommonController commonController = Get.find<CommonController>();
 
     List<Product> orderProducts = [];
@@ -138,6 +138,7 @@ class AuthController extends GetxController {
     String? message = await ApiService.postOrder(
         token: SharedPrefs().getString(token) ?? '', order: orderModel);
   }
+
   //endregion
 
   void saveUserCredToPref() {
@@ -145,6 +146,12 @@ class AuthController extends GetxController {
     SharedPrefs().saveString(loginUserName, user.value!.name);
     SharedPrefs().saveString(loginUserEmail, user.value!.email);
     SharedPrefs().saveString(token, 'Bearer ${user.value!.token}');
-    SharedPrefs().saveBool(isLoggedIn, true);
+  }
+
+
+  void clearUserCredFromPref() {
+    SharedPrefs().clear();
+    user.value = null;
+    isUserLoggedIn.value = false;
   }
 }

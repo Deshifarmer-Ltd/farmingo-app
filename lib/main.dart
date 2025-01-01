@@ -14,8 +14,11 @@ void main()async {
   configLoading();
 
 
-  //todo:-------------------------------------> order page table add
-  //todo:-------------------------------------> logout
+  //todo:--> order page details
+  //todo:-------------------------------------> logout assure msg
+
+
+  //todo: images are loading again and again shows in flutter dev tools
 
 
 

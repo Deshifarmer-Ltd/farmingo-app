@@ -1,5 +1,5 @@
 import 'package:farmingo/app/history_order/order_history_model.dart';
-import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';

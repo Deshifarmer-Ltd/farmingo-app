@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../auth/auth_controller.dart';
-import 'common_controller.dart';
+import '../../common_controller.dart';
 class HomeBindings extends Bindings {
   @override
   void dependencies() {

@@ -6,8 +6,8 @@ import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../common/conts_data.dart';
-import '../../common/shred_pref.dart';
+import 'common/conts_data.dart';
+import 'common/shred_pref.dart';
 
 class CommonController extends GetxController {
   String selectedAllProductCategoryTitle = '';
@@ -37,17 +37,12 @@ class CommonController extends GetxController {
     categoryProducts.assignAll(items ?? []);
   }
 
-
-
   fetchSingleCategoryProductsById(int id) async {
     selectedAllProductList.clear();
     var items = await ApiService.getSingleCategoryProducts(id);
     selectedAllProductList.assignAll(items ?? []);
     // categoryProducts.assignAll(items ?? []);
   }
-
-
-
 
   Future<bool> checkInternet() async {
     final connectivityResult = await Connectivity().checkConnectivity();
@@ -67,19 +62,6 @@ class CommonController extends GetxController {
       return false;
     }
   }
-
-
-
-  void getUserDataCredFromPref() {
-
-    // SharedPrefs().saveInt(loginUserId, user.value!.id);
-    SharedPrefs().getString(loginUserName);
-    SharedPrefs().getString(loginUserEmail);
-    SharedPrefs().getString(loginUserPhone);
-
-
-  }
-
 
   fetchUserOrderHistory() async {
     var items = await ApiService.getUserOrderHistory(SharedPrefs().getString(token) ?? '');

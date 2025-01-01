@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../home/common_controller.dart';
+import '../../common_controller.dart';
 
 class AllProductBinding extends Bindings
 {

@@ -1,5 +1,5 @@
 import 'package:farmingo/app/home/cart_item_model.dart';
-import 'package:farmingo/app/home/common_controller.dart';
+import 'package:farmingo/common_controller.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
