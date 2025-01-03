@@ -19,6 +19,9 @@ class CommonController extends GetxController {
   RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
   RxList<OrderHistoryModel> orderHistoryList = <OrderHistoryModel>[].obs;
 
+  final TextEditingController searchCtr = TextEditingController();
+
+
   @override
   void onInit() {
     super.onInit();

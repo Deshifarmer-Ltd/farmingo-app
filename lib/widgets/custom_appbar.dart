@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
+import 'package:farmingo/common/style.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,18 +14,43 @@ class CustomAppbar extends GetView<CommonController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Row(
-        children: [
-          authCtr.user.value == null
-              ? IconButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.loginPath);
-                  },
-                  icon: const Icon(
-                    Icons.person_2_outlined,
-                  ))
-              : PopupMenuButton(
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+                height: 40,
+                width: 80,
+                child: Image.asset('assets/images/app_title.png')),
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(AppRoutes.searchPath);
+                },
+                icon: Icon(Icons.search_rounded)),
+            Container(
+              child: Row(
+                children: [
+                  Icon(Icons.location_on_outlined),
+                  Text(
+                    'Basundhara',
+                    style: MStyle.value1Style,
+                  )
+                ],
+              ),
+            ),
+            Obx((){
+             return authCtr.user.value == null
+                  ? GestureDetector(
+                onTap: () {
+                  Get.toNamed(AppRoutes.loginPath);
+                },
+                child: Icon(
+                  Icons.person_2_outlined,
+                ),
+              )
+                  : PopupMenuButton(
                   icon: CircleAvatar(
                     backgroundColor: Colors.green,
                     child: Text(
@@ -61,49 +87,26 @@ class CustomAppbar extends GetView<CommonController> {
                         },
                       ),
                     ];
-                  }),
-          Expanded(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * (1 / 15),
-              child:  Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.0),
-                child: SearchBar(
-                  onTap: (){
-
-                    Get.toNamed(AppRoutes.searchPath);
-
-                  },
-                  onChanged: (query){
-
-                    controller.fetchSearchProducts(query);
+                  });
 
 
-                  },
-                  hintText: 'Search your fresh vegetables',
-                  trailing: [Icon(Icons.search_rounded)],
+            }),
+
+            Obx(() {
+              return GestureDetector(
+                onTap: (){Get.toNamed(AppRoutes.cartPath);},
+                child: Badge.count(
+                  count: controller.cartItemList.length,
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Colors.green,
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Badge(
-              label: Obx(() {
-                return Text(controller.cartItemList.length.toString());
-              }),
-              child: IconButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.cartPath);
-                },
-                icon: const Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-          ),
-        ],
+              );
+            }),
+          ],
+        ),
       );
-    });
+
   }
 }

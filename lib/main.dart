@@ -16,15 +16,18 @@ void main()async {
 
   //todo:--> order page details
 
+  //todo: --> keep user login until logout
+
+  //todo:  landscape off
+
 
   //todo: images are loading again and again shows in flutter dev tools
 
 
 
   //todo: network connectivity
-  //todo: search
 
-  //todo:---> need to add zone
+  //todo:------------> need to add zone
 
   //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
