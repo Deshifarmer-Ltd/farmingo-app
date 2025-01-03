@@ -62,8 +62,7 @@ class AuthController extends GetxController {
       email: regEmail.text,
       phone: regPhone.text,
       password: regPass.text,
-      zoneId: 1,
-      //todo:zone id need to set dynamic
+      zoneId: SharedPrefs().getInt(zoneId)??1,
       address: regAddress.text,
     );
 
@@ -128,8 +127,7 @@ class AuthController extends GetxController {
     }
 
     OrderModel orderModel = OrderModel(
-        //todo: zone id need to dynamic
-        zoneId: 1,
+        zoneId: SharedPrefs().getInt(zoneId)??1,
         products: orderProducts,
         deliveryAddressId: addressId,
         deliveryCharge: 50,

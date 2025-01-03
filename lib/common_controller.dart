@@ -24,13 +24,18 @@ class CommonController extends GetxController {
 
   final TextEditingController searchCtr = TextEditingController();
 
-
   @override
   void onInit() {
     super.onInit();
     fetchZone();
     fetchCategories();
     fetchCategoryProducts();
+
+    selectedZone.listen((model) {
+      if (model != null) {
+        SharedPrefs().saveInt(zoneId, model.id);
+      }
+    });
   }
 
   fetchCategories() async {
@@ -41,7 +46,19 @@ class CommonController extends GetxController {
 
   fetchZone() async {
     // checkInternet();
+    int zone = SharedPrefs().getInt(zoneId) ?? 0;
     var items = await ApiService.getZones();
+    if (items != null && zone > 0) {
+      for (var i in items) {
+        if (zone == i.id) {
+          selectedZone.value = i;
+          break;
+        }
+      }
+    }
+    if(items!=null&&zone==0){
+      //todo: need to open zone dialouge
+    }
     zoneModels.assignAll(items ?? []);
   }
 

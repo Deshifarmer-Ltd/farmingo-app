@@ -6,5 +6,4 @@ const String loginUserPhone = "loginUserPhone";
 const String loginUserAddress = "loginUserAddress";
 const String token = "token";
 
- const String defaultAddressBook = "addressBook";
- const String newAddressEntry = "newAddress";
+ const String zoneId = "zoneId";

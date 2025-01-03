@@ -27,7 +27,6 @@ void main()async {
 
   //todo: network connectivity
 
-  //todo:------------> need to add zone
 
   //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
