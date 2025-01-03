@@ -65,9 +65,20 @@ class CustomAppbar extends GetView<CommonController> {
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height * (1 / 15),
-              child: const Padding(
+              child:  Padding(
                 padding: EdgeInsets.symmetric(vertical: 2.0),
                 child: SearchBar(
+                  onTap: (){
+
+                    Get.toNamed(AppRoutes.searchPath);
+
+                  },
+                  onChanged: (query){
+
+                    controller.fetchSearchProducts(query);
+
+
+                  },
                   hintText: 'Search your fresh vegetables',
                   trailing: [Icon(Icons.search_rounded)],
                 ),

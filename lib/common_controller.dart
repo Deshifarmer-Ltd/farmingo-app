@@ -12,6 +12,7 @@ import 'common/shred_pref.dart';
 class CommonController extends GetxController {
   String selectedAllProductCategoryTitle = '';
   RxList<ProductModel> selectedAllProductList = <ProductModel>[].obs;
+  RxList<ProductModel> searchedProductList = <ProductModel>[].obs;
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
@@ -23,7 +24,6 @@ class CommonController extends GetxController {
     super.onInit();
     fetchCategories();
     fetchCategoryProducts();
-
   }
 
   fetchCategories() async {
@@ -64,12 +64,13 @@ class CommonController extends GetxController {
   }
 
   fetchUserOrderHistory() async {
-    var items = await ApiService.getUserOrderHistory(SharedPrefs().getString(token) ?? '');
+    var items = await ApiService.getUserOrderHistory(
+        SharedPrefs().getString(token) ?? '');
     orderHistoryList.assignAll(items ?? []);
   }
 
-
-
-
-
+  fetchSearchProducts(String name) async {
+    var items = await ApiService.getSearchedProducts(name);
+    searchedProductList.assignAll(items ?? []);
+  }
 }

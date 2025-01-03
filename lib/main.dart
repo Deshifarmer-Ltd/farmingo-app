@@ -15,7 +15,6 @@ void main()async {
 
 
   //todo:--> order page details
-  //todo:-------------------------------------> logout assure msg
 
 
   //todo: images are loading again and again shows in flutter dev tools
@@ -25,10 +24,7 @@ void main()async {
   //todo: network connectivity
   //todo: search
 
-
   //todo:---> need to add zone
-
-  //todo:---> LogOut
 
   //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 

@@ -18,6 +18,7 @@ class ApiService {
 
   static String categoryUrl = '/categories';
   static String categoryProductsUrl = '/category_products';
+  static String searchProductsUrl = '/search';
   static String singleCategoryProductsUrl = '/category_products';
   static String loginUrl = '/login';
   static String userAddressUrl = '/consumer/my_address_book';
@@ -363,6 +364,43 @@ class ApiService {
       return null;
     }
   }
+
+
+
+  static Future<List<ProductModel>?> getSearchedProducts(String userInput) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+    final query = {'name': userInput, };
+
+
+
+    try {
+      final url = Uri.parse('$baseUrl$searchProductsUrl').replace(queryParameters:query );
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<ProductModel> items = jsonList
+            .map<ProductModel>((jsonItem) => ProductModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      return null;
+      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+    }
+  }
+
 
 
 
