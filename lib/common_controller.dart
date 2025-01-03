@@ -3,6 +3,7 @@ import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/app/home/cart_item_model.dart';
 import 'package:farmingo/data/remote/api_service.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
+import 'package:farmingo/data/remote/model/zone_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,8 @@ class CommonController extends GetxController {
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
   RxList<ItemModel> categoryProducts = <ItemModel>[].obs;
+  RxList<ZoneModel> zoneModels = <ZoneModel>[].obs;
+  Rxn<ZoneModel> selectedZone = Rxn<ZoneModel>();
   RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
   RxList<OrderHistoryModel> orderHistoryList = <OrderHistoryModel>[].obs;
 
@@ -25,6 +28,7 @@ class CommonController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchZone();
     fetchCategories();
     fetchCategoryProducts();
   }
@@ -33,6 +37,12 @@ class CommonController extends GetxController {
     // checkInternet();
     var items = await ApiService.getCategories();
     categories.assignAll(items ?? []);
+  }
+
+  fetchZone() async {
+    // checkInternet();
+    var items = await ApiService.getZones();
+    zoneModels.assignAll(items ?? []);
   }
 
   fetchCategoryProducts() async {

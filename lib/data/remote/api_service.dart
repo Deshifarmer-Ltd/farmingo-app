@@ -5,6 +5,7 @@ import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
+import 'package:farmingo/data/remote/model/zone_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +20,7 @@ class ApiService {
   static String categoryUrl = '/categories';
   static String categoryProductsUrl = '/category_products';
   static String searchProductsUrl = '/search';
+  static String zoneUrl = '/zones';
   static String singleCategoryProductsUrl = '/category_products';
   static String loginUrl = '/login';
   static String userAddressUrl = '/consumer/my_address_book';
@@ -105,6 +107,38 @@ class ApiService {
 
         List<AddressModel> items = jsonList
             .map<AddressModel>((jsonItem) => AddressModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        Fluttertoast.showToast(
+            msg: ' Error: ${response.statusCode} ${response.body}');
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      return null;
+    }
+  }
+
+
+  static Future<List<ZoneModel>?> getZones() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$zoneUrl');
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<ZoneModel> items = jsonList
+            .map<ZoneModel>((jsonItem) => ZoneModel.fromJson(jsonItem))
             .toList();
 
         return items;
