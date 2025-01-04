@@ -20,9 +20,11 @@ class ForgetPassPage extends GetView<AuthController> {
               child:     Form(
                 key: _key,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.2),
                       child: Image.asset('assets/images/app_title.png'),
                     ),
                     const Gap(50),

@@ -2,20 +2,19 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/common/style.dart';
 import 'package:farmingo/common_controller.dart';
-import 'package:farmingo/data/remote/model/zone_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_popup/flutter_popup.dart';
 import 'package:get/get.dart';
 import '../app_routes.dart';
 
 class CustomAppbar extends GetView<CommonController> {
   CustomAppbar({super.key});
 
-  //todo: make hint / font size dynamic for all screen
   AuthController authCtr = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
+
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -36,38 +35,7 @@ class CustomAppbar extends GetView<CommonController> {
             return  GestureDetector(
               onTap: () {
                 if (controller.zoneModels.isNotEmpty) {
-                  showDialog(
-                    barrierDismissible: false,
-                      context: context,
-                      builder: (ctx) {
-                        return Dialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(mainAxisSize: MainAxisSize.min,children: [
-                              Text(
-                                'select a zone',
-                                style: MStyle.value1Style,
-                              ),
-                              ...List.generate(controller.zoneModels.length, (i) {
-
-                                ZoneModel model = controller.zoneModels.elementAt(i);
-
-                                return TextButton(child: Text(model.name),onPressed: (){
-
-                                  controller.selectedZone.value= model;
-                                  Navigator.pop(ctx);
-
-
-
-                                }, );
-                              })
-                            ]),
-                          ),
-                        );
-                      });
+                 controller.buildZoneDialog();
                 }
               },
               child: Container(
@@ -151,4 +119,39 @@ class CustomAppbar extends GetView<CommonController> {
       ),
     );
   }
+
+  // Future<dynamic> buildZoneDialog(BuildContext context) {
+  //   return  showDialog(
+  //                 barrierDismissible: false,
+  //                   context: context,
+  //                   builder: (ctx) {
+  //                     return Dialog(
+  //                       shape: RoundedRectangleBorder(
+  //                         borderRadius: BorderRadius.circular(12.0),
+  //                       ),
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.all(16.0),
+  //                         child: Column(mainAxisSize: MainAxisSize.min,children: [
+  //                           Text(
+  //                             'select a zone',
+  //                             style: MStyle.value1Style,
+  //                           ),
+  //                           ...List.generate(controller.zoneModels.length, (i) {
+  //
+  //                             ZoneModel model = controller.zoneModels.elementAt(i);
+  //
+  //                             return TextButton(child: Text(model.name),onPressed: (){
+  //
+  //                               controller.selectedZone.value= model;
+  //                               Navigator.pop(ctx);
+  //
+  //
+  //
+  //                             }, );
+  //                           })
+  //                         ]),
+  //                       ),
+  //                     );
+  //                   });
+  // }
 }

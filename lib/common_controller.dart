@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import 'common/conts_data.dart';
 import 'common/shred_pref.dart';
+import 'common/style.dart';
 
 class CommonController extends GetxController {
   String selectedAllProductCategoryTitle = '';
@@ -48,6 +49,9 @@ class CommonController extends GetxController {
     // checkInternet();
     int zone = SharedPrefs().getInt(zoneId) ?? 0;
     var items = await ApiService.getZones();
+    zoneModels.assignAll(items ?? []);
+
+    // if already has zoneId then set the zoneModel
     if (items != null && zone > 0) {
       for (var i in items) {
         if (zone == i.id) {
@@ -56,10 +60,10 @@ class CommonController extends GetxController {
         }
       }
     }
-    if(items!=null&&zone==0){
-      //todo: need to open zone dialouge
+    // if not set zone id then auto open dialog
+    if(items!=null&&zone==0 && Get.context!=null){
+      buildZoneDialog();
     }
-    zoneModels.assignAll(items ?? []);
   }
 
   fetchCategoryProducts() async {
@@ -103,4 +107,42 @@ class CommonController extends GetxController {
     var items = await ApiService.getSearchedProducts(name);
     searchedProductList.assignAll(items ?? []);
   }
+
+
+  Future<dynamic>? buildZoneDialog() {
+  return  Get.context!=null?
+      showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (ctx) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(mainAxisSize: MainAxisSize.min,children: [
+                Text(
+                  'select a zone',
+                  style: MStyle.value1Style,
+                ),
+                ...List.generate(zoneModels.length, (i) {
+
+                  ZoneModel model = zoneModels.elementAt(i);
+
+                  return TextButton(child: Text(model.name),onPressed: (){
+
+                    selectedZone.value= model;
+                    Navigator.pop(ctx);
+
+
+
+                  }, );
+                })
+              ]),
+            ),
+          );
+        }):null;
+  }
+
 }

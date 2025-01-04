@@ -24,6 +24,7 @@ class RegistrationPage extends GetView<AuthController> {
               child: Form(
                 key: _regFormKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -203,35 +204,28 @@ class RegistrationPage extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const Gap(30),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: const Text(
-                              "Already have an account? Sign In",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Get.toNamed(AppRoutes.forgetPassPath);
-                              },
-                              child: const Text(
-                                'Forget Password',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ],
+                    TextButton(
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.forgetPassPath);
+                        },
+                        child: const Text(
+                          'Forget Password',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold),
+                        )),
+
+                    TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: const Text(
+                        "Already have an account? Sign In",
+                        style: TextStyle(fontSize: 12),
                       ),
-                    )
+                    ),
+
                   ],
                 ),
               ),

@@ -23,15 +23,15 @@ class LoginPage extends GetView<AuthController> {
               child: Form(
                 key: _loginFormKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.2),
                       child: Image.asset('assets/images/app_title.png'),
                     ),
-                    const Gap(50),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20),
                       child: TextFormField(
                         controller: controller.loginNameOrEmail,
                         style: const TextStyle(fontSize: 22),
@@ -51,10 +51,9 @@ class LoginPage extends GetView<AuthController> {
                         },
                       ),
                     ),
-                    const Gap(20),
                     Obx(
                       () => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20),
                         child: TextFormField(
                           obscureText: controller.isPassObscure.value,
                           controller: controller.loginPassword,
@@ -91,9 +90,8 @@ class LoginPage extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const Gap(20),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20),
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height / 15,
                         width: double.infinity,
@@ -138,37 +136,33 @@ class LoginPage extends GetView<AuthController> {
                         ),
                       ),
                     ),
-                    const Gap(80),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: TextButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.forgetPassPath);
+                          },
+                          child: const Text(
+                            'Forget Password',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.registrationPath);
 
-                          TextButton(
-                            onPressed: () {
-                              Get.toNamed(AppRoutes.registrationPath);
-
-                            },
-                            child: const Text(
-                              "Don't have an account? Sign Up",
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Get.toNamed(AppRoutes.forgetPassPath);
-                              },
-                              child: const Text(
-                                'Forget Password',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ],
+                        },
+                        child: const Text(
+                          "Don't have an account? Sign Up",
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

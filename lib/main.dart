@@ -13,22 +13,15 @@ void main()async {
   runApp(const MyApp());
   configLoading();
 
-
-  //todo:--> order page details
-
+  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
+  //todo: login/reg page layout fix
+  //todo: network connectivity
   //todo: --> keep user login until logout
 
+
   //todo:  landscape off
-
-
+  //todo:--> order page details
   //todo: images are loading again and again shows in flutter dev tools
-
-
-
-  //todo: network connectivity
-
-
-  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
 
 
 
@@ -101,7 +94,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(),
       builder: EasyLoading.init(),
-      initialRoute: AppRoutes.homePath,
+      initialRoute: AppRoutes.registrationPath,
       getPages: AppRoutes.routes,
       initialBinding: HomeBindings(),
     );
