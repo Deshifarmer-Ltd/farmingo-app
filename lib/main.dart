@@ -1,6 +1,7 @@
 import 'package:farmingo/app/home/home_binding.dart';
 import 'package:farmingo/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -10,18 +11,19 @@ import 'common/shred_pref.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefs().init();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   runApp(const MyApp());
   configLoading();
 
-  //todo:----> scree util add and examine the footer of all reg/login/forget page in realme /benco mobile app
-  //todo: login/reg page layout fix
+
   //todo: network connectivity
-  //todo: --> keep user login until logout
 
 
-  //todo:  landscape off
   //todo:--> order page details
   //todo: images are loading again and again shows in flutter dev tools
+  //todo: zone dialog back bth pressed gone-> stop dismiss
 
 
 
@@ -94,7 +96,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(),
       builder: EasyLoading.init(),
-      initialRoute: AppRoutes.registrationPath,
+      initialRoute: AppRoutes.homePath,
       getPages: AppRoutes.routes,
       initialBinding: HomeBindings(),
     );

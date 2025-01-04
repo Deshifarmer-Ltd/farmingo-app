@@ -3,6 +3,7 @@ import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:farmingo/common/style.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_popup/flutter_popup.dart';
 import 'package:get/get.dart';
 import '../app_routes.dart';
 
@@ -13,8 +14,6 @@ class CustomAppbar extends GetView<CommonController> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -29,13 +28,11 @@ class CustomAppbar extends GetView<CommonController> {
                 Get.toNamed(AppRoutes.searchPath);
               },
               icon: Icon(Icons.search_rounded)),
-
-          Obx((){
-
-            return  GestureDetector(
+          Obx(() {
+            return GestureDetector(
               onTap: () {
                 if (controller.zoneModels.isNotEmpty) {
-                 controller.buildZoneDialog();
+                  controller.buildZoneDialog();
                 }
               },
               child: Container(
@@ -51,9 +48,8 @@ class CustomAppbar extends GetView<CommonController> {
               ),
             );
           }),
-
           Obx(() {
-            return authCtr.user.value == null
+            return (authCtr.isUserLoggedIn.value==false)
                 ? GestureDetector(
                     onTap: () {
                       Get.toNamed(AppRoutes.loginPath);
@@ -62,45 +58,91 @@ class CustomAppbar extends GetView<CommonController> {
                       Icons.person_2_outlined,
                     ),
                   )
-                : PopupMenuButton(
-                    icon: CircleAvatar(
-                      backgroundColor: Colors.green,
-                      child: Text(
-                        authCtr.userName.value,
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                : CustomPopup(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              controller.fetchUserOrderHistory();
+                              Get.toNamed(AppRoutes.orderHistoryPath);
+                            },
+                            child: const Text('Order')),
+
+                        TextButton(
+                            onPressed: () {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.info,
+                                animType: AnimType.rightSlide,
+                                btnOkText: 'LOGOUT',
+                                btnOkColor: Colors.red,
+                                btnCancelColor: Colors.green,
+                                title: 'Are you sure you want to log out',
+                                titleTextStyle: const TextStyle(fontSize: 16),
+                                btnCancelOnPress: () {},
+                                btnOkOnPress: () {
+                                  authCtr.clearUserCredFromPref();
+                                },
+                              ).show();
+                            },
+                            child: const Text('Logout')),
+                      ],
                     ),
-                    itemBuilder: (ctx) {
-                      return [
-                        PopupMenuItem(
-                          child: const Text('Order'),
-                          onTap: () {
-                            controller.fetchUserOrderHistory();
-                            Get.toNamed(AppRoutes.orderHistoryPath);
-                          },
-                        ),
-                        PopupMenuItem(
-                          child: const Text('Logout'),
-                          onTap: () {
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.info,
-                              animType: AnimType.rightSlide,
-                              btnOkText: 'LOGOUT',
-                              btnOkColor: Colors.red,
-                              btnCancelColor: Colors.green,
-                              title: 'Are you sure you want to log out',
-                              titleTextStyle: const TextStyle(fontSize: 16),
-                              btnCancelOnPress: () {},
-                              btnOkOnPress: () {
-                                authCtr.clearUserCredFromPref();
-                              },
-                            ).show();
-                          },
-                        ),
-                      ];
-                    });
+                    child:
+
+
+            CircleAvatar(
+                  backgroundColor: Colors.green,
+                  child: Text(
+                    authCtr.userName.value,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+
+
+
+
+            );
           }),
+          // PopupMenuButton(
+          //     icon: CircleAvatar(
+          //       backgroundColor: Colors.green,
+          //       child: Text(
+          //         authCtr.userName.value,
+          //         style: const TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //     itemBuilder: (ctx) {
+          //       return [
+          //         PopupMenuItem(
+          //           child: const Text('Order'),
+          //           onTap: () {
+          //             controller.fetchUserOrderHistory();
+          //             Get.toNamed(AppRoutes.orderHistoryPath);
+          //           },
+          //         ),
+          //         PopupMenuItem(
+          //           child: const Text('Logout'),
+          //           onTap: () {
+          //             AwesomeDialog(
+          //               context: context,
+          //               dialogType: DialogType.info,
+          //               animType: AnimType.rightSlide,
+          //               btnOkText: 'LOGOUT',
+          //               btnOkColor: Colors.red,
+          //               btnCancelColor: Colors.green,
+          //               title: 'Are you sure you want to log out',
+          //               titleTextStyle: const TextStyle(fontSize: 16),
+          //               btnCancelOnPress: () {},
+          //               btnOkOnPress: () {
+          //                 authCtr.clearUserCredFromPref();
+          //               },
+          //             ).show();
+          //           },
+          //         ),
+          //       ];
+          //     }),
           Obx(() {
             return GestureDetector(
               onTap: () {
@@ -120,38 +162,38 @@ class CustomAppbar extends GetView<CommonController> {
     );
   }
 
-  // Future<dynamic> buildZoneDialog(BuildContext context) {
-  //   return  showDialog(
-  //                 barrierDismissible: false,
-  //                   context: context,
-  //                   builder: (ctx) {
-  //                     return Dialog(
-  //                       shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.circular(12.0),
-  //                       ),
-  //                       child: Padding(
-  //                         padding: const EdgeInsets.all(16.0),
-  //                         child: Column(mainAxisSize: MainAxisSize.min,children: [
-  //                           Text(
-  //                             'select a zone',
-  //                             style: MStyle.value1Style,
-  //                           ),
-  //                           ...List.generate(controller.zoneModels.length, (i) {
-  //
-  //                             ZoneModel model = controller.zoneModels.elementAt(i);
-  //
-  //                             return TextButton(child: Text(model.name),onPressed: (){
-  //
-  //                               controller.selectedZone.value= model;
-  //                               Navigator.pop(ctx);
-  //
-  //
-  //
-  //                             }, );
-  //                           })
-  //                         ]),
-  //                       ),
-  //                     );
-  //                   });
-  // }
+// Future<dynamic> buildZoneDialog(BuildContext context) {
+//   return  showDialog(
+//                 barrierDismissible: false,
+//                   context: context,
+//                   builder: (ctx) {
+//                     return Dialog(
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(12.0),
+//                       ),
+//                       child: Padding(
+//                         padding: const EdgeInsets.all(16.0),
+//                         child: Column(mainAxisSize: MainAxisSize.min,children: [
+//                           Text(
+//                             'select a zone',
+//                             style: MStyle.value1Style,
+//                           ),
+//                           ...List.generate(controller.zoneModels.length, (i) {
+//
+//                             ZoneModel model = controller.zoneModels.elementAt(i);
+//
+//                             return TextButton(child: Text(model.name),onPressed: (){
+//
+//                               controller.selectedZone.value= model;
+//                               Navigator.pop(ctx);
+//
+//
+//
+//                             }, );
+//                           })
+//                         ]),
+//                       ),
+//                     );
+//                   });
+// }
 }

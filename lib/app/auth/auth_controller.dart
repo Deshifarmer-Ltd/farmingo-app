@@ -40,6 +40,21 @@ class AuthController extends GetxController {
 
   final diffAddressFormKey = GlobalKey<FormState>();
 
+  @override
+  void onInit() {
+    super.onInit();
+
+    isUserLoggedIn.value = SharedPrefs().getBool(isLoggedIn) ?? false;
+
+    if(isUserLoggedIn.value)
+      {
+        setFirstLetterOfName(SharedPrefs().getString(loginUserName)??'x');
+        fetchUserAddress();
+
+      }
+
+  }
+
   Future<bool> doLogin() async {
     user.value = await ApiService.postLogin(
         emailOrPhone: loginNameOrEmail.text, password: loginPassword.text);
@@ -62,7 +77,7 @@ class AuthController extends GetxController {
       email: regEmail.text,
       phone: regPhone.text,
       password: regPass.text,
-      zoneId: SharedPrefs().getInt(zoneId)??1,
+      zoneId: SharedPrefs().getInt(zoneId) ?? 1,
       address: regAddress.text,
     );
 
@@ -127,7 +142,7 @@ class AuthController extends GetxController {
     }
 
     OrderModel orderModel = OrderModel(
-        zoneId: SharedPrefs().getInt(zoneId)??1,
+        zoneId: SharedPrefs().getInt(zoneId) ?? 1,
         products: orderProducts,
         deliveryAddressId: addressId,
         deliveryCharge: 50,
@@ -141,14 +156,21 @@ class AuthController extends GetxController {
 
   void saveUserCredToPref() {
     SharedPrefs().saveInt(loginUserId, user.value!.id);
+    SharedPrefs().saveBool(isLoggedIn, true);
     SharedPrefs().saveString(loginUserName, user.value!.name);
     SharedPrefs().saveString(loginUserEmail, user.value!.email);
     SharedPrefs().saveString(token, 'Bearer ${user.value!.token}');
   }
 
-
   void clearUserCredFromPref() {
-    SharedPrefs().clear();
+  // Can not call clear method because it clear all values
+  // but App need to have zoneId
+  // for that reason key wise single remove
+    SharedPrefs().remove(loginUserId);
+    SharedPrefs().remove(isLoggedIn);
+    SharedPrefs().remove(loginUserName);
+    SharedPrefs().remove(loginUserEmail);
+    SharedPrefs().remove(token);
     user.value = null;
     isUserLoggedIn.value = false;
   }
