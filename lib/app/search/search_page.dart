@@ -58,6 +58,7 @@ class SearchPage extends GetView<CommonController> {
 
                       return ItemCard(
                         item: item,
+                        index: i,
                       );
                     },
                   )

@@ -65,12 +65,14 @@ class CustomAppbar extends GetView<CommonController> {
                         TextButton(
                             onPressed: () {
                               controller.fetchUserOrderHistory();
+                              Navigator.pop(context);
                               Get.toNamed(AppRoutes.orderHistoryPath);
                             },
                             child: const Text('Order')),
 
                         TextButton(
                             onPressed: () {
+                              Navigator.pop(context);
                               AwesomeDialog(
                                 context: context,
                                 dialogType: DialogType.info,
@@ -89,10 +91,7 @@ class CustomAppbar extends GetView<CommonController> {
                             child: const Text('Logout')),
                       ],
                     ),
-                    child:
-
-
-            CircleAvatar(
+                    child: CircleAvatar(
                   backgroundColor: Colors.green,
                   child: Text(
                     authCtr.userName.value,
@@ -105,44 +104,7 @@ class CustomAppbar extends GetView<CommonController> {
 
             );
           }),
-          // PopupMenuButton(
-          //     icon: CircleAvatar(
-          //       backgroundColor: Colors.green,
-          //       child: Text(
-          //         authCtr.userName.value,
-          //         style: const TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //     itemBuilder: (ctx) {
-          //       return [
-          //         PopupMenuItem(
-          //           child: const Text('Order'),
-          //           onTap: () {
-          //             controller.fetchUserOrderHistory();
-          //             Get.toNamed(AppRoutes.orderHistoryPath);
-          //           },
-          //         ),
-          //         PopupMenuItem(
-          //           child: const Text('Logout'),
-          //           onTap: () {
-          //             AwesomeDialog(
-          //               context: context,
-          //               dialogType: DialogType.info,
-          //               animType: AnimType.rightSlide,
-          //               btnOkText: 'LOGOUT',
-          //               btnOkColor: Colors.red,
-          //               btnCancelColor: Colors.green,
-          //               title: 'Are you sure you want to log out',
-          //               titleTextStyle: const TextStyle(fontSize: 16),
-          //               btnCancelOnPress: () {},
-          //               btnOkOnPress: () {
-          //                 authCtr.clearUserCredFromPref();
-          //               },
-          //             ).show();
-          //           },
-          //         ),
-          //       ];
-          //     }),
+
           Obx(() {
             return GestureDetector(
               onTap: () {
@@ -162,38 +124,5 @@ class CustomAppbar extends GetView<CommonController> {
     );
   }
 
-// Future<dynamic> buildZoneDialog(BuildContext context) {
-//   return  showDialog(
-//                 barrierDismissible: false,
-//                   context: context,
-//                   builder: (ctx) {
-//                     return Dialog(
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12.0),
-//                       ),
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(16.0),
-//                         child: Column(mainAxisSize: MainAxisSize.min,children: [
-//                           Text(
-//                             'select a zone',
-//                             style: MStyle.value1Style,
-//                           ),
-//                           ...List.generate(controller.zoneModels.length, (i) {
-//
-//                             ZoneModel model = controller.zoneModels.elementAt(i);
-//
-//                             return TextButton(child: Text(model.name),onPressed: (){
-//
-//                               controller.selectedZone.value= model;
-//                               Navigator.pop(ctx);
-//
-//
-//
-//                             }, );
-//                           })
-//                         ]),
-//                       ),
-//                     );
-//                   });
-// }
+
 }

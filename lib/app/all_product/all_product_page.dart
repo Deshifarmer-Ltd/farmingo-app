@@ -43,6 +43,7 @@ class AllProductPage extends GetView<CommonController> {
                   var item = controller.selectedAllProductList.elementAt(i);
 
                   return ItemCard(
+                    index: i,
                     item: item,
                   );
                 },

@@ -13,7 +13,6 @@ class CartPage extends GetView<CommonController> {
   RxInt totalPriceWithDeliveryCharge = 0.obs;
   AuthController authController = Get.find<AuthController>();
 
-  //todo: after order placed remove cart item.
 
   @override
   Widget build(BuildContext context) {
@@ -29,194 +28,195 @@ class CartPage extends GetView<CommonController> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemBuilder: (ctx, i) {
-                          var item = controller.cartItemList.elementAt(i);
+                          var cartItem = controller.cartItemList.elementAt(i);
 
-                          return Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: Colors.green.shade200,
-                                      ),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: InkWell(
-                                            onTap: () {},
+
+
+                            return  Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height:
+                                    MediaQuery.of(context).size.height * 0.2,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors.green.shade200,
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
                                             child: ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                BorderRadius.circular(8.0),
                                                 // Optional: For rounded corners
                                                 child:
-                                                    item.product.image != null
-                                                        ? Image.network(
-                                                            item.product.image!,
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : Image.asset(
-                                                            'assets/images/no_image.png',
-                                                            height: 150 - 10,
-                                                            fit: BoxFit.cover,
-                                                          )),
+                                                cartItem.product.image != null
+                                                    ? Image.network(
+                                                  cartItem.product.image!,
+                                                  fit: BoxFit.cover,
+                                                )
+                                                    : Image.asset(
+                                                  'assets/images/no_image.png',
+                                                  height: 150 - 10,
+                                                  fit: BoxFit.cover,
+                                                )),
                                           ),
-                                        ),
-                                        Expanded(
-                                            flex: 7,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(item.product.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle()),
-                                                Text(
-                                                  ' ৳ ${item.product.price.toString()} each',
-                                                  style: const TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                                Obx(() {
-                                                  return Text(
-                                                      ' Total:${item.product.weight * item.count.value} ${item.product.measurement}',
-                                                      style: const TextStyle(
-                                                          color: Colors.grey));
-                                                }),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Obx(() {
-                                                      return Text(
-                                                          ' price: ৳ ${item.product.price * item.count.value}',
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .green));
-                                                    }),
+                                          Expanded(
+                                              flex: 7,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(cartItem.product.name,
+                                                      overflow:
+                                                      TextOverflow.ellipsis,
+                                                      style: const TextStyle()),
+                                                  Text(
+                                                    ' ৳ ${cartItem.product.price.toString()} each',
+                                                    style: const TextStyle(
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Obx(() {
+                                                    return Text(
+                                                        ' Total:${cartItem.product.weight * cartItem.count.value} ${cartItem.product.measurement}',
+                                                        style: const TextStyle(
+                                                            color: Colors.grey));
+                                                  }),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Obx(() {
+                                                        return Text(
+                                                            ' price: ৳ ${cartItem.product.price * cartItem.count.value}',
+                                                            style:
+                                                            const TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                color: Colors
+                                                                    .green));
+                                                      }),
 
-                                                    // counter button
-                                                    Row(
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            if (item.count
-                                                                    .value >
-                                                                1) {
-                                                              item.count
-                                                                  .value--;
+                                                      // counter button
+                                                      Row(
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              if (cartItem.count
+                                                                  .value >
+                                                                  1) {
+                                                                cartItem.count
+                                                                    .value--;
 
+                                                                calculateTotal();
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade200,
+                                                                    borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                        Radius.circular(
+                                                                            1.5))),
+                                                                child:
+                                                                const Padding(
+                                                                  padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      6.0),
+                                                                  child: Icon(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    Icons.remove,
+                                                                    size: 16,
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                            child: Obx(() {
+                                                              return Text(cartItem
+                                                                  .count.value
+                                                                  .toString());
+                                                            }),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              cartItem.count.value++;
                                                               calculateTotal();
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade200,
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .all(
-                                                                          Radius.circular(
-                                                                              1.5))),
-                                                              child:
-                                                                  const Padding(
-                                                                padding:
-                                                                    EdgeInsets
+                                                            },
+                                                            child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .shade200,
+                                                                    borderRadius:
+                                                                    const BorderRadius
                                                                         .all(
-                                                                            6.0),
-                                                                child: Icon(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  Icons.remove,
-                                                                  size: 16,
-                                                                ),
-                                                              )),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Obx(() {
-                                                            return Text(item
-                                                                .count.value
-                                                                .toString());
-                                                          }),
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            item.count.value++;
-                                                            calculateTotal();
-                                                          },
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade200,
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .all(
-                                                                          Radius.circular(
-                                                                              1.5))),
-                                                              child:
-                                                                  const Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            6.0),
-                                                                child: Icon(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  Icons.add,
-                                                                  size: 16,
-                                                                ),
-                                                              )),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ))
-                                      ],
+                                                                        Radius.circular(
+                                                                            1.5))),
+                                                                child:
+                                                                const Padding(
+                                                                  padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                      6.0),
+                                                                  child: Icon(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    Icons.add,
+                                                                    size: 16,
+                                                                  ),
+                                                                )),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Align(
-                                  alignment: AlignmentDirectional.topEnd,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        item.count.value = 0;
-                                        controller.cartItemList.removeAt(i);
-                                        calculateTotal();
-                                      },
-                                      icon: Icon(
-                                        Icons.delete_forever_outlined,
-                                        color: Colors.grey.shade200,
-                                      )))
-                            ],
-                          );
+                                Align(
+                                    alignment: AlignmentDirectional.topEnd,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          cartItem.count.value = 0;
+                                          controller.cartItemList.removeAt(i);
+                                          calculateTotal();
+                                        },
+                                        icon: Icon(
+                                          Icons.delete_forever_outlined,
+                                          color: Colors.grey.shade200,
+                                        )))
+                              ],
+                            );
+
+
                         },
                         itemCount: controller.cartItemList.length,
                       ),
                     )
-                  : const Text('Cart Is empty');
+                  :  Center(child: Image.asset('assets/images/empty_cart.png'));
             }),
             Obx(() {
               return controller.cartItemList.isNotEmpty

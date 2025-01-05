@@ -12,7 +12,6 @@ class CategoryCard extends StatelessWidget {
 
   CommonController ctr = Get.find<CommonController>();
 
-  //TODO: add effects on button press
 
   @override
   Widget build(BuildContext context) {

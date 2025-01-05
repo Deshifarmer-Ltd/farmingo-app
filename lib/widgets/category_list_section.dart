@@ -46,6 +46,7 @@ class CategoryListSection extends StatelessWidget {
 
               return ItemCard(
                 item: item,
+                index: i,
               );
             },
             itemCount: items.length,

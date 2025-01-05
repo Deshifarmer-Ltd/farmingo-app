@@ -1,7 +1,6 @@
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
-import 'package:farmingo/app_routes.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -180,6 +179,7 @@ class AuthController extends GetxController {
     SharedPrefs().remove(loginUserName);
     SharedPrefs().remove(loginUserEmail);
     SharedPrefs().remove(token);
+    addressList.clear();
     user.value = null;
     isUserLoggedIn.value = false;
   }

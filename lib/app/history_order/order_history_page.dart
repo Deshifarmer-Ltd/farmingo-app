@@ -146,7 +146,11 @@ class OrderHistoryPage extends GetView<CommonController> {
 
                   ),
             )
-          : const Text("Order history is empty");
+          : Center(child:  Column(
+            children: [
+              Image.asset("assets/images/no_order.png"),
+            ],
+          ));
     })));
   }
 }

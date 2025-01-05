@@ -22,7 +22,6 @@ void main()async {
 
 
   //todo:--> order page details
-  //todo: images are loading again and again shows in flutter dev tools
   //todo: zone dialog back bth pressed gone-> stop dismiss
 
 
