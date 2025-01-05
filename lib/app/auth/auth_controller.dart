@@ -1,6 +1,7 @@
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
+import 'package:farmingo/app_routes.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -150,6 +151,14 @@ class AuthController extends GetxController {
 
     String? message = await ApiService.postOrder(
         token: SharedPrefs().getString(token) ?? '', order: orderModel);
+
+    commonController.cartItemList.clear();
+
+
+    Navigator.pop(Get.context!);
+
+    // Get.offAll(AppRoutes.homePath);
+
   }
 
   //endregion

@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 
 class ItemCard extends StatelessWidget {
   final ProductModel item;
-  RxInt count = 0.obs;
-  late CartItemModel cartItem;
+
+  // RxInt count = 0.obs;
+  Rxn<CartItemModel> cartItem = Rxn<CartItemModel>();
   CommonController ctr = Get.find<CommonController>();
 
   ItemCard({super.key, required this.item});
@@ -48,7 +49,6 @@ class ItemCard extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: '৳ ${item.price.toString()}',
-
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold, // Bold text
@@ -67,9 +67,9 @@ class ItemCard extends StatelessWidget {
                     ),
                   ),
                   Obx(() {
-                    return (count > 0)
+                    return (cartItem.value != null)
                         ? Container(
-                      height: constrain.maxHeight * 0.18,
+                            height: constrain.maxHeight * 0.18,
                             width: 120,
                             decoration: const BoxDecoration(
                                 color: Color(0xFF16A34A),
@@ -80,19 +80,15 @@ class ItemCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
-
                                   onTap: onMinusBtnPressed,
                                   child: const Icon(
                                     Icons.remove,
                                     color: Colors.white,
                                   ),
                                 ),
-
-                                Text(count.value.toString(),
+                                Text(cartItem.value!.count.value.toString(),
                                     style:
                                         const TextStyle(color: Colors.white)),
-
-
                                 GestureDetector(
                                   onTap: onPlusBtnPressed,
                                   child: const Icon(
@@ -100,9 +96,6 @@ class ItemCard extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                 )
-
-
-
                               ],
                             ),
                           )
@@ -142,28 +135,24 @@ class ItemCard extends StatelessWidget {
   }
 
   void onPlusBtnPressed() {
-                    count.value++;
-                    cartItem.count = count;
-                  }
+    cartItem.value!.count.value++;
+  }
 
   void onAddBtnPressed() {
-              count.value = 1;
+    cartItem.value = CartItemModel(product: item, count: 1.obs);
 
-              cartItem =
-                  CartItemModel(product: item, count: count);
-
-              ctr.cartItemList.add(cartItem);
-            }
+    ctr.cartItemList.add(cartItem.value!);
+  }
 
   void onMinusBtnPressed() {
-    count.value--;
-    cartItem.count = count;
+    cartItem.value!.count.value--;
 
     // removing while count is 0
 
-    cartItem.count.listen((value) {
-      if (value == 0) {
+    cartItem.value!.count.listen((value) {
+      if (value < 1) {
         ctr.cartItemList.remove(cartItem);
+        cartItem.value=null;
       }
     });
   }
