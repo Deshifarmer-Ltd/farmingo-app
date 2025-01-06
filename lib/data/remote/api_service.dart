@@ -8,11 +8,9 @@ import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:farmingo/data/remote/model/zone_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 
-//todo: add loading or toast msg
 class ApiService {
   static String baseUrl = 'https://backend.farmingo.xyz/api/v1';
   static String imageBaseUrl = 'https://backend.farmingo.xyz/storage/';
@@ -48,13 +46,15 @@ class ApiService {
 
         return categories;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
       // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
@@ -79,15 +79,16 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
-      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
   }
 
@@ -111,18 +112,18 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
     }
   }
-
 
   static Future<List<ZoneModel>?> getZones() async {
     final headers = {
@@ -143,25 +144,28 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
     }
   }
 
+//done
   static Future<List<ProductModel>?> getSingleCategoryProducts(int id) async {
+    EasyLoading.show(
+      status: 'loading...',
+    );
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
     };
-
-    // https://backend.farmingo.xyz/api/v1/category_products/1
 
     try {
       final url = Uri.parse('$baseUrl$categoryProductsUrl/${id.toString()}');
@@ -173,28 +177,33 @@ class ApiService {
         List<ProductModel> items = jsonList
             .map<ProductModel>((jsonItem) => ProductModel.fromJson(jsonItem))
             .toList();
+        EasyLoading.dismiss();
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.dismiss();
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
+      EasyLoading.dismiss();
+
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
+
       return null;
-      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
   }
 
+//done
   static Future<UserModel?> postLogin(
       {required String emailOrPhone, required String password}) async {
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
     };
-    //todo: need to fix this easy loading and dialogue issue
 
     EasyLoading.show(
       status: 'loading...',
@@ -212,7 +221,7 @@ class ApiService {
         return model;
       } else {
         EasyLoading.dismiss();
-        EasyLoading.showError(response.body);
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
 
         return null;
       }
@@ -220,7 +229,8 @@ class ApiService {
       debugPrint(e.toString());
       debugPrint(st.toString());
       EasyLoading.dismiss();
-      EasyLoading.showError('error: ${e.toString()}');
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
 
       // debugPrint(e());
     }
@@ -262,22 +272,23 @@ class ApiService {
         UserModel model = UserModel.fromJson(data);
         return model;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      // EasyLoading.dismiss();
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
-
+      EasyLoading.dismiss();
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       // debugPrint(e());
     }
 
     return null;
   }
 
+  //done
   static Future<String?> postResetPassword({
     required String phone,
   }) async {
@@ -302,18 +313,22 @@ class ApiService {
         var data = json.decode(response.body);
 
         String message = data['message'] as String;
+        EasyLoading.dismiss();
 
         return message;
       } else {
-        EasyLoading.showError(response.body);
+        EasyLoading.dismiss();
+
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
 
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      // EasyLoading.dismiss();
-      EasyLoading.showToast('error: ${e.toString()}');
+      EasyLoading.dismiss();
+      EasyLoading.showToast('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
 
       // debugPrint(e());
     }
@@ -345,29 +360,32 @@ class ApiService {
 
         String message = data['message'] as String;
         EasyLoading.dismiss();
-        Fluttertoast.showToast(msg: message);
+        EasyLoading.showSuccess(message, duration: Duration(seconds: 4));
 
         return message;
       } else {
-        EasyLoading.showError(response.body);
+        EasyLoading.dismiss();
+
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
 
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      // EasyLoading.dismiss();
-      EasyLoading.showToast('error: ${e.toString()}');
-
-      // debugPrint(e());
+      EasyLoading.dismiss();
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
     }
 
     return null;
   }
 
-
-
-  static Future<List<OrderHistoryModel>?> getUserOrderHistory(String token) async {
+  static Future<List<OrderHistoryModel>?> getUserOrderHistory(
+      String token) async {
+    EasyLoading.show(
+      status: 'loading...',
+    );
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
@@ -382,36 +400,41 @@ class ApiService {
         var jsonList = json.decode(response.body);
 
         List<OrderHistoryModel> items = jsonList
-            .map<OrderHistoryModel>((jsonItem) => OrderHistoryModel.fromJson(jsonItem))
+            .map<OrderHistoryModel>(
+                (jsonItem) => OrderHistoryModel.fromJson(jsonItem))
             .toList();
+
+        EasyLoading.dismiss();
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.dismiss();
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      Fluttertoast.showToast(msg: 'error: ${e.toString()}');
+      EasyLoading.dismiss();
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
     }
   }
 
-
-
-  static Future<List<ProductModel>?> getSearchedProducts(String userInput) async {
+  static Future<List<ProductModel>?> getSearchedProducts(
+      String userInput) async {
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
     };
-    final query = {'name': userInput, };
-
-
+    final query = {
+      'name': userInput,
+    };
 
     try {
-      final url = Uri.parse('$baseUrl$searchProductsUrl').replace(queryParameters:query );
+      final url = Uri.parse('$baseUrl$searchProductsUrl')
+          .replace(queryParameters: query);
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode == HttpStatus.ok) {
@@ -423,20 +446,15 @@ class ApiService {
 
         return items;
       } else {
-        Fluttertoast.showToast(
-            msg: ' Error: ${response.statusCode} ${response.body}');
+        EasyLoading.showError(response.body);
+
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}');
       return null;
-      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
   }
-
-
-
-
-
 }

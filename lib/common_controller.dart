@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'common/conts_data.dart';
 import 'common/shred_pref.dart';
 import 'common/style.dart';
+import 'common/utils.dart';
 
 class CommonController extends GetxController {
   String selectedAllProductCategoryTitle = '';
@@ -40,13 +41,19 @@ class CommonController extends GetxController {
   }
 
   fetchCategories() async {
-    // checkInternet();
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
     var items = await ApiService.getCategories();
     categories.assignAll(items ?? []);
   }
 
   fetchZone() async {
-    // checkInternet();
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     int zone = SharedPrefs().getInt(zoneId) ?? 0;
     var items = await ApiService.getZones();
     zoneModels.assignAll(items ?? []);
@@ -67,43 +74,45 @@ class CommonController extends GetxController {
   }
 
   fetchCategoryProducts() async {
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     var items = await ApiService.getAllCategoryProducts();
     categoryProducts.assignAll(items ?? []);
   }
 
   fetchSingleCategoryProductsById(int id) async {
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     selectedAllProductList.clear();
     var items = await ApiService.getSingleCategoryProducts(id);
     selectedAllProductList.assignAll(items ?? []);
     // categoryProducts.assignAll(items ?? []);
   }
 
-  Future<bool> checkInternet() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-
-    if (connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile) {
-      return true;
-    } else {
-      Get.rawSnackbar(
-          backgroundColor: Colors.redAccent,
-          message: "Internet connection is not available",
-          icon: const Icon(
-            Icons.wifi_off,
-            color: Colors.white,
-          ),
-          snackPosition: SnackPosition.TOP);
-      return false;
-    }
-  }
 
   fetchUserOrderHistory() async {
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     var items = await ApiService.getUserOrderHistory(
         SharedPrefs().getString(token) ?? '');
     orderHistoryList.assignAll(items ?? []);
   }
 
   fetchSearchProducts(String name) async {
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     var items = await ApiService.getSearchedProducts(name);
     searchedProductList.assignAll(items ?? []);
   }

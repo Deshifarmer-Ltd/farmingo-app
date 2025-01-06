@@ -4,8 +4,10 @@ import 'package:farmingo/app/cart/user_address_model.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../app_routes.dart';
 import '../../common/conts_data.dart';
 import '../../common/shred_pref.dart';
+import '../../common/utils.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
@@ -56,6 +58,11 @@ class AuthController extends GetxController {
   }
 
   Future<bool> doLogin() async {
+
+    if (await Util.checkInternet()==false) {
+      return false ;
+    }
+
     user.value = await ApiService.postLogin(
         emailOrPhone: loginNameOrEmail.text, password: loginPassword.text);
 
@@ -72,6 +79,11 @@ class AuthController extends GetxController {
   }
 
   Future<bool> doRegister() async {
+
+    if (await Util.checkInternet()==false) {
+      return false;
+    }
+
     user.value = await ApiService.postRegistration(
       name: regName.text,
       email: regEmail.text,
@@ -92,6 +104,11 @@ class AuthController extends GetxController {
   }
 
   Future<String?> resetPassword() async {
+
+    if (await Util.checkInternet()==false) {
+      return null;
+    }
+
     var message = await ApiService.postResetPassword(
       phone: resetPhoneNumber.text,
     );
@@ -100,6 +117,11 @@ class AuthController extends GetxController {
   }
 
   fetchUserAddress() async {
+
+    if (await Util.checkInternet()==false) {
+      return;
+    }
+
     var items =
         await ApiService.getUserAddresses(SharedPrefs().getString(token) ?? '');
     addressList.assignAll(items ?? []);
@@ -154,9 +176,9 @@ class AuthController extends GetxController {
     commonController.cartItemList.clear();
 
 
-    Navigator.pop(Get.context!);
+    // Navigator.pop(Get.context!);
 
-    // Get.offAll(AppRoutes.homePath);
+    Get.offAllNamed(AppRoutes.homePath);
 
   }
 

@@ -18,11 +18,12 @@ void main()async {
   configLoading();
 
 
-  //todo: network connectivity
+  //todo:-----------> network connectivity
 
-
+  
   //todo:--> order page details
   //todo: zone dialog back bth pressed gone-> stop dismiss
+  //todo: Farmingo logo click back to homepage and remove all page
 
 
 
