@@ -127,37 +127,46 @@ class CommonController extends GetxController {
   }
 
   Future<dynamic>? buildZoneDialog() {
-    return Get.context != null
-        ? showDialog(
+    if (Get.context != null) {
+      return
+
+
+
+        showDialog(
             barrierDismissible: false,
             context: Get.context!,
             builder: (ctx) {
-              return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      'select a zone',
-                      style: MStyle.value1Style,
-                    ),
-                    ...List.generate(zoneModels.length, (i) {
-                      ZoneModel model = zoneModels.elementAt(i);
+              return PopScope(
+                child: Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
+                      Text(
+                        'select a zone',
+                        style: MStyle.value1Style,
+                      ),
+                      ...List.generate(zoneModels.length, (i) {
+                        ZoneModel model = zoneModels.elementAt(i);
 
-                      return TextButton(
-                        child: Text(model.name),
-                        onPressed: () {
-                          selectedZone.value = model;
-                          Navigator.pop(ctx);
-                        },
-                      );
-                    })
-                  ]),
+                        return TextButton(
+                          child: Text(model.name),
+                          onPressed: () {
+                            selectedZone.value = model;
+                            Navigator.pop(ctx);
+                          },
+                        );
+                      })
+                    ]),
+                  ),
                 ),
+                canPop: false,
               );
-            })
-        : null;
+            });
+    } else {
+      return null;
+    }
   }
 }

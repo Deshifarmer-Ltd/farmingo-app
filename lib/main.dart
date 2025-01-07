@@ -17,18 +17,7 @@ void main()async {
   runApp(const MyApp());
   configLoading();
 
-
-
-  
-  //todo:--> order page details
-
-
   //todo: quite app dialog
-  //todo: zone dialog back bth pressed gone-> stop dismiss
-  //todo: Farmingo logo click back to homepage and remove all page
-
-
-
 
 }
 

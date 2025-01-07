@@ -19,10 +19,16 @@ class CustomAppbar extends GetView<CommonController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-              height: 40,
-              width: 80,
-              child: Image.asset('assets/images/app_title.png')),
+          GestureDetector(
+            onTap: () {
+              if (Get.currentRoute != AppRoutes.homePath) {
+                Get.until((route) => route.settings.name == AppRoutes.homePath);              }
+            },
+            child: SizedBox(
+                height: 40,
+                width: 80,
+                child: Image.asset('assets/images/app_title.png')),
+          ),
           IconButton(
               onPressed: () {
                 Get.toNamed(AppRoutes.searchPath);
@@ -49,7 +55,7 @@ class CustomAppbar extends GetView<CommonController> {
             );
           }),
           Obx(() {
-            return (authCtr.isUserLoggedIn.value==false)
+            return (authCtr.isUserLoggedIn.value == false)
                 ? GestureDetector(
                     onTap: () {
                       Get.toNamed(AppRoutes.loginPath);
@@ -69,7 +75,6 @@ class CustomAppbar extends GetView<CommonController> {
                               Get.toNamed(AppRoutes.orderHistoryPath);
                             },
                             child: const Text('Order')),
-
                         TextButton(
                             onPressed: () {
                               Navigator.pop(context);
@@ -92,19 +97,14 @@ class CustomAppbar extends GetView<CommonController> {
                       ],
                     ),
                     child: CircleAvatar(
-                  backgroundColor: Colors.green,
-                  child: Text(
-                    authCtr.userName.value,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-
-
-
-
-            );
+                      backgroundColor: Colors.green,
+                      child: Text(
+                        authCtr.userName.value,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
           }),
-
           Obx(() {
             return GestureDetector(
               onTap: () {
@@ -123,6 +123,4 @@ class CustomAppbar extends GetView<CommonController> {
       ),
     );
   }
-
-
 }
