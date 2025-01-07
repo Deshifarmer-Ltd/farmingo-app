@@ -173,12 +173,12 @@ class RegistrationPage extends GetView<AuthController> {
                                   animType: AnimType.scale,
                                   dialogType: DialogType.success,
                                   title:
-                                      ' ${controller.user.value!.id.toString()}......Sign Up successful',
+                                      'Sign up successful',
                                   titleTextStyle: const TextStyle(
                                     fontSize: 16,
                                   ),
                                   btnOkOnPress: () {
-                                    Get.back();
+                                    Get.offAllNamed(AppRoutes.homePath);
                                   },
                                 ).show();
                               } else {

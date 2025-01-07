@@ -2,15 +2,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Util{
-
-
-
- static Future<bool>  checkInternet() async {
+class Util {
+  static Future<bool> checkInternet() async {
     final connectivityResult = await Connectivity().checkConnectivity();
 
-    if (connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile) {
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
       return true;
     } else {
       Get.rawSnackbar(
@@ -24,6 +21,4 @@ class Util{
       return false;
     }
   }
-
-
 }

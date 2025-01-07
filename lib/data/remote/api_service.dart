@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:farmingo/app/auth/user_model.dart';
 import 'package:farmingo/app/cart/order_model.dart';
 import 'package:farmingo/app/cart/user_address_model.dart';
+import 'package:farmingo/app/history_order/order_history_details_model.dart';
 import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:farmingo/data/remote/model/zone_model.dart';
@@ -14,7 +15,6 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static String baseUrl = 'https://backend.farmingo.xyz/api/v1';
   static String imageBaseUrl = 'https://backend.farmingo.xyz/storage/';
-
   static String categoryUrl = '/categories';
   static String categoryProductsUrl = '/category_products';
   static String searchProductsUrl = '/search';
@@ -26,7 +26,9 @@ class ApiService {
   static String orderUrl = '/consumer/order';
   static String resetPassUrl = '/password/reset-request';
   static String userOrderHistoryUrl = '/consumer/my_orders';
+  static String userOrderDetailsUrl = '/consumer/my_order/';
 
+//region common apis
   static Future<List<CategoryModel>?> getCategories() async {
     final headers = {
       'Content-Type': 'application/json',
@@ -56,7 +58,6 @@ class ApiService {
       EasyLoading.showError('error: ${e.toString()}',
           duration: Duration(seconds: 4));
       return null;
-      // Fluttertoast.showToast(msg: 'error: ${e.toString()}');
     }
   }
 
@@ -92,72 +93,6 @@ class ApiService {
     }
   }
 
-  static Future<List<AddressModel>?> getUserAddresses(String token) async {
-    final headers = {
-      'Content-Type': 'application/json',
-      'charset': 'utf-8',
-      'Authorization': token,
-    };
-
-    try {
-      final url = Uri.parse('$baseUrl$userAddressUrl');
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == HttpStatus.ok) {
-        var jsonList = json.decode(response.body);
-
-        List<AddressModel> items = jsonList
-            .map<AddressModel>((jsonItem) => AddressModel.fromJson(jsonItem))
-            .toList();
-
-        return items;
-      } else {
-        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
-
-        return null;
-      }
-    } catch (e, st) {
-      debugPrint(e.toString());
-      debugPrint(st.toString());
-      EasyLoading.showError('error: ${e.toString()}',
-          duration: Duration(seconds: 4));
-      return null;
-    }
-  }
-
-  static Future<List<ZoneModel>?> getZones() async {
-    final headers = {
-      'Content-Type': 'application/json',
-      'charset': 'utf-8',
-    };
-
-    try {
-      final url = Uri.parse('$baseUrl$zoneUrl');
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == HttpStatus.ok) {
-        var jsonList = json.decode(response.body);
-
-        List<ZoneModel> items = jsonList
-            .map<ZoneModel>((jsonItem) => ZoneModel.fromJson(jsonItem))
-            .toList();
-
-        return items;
-      } else {
-        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
-
-        return null;
-      }
-    } catch (e, st) {
-      debugPrint(e.toString());
-      debugPrint(st.toString());
-      EasyLoading.showError('error: ${e.toString()}',
-          duration: Duration(seconds: 4));
-      return null;
-    }
-  }
-
-//done
   static Future<List<ProductModel>?> getSingleCategoryProducts(int id) async {
     EasyLoading.show(
       status: 'loading...',
@@ -197,7 +132,110 @@ class ApiService {
     }
   }
 
-//done
+  static Future<List<ZoneModel>?> getZones() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$zoneUrl');
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<ZoneModel> items = jsonList
+            .map<ZoneModel>((jsonItem) => ZoneModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
+      return null;
+    }
+  }
+
+  static Future<List<ProductModel>?> getSearchedProducts(
+      String userInput) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    };
+    final query = {
+      'name': userInput,
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$searchProductsUrl')
+          .replace(queryParameters: query);
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<ProductModel> items = jsonList
+            .map<ProductModel>((jsonItem) => ProductModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        EasyLoading.showError(response.body);
+
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}');
+      return null;
+    }
+  }
+
+//endregion
+
+//region auth & user related apis
+  static Future<List<AddressModel>?> getUserAddresses(String token) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'Authorization': token,
+    };
+
+    try {
+      final url = Uri.parse('$baseUrl$userAddressUrl');
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == HttpStatus.ok) {
+        var jsonList = json.decode(response.body);
+
+        List<AddressModel> items = jsonList
+            .map<AddressModel>((jsonItem) => AddressModel.fromJson(jsonItem))
+            .toList();
+
+        return items;
+      } else {
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
+
+        return null;
+      }
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
+      return null;
+    }
+  }
+
   static Future<UserModel?> postLogin(
       {required String emailOrPhone, required String password}) async {
     final headers = {
@@ -246,12 +284,14 @@ class ApiService {
     required int zoneId,
     required String address,
   }) async {
+    EasyLoading.show(
+      status: 'loading...',
+    );
+
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
     };
-
-    // EasyLoading.show(status: 'loading...');
 
     try {
       final url = Uri.parse(baseUrl + registerUrl);
@@ -270,8 +310,11 @@ class ApiService {
       if (response.statusCode >= HttpStatus.created) {
         var data = json.decode(response.body);
         UserModel model = UserModel.fromJson(data);
+        EasyLoading.dismiss();
+
         return model;
       } else {
+        EasyLoading.dismiss();
         EasyLoading.showError(response.body, duration: Duration(seconds: 4));
 
         return null;
@@ -282,13 +325,10 @@ class ApiService {
       EasyLoading.dismiss();
       EasyLoading.showError('error: ${e.toString()}',
           duration: Duration(seconds: 4));
-      // debugPrint(e());
     }
-
     return null;
   }
 
-  //done
   static Future<String?> postResetPassword({
     required String phone,
   }) async {
@@ -422,39 +462,43 @@ class ApiService {
     }
   }
 
-  static Future<List<ProductModel>?> getSearchedProducts(
-      String userInput) async {
+  static Future<OrderHistoryDetailsModel?> getOrderDetailsById(
+      String token, String orderId) async {
+    EasyLoading.show(
+      status: 'loading...',
+    );
     final headers = {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
-    };
-    final query = {
-      'name': userInput,
+      'Authorization': token,
     };
 
     try {
-      final url = Uri.parse('$baseUrl$searchProductsUrl')
-          .replace(queryParameters: query);
+      final url = Uri.parse('$baseUrl$userOrderDetailsUrl$orderId');
       var response = await http.get(url, headers: headers);
 
       if (response.statusCode == HttpStatus.ok) {
-        var jsonList = json.decode(response.body);
+        var data = json.decode(response.body);
 
-        List<ProductModel> items = jsonList
-            .map<ProductModel>((jsonItem) => ProductModel.fromJson(jsonItem))
-            .toList();
+        OrderHistoryDetailsModel model =
+            OrderHistoryDetailsModel.fromJson(data);
 
-        return items;
+        EasyLoading.dismiss();
+
+        return model;
       } else {
-        EasyLoading.showError(response.body);
-
+        EasyLoading.dismiss();
+        EasyLoading.showError(response.body, duration: Duration(seconds: 4));
         return null;
       }
     } catch (e, st) {
       debugPrint(e.toString());
       debugPrint(st.toString());
-      EasyLoading.showError('error: ${e.toString()}');
+      EasyLoading.dismiss();
+      EasyLoading.showError('error: ${e.toString()}',
+          duration: Duration(seconds: 4));
       return null;
     }
   }
+//endregion
 }

@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:farmingo/app/history_order/order_history_details_model.dart';
 import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/app/home/cart_item_model.dart';
 import 'package:farmingo/data/remote/api_service.dart';
@@ -23,6 +24,8 @@ class CommonController extends GetxController {
   Rxn<ZoneModel> selectedZone = Rxn<ZoneModel>();
   RxList<CartItemModel> cartItemList = <CartItemModel>[].obs;
   RxList<OrderHistoryModel> orderHistoryList = <OrderHistoryModel>[].obs;
+  Rxn<OrderHistoryDetailsModel> orderDetailsHistory =
+      Rxn<OrderHistoryDetailsModel>();
 
   final TextEditingController searchCtr = TextEditingController();
 
@@ -41,8 +44,7 @@ class CommonController extends GetxController {
   }
 
   fetchCategories() async {
-
-    if (await Util.checkInternet()==false) {
+    if (await Util.checkInternet() == false) {
       return;
     }
     var items = await ApiService.getCategories();
@@ -50,7 +52,7 @@ class CommonController extends GetxController {
   }
 
   fetchZone() async {
-    if (await Util.checkInternet()==false) {
+    if (await Util.checkInternet() == false) {
       return;
     }
 
@@ -68,14 +70,13 @@ class CommonController extends GetxController {
       }
     }
     // if not set zone id then auto open dialog
-    if(items!=null&&zone==0 && Get.context!=null){
+    if (items != null && zone == 0 && Get.context != null) {
       buildZoneDialog();
     }
   }
 
   fetchCategoryProducts() async {
-
-    if (await Util.checkInternet()==false) {
+    if (await Util.checkInternet() == false) {
       return;
     }
 
@@ -84,8 +85,7 @@ class CommonController extends GetxController {
   }
 
   fetchSingleCategoryProductsById(int id) async {
-
-    if (await Util.checkInternet()==false) {
+    if (await Util.checkInternet() == false) {
       return;
     }
 
@@ -95,10 +95,8 @@ class CommonController extends GetxController {
     // categoryProducts.assignAll(items ?? []);
   }
 
-
   fetchUserOrderHistory() async {
-
-    if (await Util.checkInternet()==false) {
+    if (await Util.checkInternet() == false) {
       return;
     }
 
@@ -107,9 +105,20 @@ class CommonController extends GetxController {
     orderHistoryList.assignAll(items ?? []);
   }
 
-  fetchSearchProducts(String name) async {
+  fetchOrderDetailsById(String id) async {
+    if (await Util.checkInternet() == false) {
+      return;
+    }
 
-    if (await Util.checkInternet()==false) {
+    OrderHistoryDetailsModel? data = await ApiService.getOrderDetailsById(
+        SharedPrefs().getString(token) ?? '', id);
+    if (data != null) {
+      orderDetailsHistory.value = data;
+    }
+  }
+
+  fetchSearchProducts(String name) async {
+    if (await Util.checkInternet() == false) {
       return;
     }
 
@@ -117,41 +126,38 @@ class CommonController extends GetxController {
     searchedProductList.assignAll(items ?? []);
   }
 
-
   Future<dynamic>? buildZoneDialog() {
-  return  Get.context!=null?
-      showDialog(
-        barrierDismissible: false,
-        context: Get.context!,
-        builder: (ctx) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(mainAxisSize: MainAxisSize.min,children: [
-                Text(
-                  'select a zone',
-                  style: MStyle.value1Style,
+    return Get.context != null
+        ? showDialog(
+            barrierDismissible: false,
+            context: Get.context!,
+            builder: (ctx) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                ...List.generate(zoneModels.length, (i) {
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      'select a zone',
+                      style: MStyle.value1Style,
+                    ),
+                    ...List.generate(zoneModels.length, (i) {
+                      ZoneModel model = zoneModels.elementAt(i);
 
-                  ZoneModel model = zoneModels.elementAt(i);
-
-                  return TextButton(child: Text(model.name),onPressed: (){
-
-                    selectedZone.value= model;
-                    Navigator.pop(ctx);
-
-
-
-                  }, );
-                })
-              ]),
-            ),
-          );
-        }):null;
+                      return TextButton(
+                        child: Text(model.name),
+                        onPressed: () {
+                          selectedZone.value = model;
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    })
+                  ]),
+                ),
+              );
+            })
+        : null;
   }
-
 }

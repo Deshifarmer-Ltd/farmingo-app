@@ -45,7 +45,10 @@ class MStyle {
       fontSize: 11.0, fontWeight: FontWeight.w400, color: Colors.black);
 
   static TextStyle fieldTitleStyle = const TextStyle(
-      fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xff121826));
+      fontSize: 11, fontWeight: FontWeight.w600, color: Colors.black);
+
+  static TextStyle fieldValue2Style = const TextStyle(
+      fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xff121826));
 
   static TextStyle fieldValueStyle = const TextStyle(
       fontSize: 11, fontWeight: FontWeight.w400, color: Color(0xff6C727F));

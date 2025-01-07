@@ -4,6 +4,7 @@ import 'package:farmingo/app/auth/forget_pass_page.dart';
 import 'package:farmingo/app/auth/login_page.dart';
 import 'package:farmingo/app/auth/registration_page.dart';
 import 'package:farmingo/app/cart/cart_page.dart';
+import 'package:farmingo/app/history_order/history_details_page.dart';
 import 'package:farmingo/app/history_order/order_history_page.dart';
 import 'package:farmingo/app/search/search_page.dart';
 import 'package:farmingo/app/test_page.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String registrationPath = '/registration_page';
   static const String forgetPassPath = '/forget_pass_page';
   static const String orderHistoryPath = '/order_history_path';
+  static const String orderDetailsPath = '/order_details_path';
 
   static final routes = [
     GetPage(
@@ -62,6 +64,11 @@ class AppRoutes {
     GetPage(
       name: orderHistoryPath,
       page: () =>  const OrderHistoryPage(),
+    ),
+
+    GetPage(
+      name: orderDetailsPath,
+      page: () =>  const OrderDetailsPage(),
     ),
 
     GetPage(

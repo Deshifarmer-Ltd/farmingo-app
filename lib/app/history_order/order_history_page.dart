@@ -1,4 +1,5 @@
 import 'package:farmingo/app/history_order/order_history_model.dart';
+import 'package:farmingo/app_routes.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -7,7 +8,6 @@ import '../../common/style.dart';
 
 class OrderHistoryPage extends GetView<CommonController> {
   const OrderHistoryPage({super.key});
-  //todo: add shimmer effect
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,10 @@ class OrderHistoryPage extends GetView<CommonController> {
                         controller.orderHistoryList.elementAt(i);
                     return InkWell(
                       onTap: () {
+
+                        controller.fetchOrderDetailsById(item.id.toString());
+
+                        Get.toNamed(AppRoutes.orderDetailsPath);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 12.0, top: 10,left: 8,right: 8),

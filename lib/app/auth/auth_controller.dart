@@ -11,7 +11,7 @@ import '../../common/utils.dart';
 import '../../data/remote/api_service.dart';
 
 class AuthController extends GetxController {
-  RxInt sliderButtonNumber = 0.obs; // saved address=0 & new Address =1
+  RxInt sliderButtonNumber = 1.obs; // saved address=0 & new Address =1
 
   //login fields
   TextEditingController loginPassword = TextEditingController();
@@ -95,8 +95,9 @@ class AuthController extends GetxController {
 
     if (user.value != null) {
       setFirstLetterOfName(user.value!.name);
+      isUserLoggedIn.value = true;
+      saveUserCredToPref();
       fetchUserAddress();
-
       return true;
     } else {
       return false;
