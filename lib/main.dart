@@ -18,6 +18,7 @@ void main()async {
   configLoading();
 
   //todo: quite app dialog
+  //todo: image in order details/ cart page make image cached
 
 }
 

@@ -1,8 +1,6 @@
 import 'package:farmingo/common_controller.dart';
-import 'package:farmingo/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../app_routes.dart';
 import '../../widgets/item_card.dart';
 import '../../widgets/simmer_loading.dart';
 

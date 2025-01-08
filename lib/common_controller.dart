@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:farmingo/app/history_order/order_history_details_model.dart';
 import 'package:farmingo/app/history_order/order_history_model.dart';
 import 'package:farmingo/app/home/cart_item_model.dart';
