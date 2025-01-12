@@ -1,6 +1,10 @@
+import 'package:intl/intl.dart';
+
 import '../../data/remote/api_service.dart';
 
 class OrderHistoryDetailsModel {
+
+
   final int id;
   final String user;
   final String zone;
@@ -32,7 +36,7 @@ class OrderHistoryDetailsModel {
       totalAmount: (json['total_amount'] as num).toDouble(),
       status: json['status'],
       createdAt: DateTime.parse(json['created_at']),
-      formatedDateTime: doFormatDateTime(DateTime.parse(json['created_at'])),
+      formatedDateTime: doFormatDateTime(json['created_at']),
       orderProducts: (json['order_products'] as List)
           .map((product) => OrderProduct.fromJson(product))
           .toList(),
@@ -71,19 +75,23 @@ class OrderProduct {
   }
 }
 
-String doFormatDateTime(DateTime dateTime) {
-  // Format the date part as MM/dd/yyyy
-  String datePart = "${dateTime.day}/${dateTime.month}/${dateTime.year}";
 
-  // Format the time part as hh:mm:ss a (12-hour format with AM/PM)
-  String hour = (dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12)
-      .toString()
-      .padLeft(2, '0');
-  String minute = dateTime.minute.toString().padLeft(2, '0');
-  String second = dateTime.second.toString().padLeft(2, '0');
-  String period = dateTime.hour >= 12 ? "PM" : "AM";
+String doFormatDateTime(String utcDateTime) {
+  // Parse the UTC date-time string
+  DateTime utcTime = DateTime.parse(utcDateTime);
 
-  String timePart = "$hour:$minute:$second $period";
+  // Add 6 hours to convert UTC to Bangladesh time (BST)
+  DateTime bangladeshTime = utcTime.add(Duration(hours: 6));
 
-  return "$datePart, $timePart";
+  // Format the Bangladesh time as dd/MM/yyyy, hh:mm:ss a
+  String formattedTime = DateFormat('dd/MM/yyyy, hh:mm:ss a').format(bangladeshTime);
+
+  return formattedTime;
 }
+
+
+
+
+
+
+

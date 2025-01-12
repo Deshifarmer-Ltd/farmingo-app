@@ -19,6 +19,7 @@ void main()async {
 
   //todo: quite app dialog
   //todo: image in order details/ cart page make image cached
+  //! order details page time is not correct
 
 }
 
