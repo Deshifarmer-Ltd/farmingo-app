@@ -68,7 +68,7 @@ class HomePage extends GetView<CommonController> {
                               (i) {
                             var y = controller.categoryProducts.elementAt(i);
 
-                            return CategoryListSection(
+                            return    CategoryListSection(
                               title: y.name,
                               items: y.products ?? [],
                               // see more btn tap event

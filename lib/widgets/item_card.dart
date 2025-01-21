@@ -8,13 +8,21 @@ import 'package:get/get.dart';
 class ItemCard extends StatelessWidget {
   int index;
   final ProductModel item;
-  Rxn<CartItemModel> cartItem = Rxn<CartItemModel>();
+  Rxn<CartItemModel> cartItem =
+      Rxn<CartItemModel>(); // to make it a cart item if added
   CommonController ctr = Get.find<CommonController>();
 
   ItemCard({super.key, required this.item, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    // to load counter for initial build or repeat build
+    ctr.cartItemList.forEach((cartModel) {
+      if (item.id == cartModel.product.id) {
+        cartItem.value = cartModel;
+      }
+    });
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: LayoutBuilder(
@@ -31,15 +39,17 @@ class ItemCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-
                   CachedNetworkImage(
-                      height: constrain.maxHeight * 0.4,
-                  imageUrl: item.image,
-                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        LinearProgressIndicator(value: downloadProgress.progress,color: Colors.green.shade100,),
+                    height: constrain.maxHeight * 0.4,
+                    imageUrl: item.image,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            LinearProgressIndicator(
+                      value: downloadProgress.progress,
+                      color: Colors.green.shade100,
+                    ),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-
                   Text(
                     item.name,
                     style: const TextStyle(
@@ -70,32 +80,28 @@ class ItemCard extends StatelessWidget {
                     ),
                   ),
                   Obx(() {
-
-                    if((cartItem.value!=null && cartItem.value!.count.value<1)||cartItem.value==null)
-                      {
-                        return   SizedBox(
-                            height: constrain.maxHeight * 0.18,
-                            child: ElevatedButton(
-                              // style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 20))),
-                              onPressed: onAddBtnPressed,
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Text(
-                                  "ADD",
-                                ),
+                    if ((cartItem.value != null &&
+                            cartItem.value!.count.value < 1) ||
+                        cartItem.value == null) {
+                      return SizedBox(
+                          height: constrain.maxHeight * 0.18,
+                          child: ElevatedButton(
+                            onPressed: onAddBtnPressed,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text(
+                                "ADD",
                               ),
-                            ));
-
-                      }
-                    else{
-                      return   Container(
+                            ),
+                          ));
+                    } else {
+                      return Container(
                         height: constrain.maxHeight * 0.18,
                         width: 120,
                         decoration: const BoxDecoration(
                             color: Color(0xFF16A34A),
                             shape: BoxShape.rectangle,
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(5))),
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -107,8 +113,7 @@ class ItemCard extends StatelessWidget {
                               ),
                             ),
                             Text(cartItem.value!.count.value.toString(),
-                                style:
-                                const TextStyle(color: Colors.white)),
+                                style: const TextStyle(color: Colors.white)),
                             GestureDetector(
                               onTap: onPlusBtnPressed,
                               child: const Icon(
@@ -120,10 +125,6 @@ class ItemCard extends StatelessWidget {
                         ),
                       );
                     }
-
-
-
-
                   }),
                 ],
               ),
@@ -145,20 +146,15 @@ class ItemCard extends StatelessWidget {
   }
 
   void onMinusBtnPressed() {
+    if (cartItem.value!.count.value >= 1) {
+      cartItem.value!.count.value--;
 
-    if(cartItem.value!.count.value>=1)
-      {
-        cartItem.value!.count.value--;
-
-
-        if(cartItem.value!.count.value<1)
-        {
-          ctr.cartItemList.remove(cartItem.value);
-          cartItem.value=null;
-        }
+      if (cartItem.value!.count.value < 1) {
+        ctr.cartItemList.remove(cartItem.value);
+        cartItem.value = null;
       }
+    }
 
-
-print('count........${ctr.cartItemList.length}');
+    print('count........${ctr.cartItemList.length}');
   }
 }

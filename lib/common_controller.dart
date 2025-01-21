@@ -28,8 +28,12 @@ class CommonController extends GetxController {
 
   final TextEditingController searchCtr = TextEditingController();
 
+  ScrollController scrollController = ScrollController();
+
   @override
   void onInit() {
+    scrollController.addListener(scrollListener);
+
     super.onInit();
     fetchZone();
     fetchCategories();
@@ -40,6 +44,14 @@ class CommonController extends GetxController {
         SharedPrefs().saveInt(zoneId, model.id);
       }
     });
+  }
+
+  scrollListener() async {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      print('''okokokokokokokokokok''');
+    }
+    // isLoading.value = false;
   }
 
   fetchCategories() async {
@@ -127,43 +139,39 @@ class CommonController extends GetxController {
 
   Future<dynamic>? buildZoneDialog() {
     if (Get.context != null) {
-      return
-
-
-
-        showDialog(
-            barrierDismissible: false,
-            context: Get.context!,
-            builder: (ctx) {
-              return PopScope(
-                child: Dialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Text(
-                        'select a zone',
-                        style: MStyle.value1Style,
-                      ),
-                      ...List.generate(zoneModels.length, (i) {
-                        ZoneModel model = zoneModels.elementAt(i);
-
-                        return TextButton(
-                          child: Text(model.name),
-                          onPressed: () {
-                            selectedZone.value = model;
-                            Navigator.pop(ctx);
-                          },
-                        );
-                      })
-                    ]),
-                  ),
+      return showDialog(
+          barrierDismissible: false,
+          context: Get.context!,
+          builder: (ctx) {
+            return PopScope(
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                canPop: false,
-              );
-            });
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      'select a zone',
+                      style: MStyle.value1Style,
+                    ),
+                    ...List.generate(zoneModels.length, (i) {
+                      ZoneModel model = zoneModels.elementAt(i);
+
+                      return TextButton(
+                        child: Text(model.name),
+                        onPressed: () {
+                          selectedZone.value = model;
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    })
+                  ]),
+                ),
+              ),
+              canPop: false,
+            );
+          });
     } else {
       return null;
     }

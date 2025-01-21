@@ -33,6 +33,7 @@ class AllProductPage extends GetView<CommonController> {
            return  controller.selectedAllProductList.isNotEmpty?
 
             GridView.builder(
+              controller: controller.scrollController,
                 itemCount: controller.selectedAllProductList.length,
                 shrinkWrap: true,
                 gridDelegate:
