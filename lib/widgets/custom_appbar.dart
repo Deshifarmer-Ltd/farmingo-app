@@ -10,7 +10,7 @@ import '../app_routes.dart';
 class CustomAppbar extends GetView<CommonController> {
   CustomAppbar({super.key});
 
-  AuthController authCtr = Get.find<AuthController>();
+ final AuthController authCtr = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {

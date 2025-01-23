@@ -10,7 +10,7 @@ class ItemCard extends StatelessWidget {
   final ProductModel item;
   Rxn<CartItemModel> cartItem =
       Rxn<CartItemModel>(); // to make it a cart item if added
-  CommonController ctr = Get.find<CommonController>();
+ final CommonController ctr = Get.find<CommonController>();
 
   ItemCard({super.key, required this.item, required this.index});
 

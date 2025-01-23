@@ -8,7 +8,7 @@ class TestPage extends StatelessWidget {
   TestPage({super.key});
 
   RxInt sliderButtonNumber = 0.obs;
-  AuthController authController = Get.find<AuthController>();
+ final AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {

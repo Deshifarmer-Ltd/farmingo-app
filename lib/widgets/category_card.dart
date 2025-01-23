@@ -10,8 +10,7 @@ class CategoryCard extends StatelessWidget {
 
   CategoryCard({super.key, required this.category});
 
-  CommonController ctr = Get.find<CommonController>();
-
+  final CommonController ctr = Get.find<CommonController>();
 
   @override
   Widget build(BuildContext context) {
