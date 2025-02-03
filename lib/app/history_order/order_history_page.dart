@@ -55,12 +55,8 @@ class OrderHistoryPage extends GetView<CommonController> {
 
                                       Text("Price", style: MStyle.headerStyle),
                                       Text(
-                                        '৳ ${item.totalAmount}',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight:
-                                            FontWeight.w700,
-                                            color: Colors.green),
+                                        '৳ ${item.totalAmount.toInt()}',
+                                        style: MStyle.focusedValueStyle,
                                       ),
                                     ],),
                                   ),
@@ -133,10 +129,7 @@ class OrderHistoryPage extends GetView<CommonController> {
                               child: Text(item.status,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 8)),
+                                  style: MStyle.statusValueStyle),
                             ),
                           ),
                         ),

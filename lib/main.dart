@@ -3,12 +3,13 @@ import 'package:farmingo/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'app/home/home_page.dart';
 import 'common/shred_pref.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefs().init();
   await SystemChrome.setPreferredOrientations(
@@ -18,7 +19,6 @@ void main()async {
   configLoading();
 
   //todo: image in order details/ cart page make image cached
-
 }
 
 void configLoading() {
@@ -41,55 +41,66 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: 'Poppins',
-        searchBarTheme: const SearchBarThemeData(
-            hintStyle:
-         WidgetStatePropertyAll(TextStyle(fontSize: 14)),
-            shadowColor:  WidgetStatePropertyAll(Colors.transparent),
-          padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
-            backgroundColor: WidgetStatePropertyAll(Colors.white),
-            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-              side: BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.all(Radius.circular(10))))),
-        appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(color: Colors.white)),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        elevatedButtonTheme: const ElevatedButtonThemeData( style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
-          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)))),
-          foregroundColor: WidgetStatePropertyAll(Colors.white),
-        ),),
-
-        inputDecorationTheme: InputDecorationTheme(
-
-          contentPadding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
-          prefixIconColor: Colors.grey,
-          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintStyle: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.green, width: 2.0),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (_, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            fontFamily: 'Poppins',
+            searchBarTheme: const SearchBarThemeData(
+                hintStyle: WidgetStatePropertyAll(TextStyle(fontSize: 14)),
+                shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
+                backgroundColor: WidgetStatePropertyAll(Colors.white),
+                shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.all(Radius.circular(10))))),
+            appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.transparent,
+                iconTheme: IconThemeData(color: Colors.white)),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                textStyle: WidgetStatePropertyAll(TextStyle(fontSize: 14.sp)),
+                backgroundColor: WidgetStatePropertyAll(Color(0xFF16A34A)),
+                shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)))),
+                foregroundColor: WidgetStatePropertyAll(Colors.white),
+              ),
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: ButtonStyle(
+                    textStyle:
+                        WidgetStatePropertyAll(TextStyle(fontSize: 14.sp)))),
+            inputDecorationTheme: InputDecorationTheme(
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              prefixIconColor: Colors.grey,
+              labelStyle:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              hintStyle: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.green, width: 2.0),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red, width: 1.0),
+              ),
+            ),
+            useMaterial3: true,
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 1.0),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 1.0),
-          ),
-        ),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-      builder: EasyLoading.init(),
-      initialRoute: AppRoutes.homePath,
-      getPages: AppRoutes.routes,
-      initialBinding: HomeBindings(),
+          home: const HomePage(),
+          builder: EasyLoading.init(),
+          initialRoute: AppRoutes.homePath,
+          getPages: AppRoutes.routes,
+          initialBinding: HomeBindings(),
+        );
+      },
     );
   }
 }

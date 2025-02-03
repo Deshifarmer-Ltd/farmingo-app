@@ -5,6 +5,7 @@ import 'package:farmingo/common_controller.dart';
 import 'package:farmingo/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -77,16 +78,17 @@ class CartPage extends GetView<CommonController> {
                                                 Text(cartItem.product.name,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style: const TextStyle()),
+                                                    style:  TextStyle(fontSize: 14.sp)),
                                                 Text(
                                                   ' ৳ ${cartItem.product.price.toString()} each',
-                                                  style: const TextStyle(
+                                                  style:  TextStyle(
+                                                    fontSize: 12.sp,
                                                       color: Colors.grey),
                                                 ),
                                                 Obx(() {
                                                   return Text(
                                                       ' Total:${cartItem.product.weight * cartItem.count.value} ${cartItem.product.measurement}',
-                                                      style: const TextStyle(
+                                                      style:  TextStyle(fontSize: 12.sp,
                                                           color: Colors.grey));
                                                 }),
                                                 Row(
@@ -98,7 +100,8 @@ class CartPage extends GetView<CommonController> {
                                                       return Text(
                                                           ' price: ৳ ${cartItem.product.price * cartItem.count.value}',
                                                           style:
-                                                              const TextStyle(
+                                                               TextStyle(
+                                                                 fontSize: 12.sp,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -170,7 +173,7 @@ class CartPage extends GetView<CommonController> {
                                                           child: Obx(() {
                                                             return Text(cartItem
                                                                 .count.value
-                                                                .toString());
+                                                                .toString(),style: TextStyle(fontSize: 12.sp),);
                                                           }),
                                                         ),
                                                         GestureDetector(
@@ -255,12 +258,12 @@ class CartPage extends GetView<CommonController> {
                   ? Column(
                       children: [
                         Text(
-                            'Total: ৳${totalPriceWithDeliveryCharge.value} (Delivery charge included)'),
+                            'Total: ৳${totalPriceWithDeliveryCharge.value} (Delivery charge included)',style: TextStyle(fontSize: 14.sp),),
                         ElevatedButton(
                           onPressed: () {
                             openConfirmOrderPopUP(context);
                           },
-                          child: const Padding(
+                          child:  Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20.0),
                             child: Text(
                               "Proceed to Payment",

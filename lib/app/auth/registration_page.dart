@@ -1,16 +1,16 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-
 import '../../app_routes.dart';
 
 class RegistrationPage extends GetView<AuthController> {
   RegistrationPage({super.key});
 
   final _regFormKey = GlobalKey<FormState>();
-  var textStyle = const TextStyle(fontSize: 14);
+  final textStyle =  TextStyle(fontSize: 14.sp);
 
   @override
   Widget build(BuildContext context) {
@@ -197,9 +197,9 @@ class RegistrationPage extends GetView<AuthController> {
                               }
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             "Sign In",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: TextStyle(color: Colors.white, fontSize: 18.sp),
                           ),
                         ),
                       ),
@@ -208,10 +208,10 @@ class RegistrationPage extends GetView<AuthController> {
                         onPressed: () {
                           Get.toNamed(AppRoutes.forgetPassPath);
                         },
-                        child: const Text(
+                        child:  Text(
                           'Forget Password',
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               color: Colors.green,
                               fontWeight: FontWeight.bold),
                         )),
@@ -220,9 +220,9 @@ class RegistrationPage extends GetView<AuthController> {
                       onPressed: () {
                         Get.back();
                       },
-                      child: const Text(
+                      child:  Text(
                         "Already have an account? Sign In",
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 12.sp),
                       ),
                     ),
 

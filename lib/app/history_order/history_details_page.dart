@@ -2,6 +2,7 @@ import 'package:farmingo/app/history_order/order_history_details_model.dart';
 import 'package:farmingo/common/style.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -116,11 +117,11 @@ class OrderDetailsPage extends GetView<CommonController> {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Container(
-              height:
-              MediaQuery
-                  .of(context)
-                  .size
-                  .height * 1/8,
+              // height:
+              // MediaQuery
+              //     .of(context)
+              //     .size
+              //     .height * 1/8,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
@@ -163,7 +164,7 @@ class OrderDetailsPage extends GetView<CommonController> {
                               Text( p.productName,
                                   overflow:
                                   TextOverflow.ellipsis,
-                                  style: const TextStyle()),
+                                  style:  TextStyle(fontSize: 14.sp)),
 
                               Row(
                                 children: [

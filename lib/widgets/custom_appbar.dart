@@ -4,6 +4,7 @@ import 'package:farmingo/common/style.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_popup/flutter_popup.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../app_routes.dart';
 
@@ -100,7 +101,7 @@ class CustomAppbar extends GetView<CommonController> {
                       backgroundColor: Colors.green,
                       child: Text(
                         authCtr.userName.value,
-                        style: const TextStyle(color: Colors.white),
+                        style:  TextStyle(color: Colors.white,fontSize: 14.sp),
                       ),
                     ),
                   );

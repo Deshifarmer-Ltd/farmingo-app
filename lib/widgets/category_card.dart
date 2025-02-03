@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../common_controller.dart';
@@ -33,15 +35,24 @@ class CategoryCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     // Optional: For rounded corners
                     child: category.image != null
-                        ? Image.network(
-                            category.image!,
-
-                            width: 70,
-                            fit: BoxFit.cover,
-                            // errorBuilder: (ctx, obj, st) {
-                            //   return Image.asset('name');
-                            // }, // Makes the image fill the container
-                          )
+                        ?
+                    CachedNetworkImage(
+                      // height: constrain.maxHeight * 0.4,
+                      width: 70,
+                      fit: BoxFit.cover,
+                      imageUrl: category.image!,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                          LinearProgressIndicator(
+                            value: downloadProgress.progress,
+                            color: Colors.green.shade100,
+                          ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        'assets/images/no_image.png',
+                        width: 90,
+                        fit: BoxFit.cover,
+                      ),
+                    )
                         : Image.asset(
                             'assets/images/no_image.png',
                             width: 90,
@@ -54,8 +65,8 @@ class CategoryCard extends StatelessWidget {
               child: Text(
                 category.name,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 8,
+                style:  TextStyle(
+                  fontSize: 8.sp,
                   fontWeight: FontWeight.bold,
                   overflow: TextOverflow.ellipsis,
                 ),

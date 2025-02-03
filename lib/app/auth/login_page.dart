@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:farmingo/app/auth/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../app_routes.dart';
@@ -9,6 +10,8 @@ class LoginPage extends GetView<AuthController> {
   LoginPage({super.key});
 
   final _loginFormKey = GlobalKey<FormState>();
+  final textStyle =  TextStyle(fontSize: 14.sp);
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class LoginPage extends GetView<AuthController> {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 20),
                       child: TextFormField(
                         controller: controller.loginNameOrEmail,
-                        style: const TextStyle(fontSize: 22),
+                        style: textStyle,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(
@@ -56,7 +59,7 @@ class LoginPage extends GetView<AuthController> {
                         child: TextFormField(
                           obscureText: controller.isPassObscure.value,
                           controller: controller.loginPassword,
-                          style: const TextStyle(fontSize: 22),
+                          style: textStyle,
                           keyboardType: TextInputType.text,
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -128,9 +131,9 @@ class LoginPage extends GetView<AuthController> {
                               }
                             }
                           },
-                          child: const Text(
+                          child:  Text(
                             "LOGIN",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
+                            style: TextStyle(color: Colors.white, fontSize: 18.sp),
                           ),
                         ),
                       ),
@@ -141,10 +144,10 @@ class LoginPage extends GetView<AuthController> {
                           onPressed: () {
                             Get.toNamed(AppRoutes.forgetPassPath);
                           },
-                          child: const Text(
+                          child:  Text(
                             'Forget Password',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 color: Colors.green,
                                 fontWeight: FontWeight.bold),
                           )),
@@ -156,9 +159,9 @@ class LoginPage extends GetView<AuthController> {
                           Get.toNamed(AppRoutes.registrationPath);
 
                         },
-                        child: const Text(
+                        child:  Text(
                           "Don't have an account? Sign Up",
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12.sp),
                         ),
                       ),
                     ),

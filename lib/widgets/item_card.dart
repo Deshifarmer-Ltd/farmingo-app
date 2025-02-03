@@ -3,6 +3,7 @@ import 'package:farmingo/app/home/cart_item_model.dart';
 import 'package:farmingo/common_controller.dart';
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ItemCard extends StatelessWidget {
@@ -10,7 +11,7 @@ class ItemCard extends StatelessWidget {
   final ProductModel item;
   Rxn<CartItemModel> cartItem =
       Rxn<CartItemModel>(); // to make it a cart item if added
- final CommonController ctr = Get.find<CommonController>();
+  final CommonController ctr = Get.find<CommonController>();
 
   ItemCard({super.key, required this.item, required this.index});
 
@@ -52,26 +53,30 @@ class ItemCard extends StatelessWidget {
                   ),
                   Text(
                     item.name,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text.rich(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     TextSpan(
                       children: [
                         TextSpan(
                           text: '৳ ${item.price.toString()}',
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold, // Bold text
                             color: Colors.green, // Custom color
                           ),
                         ),
                         TextSpan(
-                          text: ' /${item.unit}', // The second part
-                          style: const TextStyle(
-                            fontSize: 14, // Smaller font size
+                          text: ' /${item.unit}',
+                          // The second part
+                          style: TextStyle(
+                            fontSize: 10.sp, // Smaller font size
                             fontWeight: FontWeight.normal, // Regular weight
                             color: Colors.grey, // A different color
                           ),

@@ -1,6 +1,7 @@
 import 'package:farmingo/data/remote/model/category_model.dart';
 import 'package:farmingo/widgets/item_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoryListSection extends StatelessWidget {
   final String title;
@@ -23,12 +24,12 @@ class CategoryListSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title),
+              Text(title,style: TextStyle(fontSize: 14.sp),),
               TextButton.icon(
                 iconAlignment: IconAlignment.end,
                 onPressed: onTap,
                 icon: const Icon(Icons.arrow_circle_right_outlined),
-                label: const Text('SEE MORE'),
+                label:  Text('SEE MORE'),
                 style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.transparent),
                     foregroundColor: WidgetStatePropertyAll(Colors.green),
